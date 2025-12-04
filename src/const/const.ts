@@ -1,0 +1,3 @@
+const VALUE_FOR_ACTION = 10;
+
+export { VALUE_FOR_ACTION };
