@@ -6,8 +6,7 @@ const AppRoutes = {
     Genre: '/genre',
     Film: '/film',
     Auth: '/auth'
-};
-
+} as const;
 
 const ReqRoutes = {
     AUTH_LOGIN: '/auth/login',
@@ -16,6 +15,16 @@ const ReqRoutes = {
     PROFILE: '/profile',
     FAVORITES: '/favorites',
     MOVIE: '/movie'
+} as const;
+
+const NameSpace = {
+    User: 'User',
+    Auth: 'Auth',
+    Movies: 'Movies',
+    Favorites: 'Favorites',
+    Movie: 'Movie',
+    Search: 'Search',
+    Genres: 'Genres'
 }
 
-export { VALUE_FOR_ACTION, AppRoutes, ReqRoutes };
+export { VALUE_FOR_ACTION, AppRoutes, ReqRoutes, NameSpace };

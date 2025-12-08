@@ -1,10 +1,10 @@
-type IFavorites = string;
+type IFavorite = string;
     
 type IUser = {
     name: string;        
     surname: string;     
     email: string;       
-    favorites: IFavorites[]; 
+    favorites: IFavorite[]; 
 };
 
 type IAuthInfo = {
@@ -67,3 +67,14 @@ type IMovie = {
     id: string;
   };
 
+export type  { 
+    IFavorite, 
+    IUser,
+    IAuthInfo, 
+    ISuccessfulResult, 
+    IError,  
+    IRegisterData, 
+    IMovie, 
+    IApiResponse, 
+    IFavoritesBody
+};
