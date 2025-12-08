@@ -1,12 +1,12 @@
 import React from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router';
 import { routerConfig } from '../routes/router-config';
 
 const router = createBrowserRouter(routerConfig);
 
 function App () {
     return (
-        <RouterProvider router={router} fallbackElement={<div>Loading...</div>}/>
+        <RouterProvider router={router} />
     );   
 }
 

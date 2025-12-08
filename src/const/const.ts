@@ -1,7 +1,7 @@
 const VALUE_FOR_ACTION = 10;
 
 const AppRoutes = {
-    Main: './',
+    Main: '/',
     Genres: '/genres',
     Genre: '/genre',
     Film: '/film',
