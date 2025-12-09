@@ -7,10 +7,22 @@ type IUser = {
     favorites: IFavorite[]; 
 };
 
+type IProfile = {
+  'favorites': string[],
+  'surname': string,
+  'name': string,
+  'email': string
+};
+
 type IAuthInfo = {
     email: string;
     password: string;
 };
+
+type IAuthResult = {
+  'result': boolean;
+};
+
 
 type ISuccessfulResult = {
     result: boolean;
@@ -76,5 +88,7 @@ export type  {
     IRegisterData, 
     IMovie, 
     IApiResponse, 
-    IFavoritesBody
+    IFavoritesBody,
+    IAuthResult, 
+    IProfile
 };

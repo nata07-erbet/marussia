@@ -1,4 +1,5 @@
 const VALUE_FOR_ACTION = 10;
+const BASE_URL = 'https://cinemaguide.skillbox.cc/';
 
 const AppRoutes = {
     Main: '/',
@@ -25,6 +26,12 @@ const NameSpace = {
     Movie: 'Movie',
     Search: 'Search',
     Genres: 'Genres'
-}
+} as const;
 
-export { VALUE_FOR_ACTION, AppRoutes, ReqRoutes, NameSpace };
+const QueryStatus = {
+    Pending: 'pending',
+    Error: 'error',
+    Success: 'success'
+} as const;
+
+export { VALUE_FOR_ACTION, AppRoutes, ReqRoutes, NameSpace, BASE_URL, QueryStatus };
