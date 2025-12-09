@@ -5,7 +5,7 @@ import { BASE_URL, ReqRoutes } from '../const/const';
 
 const userApi = createApi({
     reducerPath: 'userApi',
-    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
+    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints:(builder) => ({
         login: builder.mutation<IAuthResult, IAuthInfo>({
             query: (credentials) => ({
@@ -28,7 +28,7 @@ const userApi = createApi({
             query: () => ReqRoutes.PROFILE
         }),
         fetchRandomMovie: builder.query<IMovie, void>({
-            query: () => 'https://cinemaguide.skillbox.cc/movie/random'
+            query: () => 'https://cinemaguide.skillbox.cc/movie/random' // ответ получен
         })
      }),
 }); 

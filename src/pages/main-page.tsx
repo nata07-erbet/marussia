@@ -1,5 +1,5 @@
 import React from "react";
-import { userApi } from '../services/services';
+import { userApi } from '../services/user-api';
 import { QueryStatus } from '@reduxjs/toolkit/query';
 
 function MainPage () {
@@ -11,7 +11,9 @@ function MainPage () {
             {status === QueryStatus.rejected && (
                 <div>{error && 'status' in error ? `Error: ${error.status}` : 'Wrong'}</div>
             )}
-            {status === QueryStatus.fulfilled && <div>{data && data.title}</div>}
+            {status === QueryStatus.fulfilled && (
+                <div>{data && data.title}</div>
+            )}
         </>
     );
 }

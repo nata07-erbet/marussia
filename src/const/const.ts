@@ -15,7 +15,10 @@ const ReqRoutes = {
     USER: '/user',
     PROFILE: '/profile',
     FAVORITES: '/favorites',
-    MOVIE: '/movie'
+    MOVIE: '/movie',
+    TOP_10: '/movie/top10',
+    GENRES: '/movie/genres',
+    RANDOM: '/movie/random'
 } as const;
 
 const NameSpace = {
