@@ -1,9 +1,7 @@
-import React from "react"
+import React from "react";
 
-function GenreFilmsPage () {
-    return(
-        <p>Genre Films Page</p>
-    );
+function GenreFilmsPage() {
+  return <p>Genre Films Page</p>;
 }
 
-export { GenreFilmsPage }
+export { GenreFilmsPage };

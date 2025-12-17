@@ -1,9 +1,7 @@
-import React from "react"
+import React from "react";
 
-function SearchPage () {
-    return(
-        <p>SearchPage</p>
-    );
+function SearchPage() {
+  return <p>SearchPage</p>;
 }
 
-export { SearchPage }
+export { SearchPage };

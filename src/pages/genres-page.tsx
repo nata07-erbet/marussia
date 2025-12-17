@@ -1,9 +1,7 @@
-import React from "react"
+import React from "react";
 
-function Genres () {
-    return(
-        <p>Genres</p>
-    );
+function Genres() {
+  return <p>Genres</p>;
 }
 
-export { Genres }
+export { Genres };

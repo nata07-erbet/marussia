@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IMovie } from '../types/types';
-import { BASE_URL, ReqRoutes } from '../const/const';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IMovie } from "../types/types";
+import { BASE_URL, ReqRoutes } from "../const/const";
 
 const movieApi = createApi({
-  reducerPath: 'movieApi',
+  reducerPath: "movieApi",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
     fetchMovies: builder.query<IMovie[], void>({
@@ -30,7 +30,7 @@ export const {
   useFetchMoviesTopQuery,
   useFetchMovieByIdQuery,
   useFetchMoviesGenreQuery,
-  useFetchMoviesRandomQuery
+  useFetchMoviesRandomQuery,
 } = movieApi;
 
 export { movieApi };
