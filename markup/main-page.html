@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./style.css" rel="stylesheet" />
     <title>Онлайн-платформа Маруся</title>
 </head>
 <body>
@@ -23,12 +24,12 @@
                      </li>
                      <li class="nav-list__item">
                         <a class="nav-list__item-link" href="#">
+                             <button class="search__button" type="submit">
+                                    <span class="search__button-title ">Поиск</span>
+                                </button>
                             <form class="nav-list__item-search search" action="#" method="POST">
                                 <label class="search__label" for="search-input-id">
                                 <input class="search__input" type="text" name="search-input-name" id="search-input-id" placeholder="Поиск">
-                                <button class="search__button" type="submit">
-                                    <span class="search__button-title visially-hidden">Поиск</span>
-                                </button>
                             </form>
                         </a>
                      </li>

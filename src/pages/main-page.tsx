@@ -1,13 +1,19 @@
 import React from 'react';
 import { SamplePage, SamplePageProps } from './sample-page';
+import styled from 'styled-components';
 
+const PageMain = styled.main`
+  display: block;
+  width: 1440px;
+  height: 680px;
+`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({...props}:MainPageProps ) {
   return (
     <SamplePage {...props}>
-      <main className='page-main'>
-        <h1 className='page-main__title'>Главная страница</h1>
+      <PageMain className='page-main'>
+        <h1 className='page-main__title visually-hidden'>Главная страница</h1>
         <div className='page-main__wrapper wrapper'>
           <section className='film-random'>
             <div className='film-random__content'>
@@ -53,7 +59,7 @@ function MainPage({...props}:MainPageProps ) {
             </div>
           </section>
         </div>
-      </main>
+        </PageMain>
     </SamplePage>
   );
 }
