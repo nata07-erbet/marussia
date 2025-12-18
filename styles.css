@@ -41,23 +41,3 @@ body
   overflow: hidden;
 }
 
-.wrapper{
-  padding: 80px;
-}
-
-
-.header-navigation {
-  display: flex;
-}
-
-.nav-list {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 908px;
-}
-
-.page-header__logo {
-  width: 144px;
-  padding-top: 5px;
-}

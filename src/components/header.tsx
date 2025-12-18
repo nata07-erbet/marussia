@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const HeaderComp = styled.header`
   height: 96px;
+  padding: 24px 80px;
   backdrop-filter: blur(20px);
 `;
 
@@ -17,6 +18,7 @@ const List = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 40px
 `;
 
 
