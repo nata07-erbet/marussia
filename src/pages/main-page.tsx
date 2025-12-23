@@ -1,11 +1,12 @@
 import React from 'react';
 import { SamplePage, SamplePageProps } from './sample-page';
+import { FilmsList } from '../components/films-list';
 import styled from 'styled-components';
 
 const PageMain = styled.main`
   display: block;
   width: 1440px;
-  height: 680px;
+  height: 100%;
   margin-top: 32px;
 `;
 
@@ -119,19 +120,6 @@ const TitleTop = styled.h2`
   color: #fff;
 `;
 
-const TopItemItem = styled.li`
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  width: 224px;
-  height: 336px;
-  box-shadow: 0 0 80px 0 rgba(255, 255, 255, 0.33); 
-`;
-
-const TopItemImg = styled.img`
-  width: 224px;
-  height: 336px;
-`;
-
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
@@ -226,11 +214,7 @@ function MainPage({ ...props }: MainPageProps) {
           <SectionTop className='top-10'>
             <TitleTop>Топ 10 фильмов</TitleTop>
             <div className='top-10__wrapper'>
-              <ul className='top-10__list list-reset'>
-                <TopItemItem className='top-10__item card'>
-                  <TopItemImg className='card__img'  src='/assets/image.png'/>
-                </TopItemItem>
-              </ul>
+              <FilmsList />
             </div>
           </SectionTop>
         </div>

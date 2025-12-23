@@ -43,19 +43,21 @@ type IMovie = {
   title: string;
   originalTitle: string;
   language: string;
-  releaseYear: number;
+  relaseYear?: number;     // версия с опечаткой
+  releaseYear?: number;    // нормальная версия
   releaseDate: string;
   genres: string[];
   plot: string;
   runtime: number;
-  budget: string;
-  revenue: string;
-  homepage: string;
+  budget: string | null;
+  revenue: string | null;
+  homepage: string | null;
   status: string;
   posterUrl: string;
   backdropUrl: string;
   trailerUrl: string;
-  trailerYoutubeId: string;
+  trailerYoutubeId?: string;
+  trailerYouTubeId?: string;
   tmdbRating: number;
   searchL: string;
   keywords: string[];
@@ -63,14 +65,8 @@ type IMovie = {
   languages: string[];
   cast: string[];
   director: string;
-  production: string;
-  awardsSummary: string;
-};
-
-type IApiResponse = {
-  code: number;
-  type: string;
-  message: string;
+  production: string | null;
+  awardsSummary: string | null;
 };
 
 type IFavoritesBody = {
@@ -85,7 +81,6 @@ export type {
   IError,
   IRegisterData,
   IMovie,
-  IApiResponse,
   IFavoritesBody,
   IAuthResult,
   IProfile,
