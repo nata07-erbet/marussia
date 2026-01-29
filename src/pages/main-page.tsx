@@ -13,6 +13,9 @@ const PageMain = styled.main`
 const FilmWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  padding: 80px;
+  padding-bottom: 120px;
+  
 `;
 
 const FilmContent = styled.div`
@@ -120,6 +123,11 @@ const TitleTop = styled.h2`
   color: #fff;
 `;
 
+
+const FilmsWrapper = styled.div`
+  margin-top: 64px;
+`;
+
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
@@ -213,9 +221,9 @@ function MainPage({ ...props }: MainPageProps) {
 
           <SectionTop className='top-10'>
             <TitleTop>Топ 10 фильмов</TitleTop>
-            <div className='top-10__wrapper'>
+            <FilmsWrapper className='top-10__wrapper'>
               <FilmsList />
-            </div>
+            </FilmsWrapper>
           </SectionTop>
         </div>
       </PageMain>
