@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from "react-router";
 // import maryssiaImg from '.' //
 
 const HeaderComp = styled.header`
@@ -82,7 +83,7 @@ function Header() {
               <li className='nav-list__item'>
                 <LinkNav
                   className='nav-list__item-link'
-                  href='#'
+                  href='/genres'
                 >
                   Главная
                 </LinkNav>
@@ -90,7 +91,7 @@ function Header() {
               <li className='nav-list__item'>
                 <LinkNav
                   className='nav-list__item-link'
-                  href='#'
+                  href='/genres'
                 >
                   Жанры
                 </LinkNav>
