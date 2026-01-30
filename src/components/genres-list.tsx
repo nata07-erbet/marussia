@@ -1,53 +1,8 @@
 import React from 'react';
-import { Film } from './film';
 import styled from 'styled-components';
 import { Genre } from './genre';
+import { genres } from '../const/const';
 
-const genres = [
-    'history',
-    'horror',
-    'scifi',
-    'stand-up',
-    'fantasy',
-    'drama',
-    'mystery',
-    'family',
-    'comedy',
-    'romance',
-    'music',
-    'crime',
-    'tv-movie',
-    'documentary',
-    'action',
-    'thriller',
-    'western',
-    'animation',
-    'war',
-    'adventure'
-];
-
- const genresTitle = [
-  'История',
-  'Ужасы',
-  'Научная фантастика',
-  'Стендап',
-  'Фэнтези',
-  'Драма',
-  'Детектив',
-  'Семейный',
-  'Комедия',
-  'Романтика',
-  'Музыка',
-  'Криминал',
-  'Телефильм',
-  'Документальный',
-  'Боевик',
-  'Триллер',
-  'Вестерн',
-  'Анимация',
-  'Война',
-  'Приключения'
-];
 
 const translate = (genre: string) => {
   switch (genre) {
@@ -86,7 +41,10 @@ function GenresList() {
   return (
    <GenresListEl className='genres-list list-reset'>
     {genres.map((genre) => (
-      <Genre genreUrl={''} genreTitle={translate(genre)}      
+      <Genre 
+        genreImgUrl={''} 
+        genreTitle={translate(genre)} 
+        genre={genre}  
       />
     ))}
    </GenresListEl>

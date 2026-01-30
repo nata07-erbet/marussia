@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 
 type GenreProps = {
-  genreUrl: string;
+  genreImgUrl: string;
   genreTitle: string;
+  genre: string;
 };
 
 const GenreBlock = styled.div`
@@ -23,23 +26,29 @@ const GenreImg = styled.img`
   background-color: green;
 `;
 const GenreTitleEl = styled.p`
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 133%;
-    text-align: center;
-    color: #fff;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 133%;
+  text-align: center;
+  color: #fff;
 `;
 
-function Genre({ genreUrl, genreTitle }: GenreProps) {
+function Genre({ genreImgUrl, genreTitle, genre }: GenreProps) {
+    const href = `/${genre}`;
+
   return (
     <GenreBlock className='genre'>
-      <GenreImg
-        className='genre__name'
-        src={genreUrl}
-      />
-      <div className='genre__name__title'>
-        <GenreTitleEl>{genreTitle}</GenreTitleEl>
-      </div>
+      <NavLink
+       to={href}
+       >
+        <GenreImg
+          className='genre__name'
+          src={genreImgUrl}
+        />
+        <div className='genre__name__title'>
+          <GenreTitleEl>{genreTitle}</GenreTitleEl>
+        </div>
+      </NavLink>
     </GenreBlock>
   );
 }

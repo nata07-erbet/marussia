@@ -37,6 +37,52 @@ const QueryStatus = {
   Success: "success",
 } as const;
 
+const genres = [
+  'history',
+  'horror',
+  'scifi',
+  'stand-up',
+  'fantasy',
+  'drama',
+  'mystery',
+  'family',
+  'comedy',
+  'romance',
+  'music',
+  'crime',
+  'tv-movie',
+  'documentary',
+  'action',
+  'thriller',
+  'western',
+  'animation',
+  'war',
+  'adventure'
+];
+
+ const genresTitle = [
+'История',
+'Ужасы',
+'Научная фантастика',
+'Стендап',
+'Фэнтези',
+'Драма',
+'Детектив',
+'Семейный',
+'Комедия',
+'Романтика',
+'Музыка',
+'Криминал',
+'Телефильм',
+'Документальный',
+'Боевик',
+'Триллер',
+'Вестерн',
+'Анимация',
+'Война',
+'Приключения'
+];
+
 export {
   VALUE_FOR_ACTION,
   AppRoutes,
@@ -44,4 +90,8 @@ export {
   NameSpace,
   BASE_URL,
   QueryStatus,
+  genres,
+  genresTitle,
 };
+
+
