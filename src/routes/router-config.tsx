@@ -10,15 +10,15 @@ import { UserPage } from "../pages/user-page";
 const routerConfig = [
   {
     path: AppRoutes.Main,
-    element: <MainPage />,
+    element: <MainPage  />,
   },
   {
     path: AppRoutes.Genres,
     element: <Genres />,
   },
   {
-    path: AppRoutes.Genre,
-    element: <GenreFilmsPage />,
+    path: '/:genre',
+    element: <GenreFilmsPage children={undefined} />,
   },
   {
     path: AppRoutes.Film,

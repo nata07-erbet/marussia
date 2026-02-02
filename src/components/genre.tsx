@@ -7,6 +7,7 @@ type GenreProps = {
   genreImgUrl: string;
   genreTitle: string;
   genre: string;
+  onClickGenre: (genreCheck: string) => void;
 };
 
 const GenreBlock = styled.div`
@@ -33,13 +34,18 @@ const GenreTitleEl = styled.p`
   color: #fff;
 `;
 
-function Genre({ genreImgUrl, genreTitle, genre }: GenreProps) {
+function Genre({ genreImgUrl, genreTitle, genre, onClickGenre }: GenreProps) {
     const href = `/${genre}`;
+
+    const handleClickGenre = (genre: string) => {
+      onClickGenre(genre);
+    };
 
   return (
     <GenreBlock className='genre'>
       <NavLink
        to={href}
+       onClick={() => handleClickGenre(genre)}
        >
         <GenreImg
           className='genre__name'

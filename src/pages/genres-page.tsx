@@ -27,7 +27,7 @@ function Genres({ ...props }: GenresProps) {
       <Wrapper className='top-10'>
         <Title>Жанры фильмов</Title>
         <FilmsWrapper className='top-10__wrapper'>
-          <GenresList />
+          <GenresList/>
         </FilmsWrapper>
       </Wrapper>
     </SamplePage>

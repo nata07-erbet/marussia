@@ -69,6 +69,34 @@ type IMovie = {
   awardsSummary: string | null;
 };
 
+type IMoviesByGenre = {
+  id: number;
+  title: string;
+  originalTitle: string;
+  language: string;
+  releaseYear: number;
+  releaseDate: string; 
+  genres: string[];
+  plot: string;
+  runtime: number;
+  revenue: string; 
+  homepage: string;
+  status: "released" | string
+  posterUrl: string;
+  backdropUrl: string;
+  trailerUrl: string;
+  trailerYouTubeId: string;
+  tmdbRating: number;
+  searchL: string;
+  keywords: string[];
+  countriesOfOrigin: string[];
+  languages: string[];
+  cast: string[];
+  director: string;
+  production: string | null;
+  awardsSummary: string | null;
+};
+
 type IFavoritesBody = {
   id: string;
 };
@@ -84,4 +112,5 @@ export type {
   IFavoritesBody,
   IAuthResult,
   IProfile,
+  IMoviesByGenre
 };

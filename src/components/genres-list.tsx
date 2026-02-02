@@ -2,33 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Genre } from './genre';
 import { genres } from '../const/const';
+import { translate } from '../utils/utils';
+import {  href, useNavigate } from 'react-router';
 
+import { filmsByGenreJSON } from '../mocks/filmsByGenre';
+import { getFromJsonToObj, getGenresUrl, getRandomItem } from '../utils/utils';
 
-const translate = (genre: string) => {
-  switch (genre) {
-    case 'history': return 'История';
-    case 'horror': return 'Ужасы';
-    case 'scifi': return 'Научная фантастика';
-    case 'stand-up': return 'Стендап';
-    case 'fantasy': return 'Фэнтези';
-    case 'drama': return 'Драма';
-    case 'mystery': return 'Детектив';
-    case 'family': return 'Семейный';
-    case 'comedy': return 'Комедия';
-    case 'romance': return 'Романтика';
-    case 'music': return 'Музыка';
-    case 'crime': return 'Криминал';
-    case 'tv-movie': return 'Телефильм';
-    case 'documentary': return 'Документальный';
-    case 'action': return 'Боевик';
-    case 'thriller': return 'Триллер';
-    case 'western': return 'Вестерн';
-    case 'animation': return 'Анимация';
-    case 'war': return 'Война';
-    case 'adventure': return 'Приключения';
-    default: return 'Неизвестный жанр';
-  }
-};
+const filmsByGenre = getFromJsonToObj(filmsByGenreJSON);
+const genreImagesUrl = getGenresUrl(filmsByGenre);
 
 const GenresListEl = styled.ul`
   display: flex;
@@ -38,13 +19,20 @@ const GenresListEl = styled.ul`
 `;
 
 function GenresList() {
+  const navigate = useNavigate();
+
+  const handleClickGenre = (genre: string) => {
+    navigate(`/${genre}`);
+  };
+
   return (
    <GenresListEl className='genres-list list-reset'>
     {genres.map((genre) => (
       <Genre 
-        genreImgUrl={''} 
+        genreImgUrl={getRandomItem(genreImagesUrl)} 
         genreTitle={translate(genre)} 
-        genre={genre}  
+        genre={genre}
+        onClickGenre={handleClickGenre}
       />
     ))}
    </GenresListEl>

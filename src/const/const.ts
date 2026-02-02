@@ -5,7 +5,7 @@ const AppRoutes = {
   Main: "/",
   Genres: "/genres",
   Genre: "/genre",
-  Film: "/film",
+  Film: "/film/:filmId",
   Auth: "/auth",
 } as const;
 
