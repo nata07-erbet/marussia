@@ -4,7 +4,7 @@ import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 
 type SamplePageProps = {
-    children: ReactNode // почему нк вышло с PropsWithChildren<{}>
+    children?: ReactNode
 }
 
 function SamplePage ({ children }: SamplePageProps ) {
