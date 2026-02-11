@@ -3,6 +3,7 @@ import { SamplePage } from './sample-page';
 import type { SamplePageProps } from './sample-page';
 import styled from 'styled-components';
 import { GenresList } from '../components/genres-list';
+import { Header } from '../components/header';
 
 const Wrapper = styled.section`
   
@@ -24,6 +25,7 @@ type GenresProps = SamplePageProps & {};
 function Genres({ ...props }: GenresProps) {
   return (
     <SamplePage {...props}>
+      <Header isUserPage={false} username={''} />
       <Wrapper className='top-10'>
         <Title>Жанры фильмов</Title>
         <FilmsWrapper className='top-10__wrapper'>

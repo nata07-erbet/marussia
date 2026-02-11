@@ -2,6 +2,7 @@ import React from 'react';
 import { SamplePage, SamplePageProps } from './sample-page';
 import { FilmsList } from '../components/films-list';
 import styled from 'styled-components';
+import { Header } from '../components/header';
 
 const PageMain = styled.main`
   display: block;
@@ -133,6 +134,7 @@ type MainPageProps = SamplePageProps & {};
 function MainPage({ ...props }: MainPageProps) {
   return (
     <SamplePage {...props}>
+      <Header isUserPage={false} username={''} />
       <PageMain className='page-main'>
         <h1 className='page-main__title visually-hidden'>Главная страница</h1>
         <div className='page-main__wrapper wrapper'>

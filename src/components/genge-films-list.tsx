@@ -10,6 +10,7 @@ const GenreFilmsListEl = styled.ul`
     display:flex;
     gap: 40px;
     flex-wrap: wrap;
+    padding-left: 0;
 `;
 
 function GenreFilmsList() {

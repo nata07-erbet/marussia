@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Genre } from './genre';
 import { genres } from '../const/const';
 import { translate } from '../utils/utils';
-import {  href, useNavigate } from 'react-router';
+import { href, useNavigate } from 'react-router';
 
 import { filmsByGenreJSON } from '../mocks/filmsByGenre';
 import { getFromJsonToObj, getGenresUrl, getRandomItem } from '../utils/utils';
@@ -16,6 +16,9 @@ const GenresListEl = styled.ul`
   flex-wrap: wrap;
   gap: 40px;
   width: 1280px;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 `;
 
 function GenresList() {
@@ -26,16 +29,16 @@ function GenresList() {
   };
 
   return (
-   <GenresListEl className='genres-list list-reset'>
-    {genres.map((genre) => (
-      <Genre 
-        genreImgUrl={getRandomItem(genreImagesUrl)} 
-        genreTitle={translate(genre)} 
-        genre={genre}
-        onClickGenre={handleClickGenre}
-      />
-    ))}
-   </GenresListEl>
+    <GenresListEl className='genres-list list-reset'>
+      {genres.map((genre) => (
+        <Genre
+          genreImgUrl={getRandomItem(genreImagesUrl)}
+          genreTitle={translate(genre)}
+          genre={genre}
+          onClickGenre={handleClickGenre}
+        />
+      ))}
+    </GenresListEl>
   );
 }
 

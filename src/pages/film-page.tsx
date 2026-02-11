@@ -3,6 +3,7 @@ import { PropsWithChildren } from 'react';
 import { SamplePage } from './sample-page';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
+import { Header } from '../components/header';
 
 type FilmPageProps = PropsWithChildren<{}>;
 
@@ -138,6 +139,7 @@ function FilmPage(props: FilmPageProps) {
   const { filmId } = useParams();
   return (
     <SamplePage {...props}>
+      <Header isUserPage={false} username={''} />
       <section className='film'>
         <FilmWrapper className='film__wrapper'>
           <FilmContent className='film__content'>

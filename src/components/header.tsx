@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router";
-// import maryssiaImg from '.' //
+import { AppRoutes } from '../const/const';
+
 
 const HeaderComp = styled.header`
   height: 96px;
-  padding: 24px 80px;
+  padding: 24px 0px;
   backdrop-filter: blur(20px);
 `;
 
@@ -28,7 +29,7 @@ const Logo = styled.a`
   height: 31px;
 `;
 
-const LinkNav = styled.a`
+const LinkNav = styled(Link)`
   text-decoration: none;
   font-family: 'Play', sans-serif, 'Open Sans', sans-serif;
   font-weight: 400;
@@ -70,7 +71,13 @@ const InputSearch = styled.input`
     color: rgba(255, 255, 255, 0.5);
   }
 `;
-function Header() {
+
+type HeaderProps = {
+  isUserPage: boolean;
+  username: string;
+};
+
+function Header({isUserPage, username}: HeaderProps) {
   return (
     <HeaderComp className='page-header'>
       <div className='page-header__ wrapper wrapper'>
@@ -83,7 +90,7 @@ function Header() {
               <li className='nav-list__item'>
                 <LinkNav
                   className='nav-list__item-link'
-                  href='/genres'
+                  to={AppRoutes.Main}
                 >
                   Главная
                 </LinkNav>
@@ -91,7 +98,7 @@ function Header() {
               <li className='nav-list__item'>
                 <LinkNav
                   className='nav-list__item-link'
-                  href='/genres'
+                  to={AppRoutes.Genres}
                 >
                   Жанры
                 </LinkNav>
@@ -99,7 +106,7 @@ function Header() {
               <li className='nav-list__item'>
                 <LinkNav
                   className='nav-list__item-link'
-                  href='#'
+                  to='#'
                 >
                   <form
                     className='nav-list__item-search search'
@@ -143,9 +150,10 @@ function Header() {
           </nav>
           <LinkNav
             className='nav-list__item-link'
-            href='#'
+            to={AppRoutes.Auth}
           >
-            Войти
+            {!isUserPage? 'Войти' : `${username}`
+}
           </LinkNav>
         </HeaderContainer>
       </div>
