@@ -134,7 +134,7 @@ type MainPageProps = SamplePageProps & {};
 function MainPage({ ...props }: MainPageProps) {
   return (
     <SamplePage {...props}>
-      <Header isUserPage={false} username={''} />
+      <Header isUserPage={false} username={''} isActiveIndex={false} />
       <PageMain className='page-main'>
         <h1 className='page-main__title visually-hidden'>Главная страница</h1>
         <div className='page-main__wrapper wrapper'>

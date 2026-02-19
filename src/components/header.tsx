@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from "react-router";
-import { AppRoutes } from '../const/const';
-
+import { Link, useLocation } from 'react-router';
+import { AppRoutes, NavMap } from '../const/const';
+import classNames from 'classnames';
 
 const HeaderComp = styled.header`
   height: 96px;
@@ -20,9 +20,8 @@ const List = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 40px
+  gap: 40px;
 `;
-
 
 const Logo = styled.a`
   width: 143px;
@@ -47,11 +46,9 @@ const ButtonSearch = styled.button`
   height: 24px;
   background-color: transparent;
   border: none;
- 
-
 `;
 const Label = styled.label`
-    position: relative;
+  position: relative;
 `;
 
 const InputSearch = styled.input`
@@ -75,9 +72,17 @@ const InputSearch = styled.input`
 type HeaderProps = {
   isUserPage: boolean;
   username: string;
+  isActiveIndex: boolean;
 };
 
-function Header({isUserPage, username}: HeaderProps) {
+function Header({ isUserPage, username, isActiveIndex }: HeaderProps) {
+  const location = useLocation();
+
+  const classNavUser = classNames({
+    'nav-list__item-link': true,
+    active: isUserPage
+  });
+
   return (
     <HeaderComp className='page-header'>
       <div className='page-header__ wrapper wrapper'>
@@ -87,73 +92,65 @@ function Header({isUserPage, username}: HeaderProps) {
           </Logo>
           <nav className='page-header__nav header-navigation'>
             <List className='header-navigation__list nav-list list-reset'>
-              <li className='nav-list__item'>
-                <LinkNav
-                  className='nav-list__item-link'
-                  to={AppRoutes.Main}
-                >
-                  Главная
-                </LinkNav>
-              </li>
-              <li className='nav-list__item'>
-                <LinkNav
-                  className='nav-list__item-link'
-                  to={AppRoutes.Genres}
-                >
-                  Жанры
-                </LinkNav>
-              </li>
-              <li className='nav-list__item'>
-                <LinkNav
-                  className='nav-list__item-link'
-                  to='#'
-                >
-                  <form
-                    className='nav-list__item-search search'
-                    action='#'
-                    method='POST'
-                  >
-                    <Label
-                      className='search__label'
-                      htmlFor='search-input-id'
+              {NavMap.map((nav, index) => {
+                const classNavItem = classNames({
+                  'nav-list__item-link': true,
+                  active: location.pathname === nav.to
+                });
+                return (
+                  <li className='nav-list__item'>
+                    <LinkNav
+                      className={classNavItem}
+                      to={nav.to}
                     >
-                      <InputSearch
-                        className='search__input'
-                        type='text'
-                        name='search-input-name'
-                        id='search-input-id'
-                        placeholder='Поиск'
-                      />
-                      <ButtonSearch
-                        className='search__button'
-                        type='submit'
-                      >
-                        <svg
-                          width='24'
-                          height='24'
-                          viewBox='0 0 24 24'
-                          fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <path
-                            d='M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z'
-                            fill='rgba(255, 255, 255, 0.5)'
-                            fill-opacity='0.5'
-                          />
-                        </svg>
-                      </ButtonSearch>
-                    </Label>
-                  </form>
-                </LinkNav>
-              </li>
+                      {nav.name}
+                    </LinkNav>
+                  </li>
+                );
+              })}
             </List>
           </nav>
+          <form
+            className='nav-list__item-search search'
+            action='#'
+            method='POST'
+          >
+            <Label
+              className='search__label'
+              htmlFor='search-input-id'
+            >
+              <InputSearch
+                className='search__input'
+                type='text'
+                name='search-input-name'
+                id='search-input-id'
+                placeholder='Поиск'
+              />
+              <ButtonSearch
+                className='search__button'
+                type='submit'
+              >
+                <svg
+                  width='24'
+                  height='24'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z'
+                    fill='rgba(255, 255, 255, 0.5)'
+                    fill-opacity='0.5'
+                  />
+                </svg>
+              </ButtonSearch>
+            </Label>
+          </form>
           <LinkNav
-            className='nav-list__item-link'
+            className={classNavUser}
             to={AppRoutes.Auth}
           >
-            {!isUserPage? 'Войти' : `${username}`
-}
+            {!isUserPage ? 'Войти' : `${username}`}
           </LinkNav>
         </HeaderContainer>
       </div>

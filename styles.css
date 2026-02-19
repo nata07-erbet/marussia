@@ -51,3 +51,7 @@ body
   overflow: hidden;
 }
 
+.active {
+  border-bottom: 1.50px solid #dc5dfc;
+}
+

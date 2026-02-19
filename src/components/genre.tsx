@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink, useNavigate } from 'react-router-dom';
-
+import { NavLink, generatePath, useNavigate } from 'react-router-dom';
+import { AppRoutes } from '../const/const';
 
 type GenreProps = {
   genreImgUrl: string;
@@ -34,19 +34,25 @@ const GenreTitleEl = styled.p`
   color: #fff;
 `;
 
-function Genre({ genreImgUrl, genreTitle, genre, onClickGenre }: GenreProps) {
-    const href = `/${genre}`;
+function Genre({ genreImgUrl, genreTitle, genre }: GenreProps) {
+  const navigate = useNavigate();
 
-    const handleClickGenre = (genre: string) => {
-      onClickGenre(genre);
-    };
+  const handleClickGenre = (genre: string) => {
+    const path = genre
+      ? generatePath(`${AppRoutes.Genres}/:genre`, {
+          genre: genre
+        })
+      : AppRoutes.Genres;
+
+    navigate(path);
+  };
 
   return (
     <GenreBlock className='genre'>
-      <NavLink
-       to={href}
-       onClick={() => handleClickGenre(genre)}
-       >
+      <a
+        href="#"
+        onClick={() => handleClickGenre(genre)}
+      >
         <GenreImg
           className='genre__name'
           src={genreImgUrl}
@@ -54,7 +60,7 @@ function Genre({ genreImgUrl, genreTitle, genre, onClickGenre }: GenreProps) {
         <div className='genre__name__title'>
           <GenreTitleEl>{genreTitle}</GenreTitleEl>
         </div>
-      </NavLink>
+      </a>
     </GenreBlock>
   );
 }

@@ -13,11 +13,11 @@ const routerConfig = [
     element: <MainPage />,
   },
   {
-    path: AppRoutes.Genres,
+    path: `${AppRoutes.Genres}/:genre?`,
     element: <Genres />,
   },
   {
-    path: '/:genre',
+    path: `${AppRoutes.Genres}/:genre`,
     element: <GenreFilmsPage />,
   },
   {

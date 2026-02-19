@@ -3,6 +3,7 @@ import { GenreFilmsList } from '../components/genge-films-list';
 import { SamplePage, SamplePageProps } from './sample-page';
 import styled from 'styled-components';
 import { Header } from '../components/header';
+import { Account } from '../components/account';
 
 type UserPageProps = SamplePageProps & {};
 
@@ -65,9 +66,11 @@ const user = {
 };
 
 function UserPage({ ...props }: UserPageProps) {
+    const isUserPage = true;
+
   return (
     <SamplePage {...props}>
-      <Header isUserPage={true} username={user.name} />
+      <Header isUserPage={isUserPage} username={user.name} isActiveIndex={false} />
       <section className='genre-films'>
         <TitleOfGenre className='genre-films__title'>Мой аккаунт</TitleOfGenre>
         <WrapperTabs>
@@ -103,6 +106,7 @@ function UserPage({ ...props }: UserPageProps) {
           </IconWrapper>
         </WrapperTabs>
         <GenreFilmsList />
+        <Account userName={user.name} userMail={user.email} />
         <WrapperButton>
           <Button
             className='genre-films'

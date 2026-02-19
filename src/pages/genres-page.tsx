@@ -23,9 +23,10 @@ const FilmsWrapper = styled.div`
 type GenresProps = SamplePageProps & {};
 
 function Genres({ ...props }: GenresProps) {
+  
   return (
     <SamplePage {...props}>
-      <Header isUserPage={false} username={''} />
+      <Header isUserPage={false} username={''} isActiveIndex={false} />
       <Wrapper className='top-10'>
         <Title>Жанры фильмов</Title>
         <FilmsWrapper className='top-10__wrapper'>

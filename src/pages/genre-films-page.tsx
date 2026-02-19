@@ -44,7 +44,7 @@ const TextButton = styled.span`
 function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
   return (
     <SamplePage {...props}>
-      <Header isUserPage={false} username={''} />
+      <Header isUserPage={false} username={''} isActiveIndex={false} />
       <section className='genre-films'>
         <IconTitle
           width='13'
