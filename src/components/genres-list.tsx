@@ -21,8 +21,6 @@ const GenresListEl = styled.ul`
 `;
 
 function GenresList() {
-
-
   return (
     <GenresListEl className='genres-list list-reset'>
       {genres.map((genre) => (

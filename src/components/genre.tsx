@@ -7,7 +7,6 @@ type GenreProps = {
   genreImgUrl: string;
   genreTitle: string;
   genre: string;
-  onClickGenre: (genreCheck: string) => void;
 };
 
 const GenreBlock = styled.div`
@@ -37,7 +36,9 @@ const GenreTitleEl = styled.p`
 function Genre({ genreImgUrl, genreTitle, genre }: GenreProps) {
   const navigate = useNavigate();
 
-  const handleClickGenre = (genre: string) => {
+  const handleClickGenre = (evt: React.MouseEvent, genre: string) => {
+    evt.preventDefault();
+
     const path = genre
       ? generatePath(`${AppRoutes.Genres}/:genre`, {
           genre: genre
@@ -49,10 +50,7 @@ function Genre({ genreImgUrl, genreTitle, genre }: GenreProps) {
 
   return (
     <GenreBlock className='genre'>
-      <a
-        href="#"
-        onClick={() => handleClickGenre(genre)}
-      >
+      <div onClick={(evt) => handleClickGenre(evt, genre)}>
         <GenreImg
           className='genre__name'
           src={genreImgUrl}
@@ -60,7 +58,7 @@ function Genre({ genreImgUrl, genreTitle, genre }: GenreProps) {
         <div className='genre__name__title'>
           <GenreTitleEl>{genreTitle}</GenreTitleEl>
         </div>
-      </a>
+      </div>
     </GenreBlock>
   );
 }
