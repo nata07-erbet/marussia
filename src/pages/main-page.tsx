@@ -8,14 +8,13 @@ const PageMain = styled.main`
   display: block;
   width: 1440px;
   height: 100%;
-  margin-top: 32px;
 `;
 
 const FilmWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 80px;
-  padding-bottom: 120px;
+  padding-top: 32px;
+  padding-right: 160px;
   
 `;
 
@@ -56,6 +55,8 @@ const Description = styled.p`
 `;
 
 const Rating = styled.li`
+  position: relative;
+  display: flex;
   border-radius: 16px;
   padding: 4px 12px;
   width: 70px;
@@ -64,7 +65,7 @@ const Rating = styled.li`
 `;
 
 const RatingValue = styled.span`
-  margin-left: 5px;
+  margin-left: 15px;
   font-weight: 700;
   font-size: 18px;
   line-height: 133%;
@@ -95,10 +96,9 @@ const Button = styled.button<{ $film?: boolean }>`
 
 const ButtonIcon = styled.button`
   position: relative;
-
   border: 0;
   border-radius: 28px;
-  padding: 16px 48px;
+  padding: 16px 22px;
   width: 68px;
   height: 56px;
   background: #333;
@@ -108,7 +108,14 @@ const Icon = styled.svg`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 37px;
+  left: 34%;
+`;
+
+const Star = styled.svg`
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+left: 9px;
 `;
 
 const SectionTop = styled.section`
@@ -144,7 +151,7 @@ function MainPage({ ...props }: MainPageProps) {
                 <div className='film-random__params'>
                   <List className='film-random__list list list-reset'>
                     <Rating className='list__item'>
-                      <svg
+                      <Star
                         width='16'
                         height='15'
                         viewBox='0 0 16 15'
@@ -155,7 +162,7 @@ function MainPage({ ...props }: MainPageProps) {
                           d='M7.60847 11.84L2.90617 14.4721L3.95639 9.1866L0 5.52787L5.35136 4.89337L7.60847 0L9.86554 4.89337L15.2169 5.52787L11.2605 9.1866L12.3107 14.4721L7.60847 11.84Z'
                           fill='white'
                         />
-                      </svg>
+                      </Star>
                       <RatingValue className='list__item-value'>
                         7,5
                       </RatingValue>
