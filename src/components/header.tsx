@@ -95,7 +95,7 @@ function Header({ isUserPage, username, isActiveIndex }: HeaderProps) {
               {NavMap.map((nav, index) => {
                 const classNavItem = classNames({
                   'nav-list__item-link': true,
-                  active: location.pathname === nav.to
+                  active: location.pathname === nav.to || location.pathname.startsWith(`${nav.to}/`) 
                 });
                 return (
                   <li className='nav-list__item'>
