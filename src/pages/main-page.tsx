@@ -3,6 +3,8 @@ import { SamplePage, SamplePageProps } from './sample-page';
 import { FilmsList } from '../components/films-list';
 import styled from 'styled-components';
 import { Header } from '../components/header';
+import { AuthPopUp } from '../components/pop-up/auth-pop-up';
+
 
 const PageMain = styled.main`
   display: block;
@@ -112,16 +114,15 @@ const Icon = styled.svg`
 `;
 
 const Star = styled.svg`
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-left: 9px;
-`;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 9px;
+  `;
 
 const SectionTop = styled.section`
   padding-top: 60px;
 `;
-
 
 const TitleTop = styled.h2`
   margin: 0;
@@ -130,7 +131,6 @@ const TitleTop = styled.h2`
   line-height: 120%;
   color: #fff;
 `;
-
 
 const FilmsWrapper = styled.div`
   margin-top: 64px;
@@ -227,13 +227,13 @@ function MainPage({ ...props }: MainPageProps) {
               </div>
             </FilmWrapper>
           </section>
-
           <SectionTop className='top-10'>
             <TitleTop>Топ 10 фильмов</TitleTop>
             <FilmsWrapper className='top-10__wrapper'>
               <FilmsList />
             </FilmsWrapper>
           </SectionTop>
+          <AuthPopUp/>
         </div>
       </PageMain>
     </SamplePage>
