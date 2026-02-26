@@ -18,11 +18,18 @@ color: #000;
 
 type ButtonProps = {
     value: string;
+    onClick?: () => void
 };
 
-function ButtonSecond ({ value }: ButtonProps) {
+function ButtonSecond ({ value, onClick }: ButtonProps) {
+    const handleClickButton = () => {
+        onClick?.();
+    }
     return(
-        <ButtonEl>{value}</ButtonEl>
+        <ButtonEl 
+            type="button"
+            onClick={handleClickButton}
+            >{value}</ButtonEl>
     );
 };
 

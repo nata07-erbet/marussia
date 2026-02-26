@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SamplePage, SamplePageProps } from './sample-page';
 import { FilmsList } from '../components/films-list';
 import styled from 'styled-components';
 import { Header } from '../components/header';
 import { AuthPopUp } from '../components/pop-up/auth-pop-up';
-
+import { RegisterPopUp } from '../components/pop-up/register-pop-up';
 
 const PageMain = styled.main`
   display: block;
@@ -17,7 +17,6 @@ const FilmWrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
   padding-top: 32px;
   padding-right: 160px;
-  
 `;
 
 const FilmContent = styled.div`
@@ -85,7 +84,6 @@ const Button = styled.button<{ $film?: boolean }>`
   background: ${(props) => (props.$film ? '#393b3c' : '#67a5eb')};
   width: ${(props) => (props.$film ? '183px' : '171px')};
 
-
   border-radius: 28px;
   border: 0;
   height: 56px;
@@ -118,7 +116,7 @@ const Star = styled.svg`
   top: 50%;
   transform: translateY(-50%);
   left: 9px;
-  `;
+`;
 
 const SectionTop = styled.section`
   padding-top: 60px;
@@ -139,9 +137,35 @@ const FilmsWrapper = styled.div`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
+  const [ isActive, setIsActive ] = useState(false);
+
+  const [  isShowPopUpRegister, setIsShowPopUpRegister ] = useState(false);
+
+  const handleClosePopUpAuth = () => {
+    setIsActive(false);
+  };
+
+  const handleClosePopUpRegister = () => {
+    setIsActive(false);
+  };
+
+  const handleClickAuth = () => {
+    setIsActive(true);
+  };
+
+
+  const handleClickRegistration = () => {
+    setIsShowPopUpRegister(true);
+  }; 
+
   return (
     <SamplePage {...props}>
-      <Header isUserPage={false} username={''} isActiveIndex={false} />
+      <Header
+        isUserPage={false}
+        username={''}
+        isActiveIndex={false}
+        onClickAuth={handleClickAuth}
+      />
       <PageMain className='page-main'>
         <h1 className='page-main__title visually-hidden'>Главная страница</h1>
         <div className='page-main__wrapper wrapper'>
@@ -233,7 +257,16 @@ function MainPage({ ...props }: MainPageProps) {
               <FilmsList />
             </FilmsWrapper>
           </SectionTop>
-          <AuthPopUp/>
+          <AuthPopUp
+            isActive={isActive}
+            onClose={handleClosePopUpAuth}
+            onClickRegistration={handleClickRegistration}
+          />
+          <RegisterPopUp
+            isActive={isShowPopUpRegister}
+            onClose={handleClosePopUpRegister}
+            isError={true}
+          />
         </div>
       </PageMain>
     </SamplePage>

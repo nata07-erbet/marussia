@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { ButtonFirst } from '../button-first';
 import { ButtonSecond } from '../button-second';
 
-type AuthPopUpProps = PopUpSampleProps & {};
 
 const Modal = styled.div`
   display: flex;
@@ -27,7 +26,7 @@ const WrapperAuth = styled.div`{
 }`;
 
 const ImgPopUp = styled.img`
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 `;
 
 const Label = styled.label`
@@ -53,8 +52,20 @@ const Input = styled.input`
   line-height: 133%;
   color: rgba(0, 0, 0, 0.4);
 `;
+type AuthPopUpProps = PopUpSampleProps & {
+  onClickRegistration: () => void;
+};
 
-function AuthPopUp({ ...props }: AuthPopUpProps) {
+function AuthPopUp({ onClickRegistration, ...props }: AuthPopUpProps) {
+
+  const handlePostData = () => {
+    alert('2');
+  };
+
+  const handleClickRegistration = () => {
+    onClickRegistration();
+  }
+
   return (
     <PopUpSample {...props}>
       <WrapperAuth>
@@ -108,8 +119,14 @@ function AuthPopUp({ ...props }: AuthPopUpProps) {
               placeholder='Пароль'
             ></Input>
           </Label>
-          <ButtonFirst value={'Войти'}/>
-          <ButtonSecond value={'Регистрация'}/>
+          <ButtonFirst
+            value={'Войти'}
+            onSubmit={handlePostData}
+          />
+          <ButtonSecond 
+            value={'Регистрация'} 
+            onClick={handleClickRegistration}
+          />
         </Modal>
       </WrapperAuth>
     </PopUpSample>

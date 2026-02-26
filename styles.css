@@ -55,3 +55,8 @@ body
   border-bottom: 1.50px solid #dc5dfc;
 }
 
+.error {
+  border: 1px solid #ff7575;
+}
+
+

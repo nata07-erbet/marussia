@@ -18,11 +18,15 @@ color: #fff;
 
 type ButtonProps = {
     value: string;
+    onSubmit: () => void;
 };
 
-function ButtonFirst ({ value }: ButtonProps) {
+function ButtonFirst ({ value, onSubmit }: ButtonProps) {
+    const handleSubmitData = () => {
+        onSubmit();
+    }
     return(
-        <ButtonEl>{value}</ButtonEl>
+        <ButtonEl type ='submit' onClick={handleSubmitData}>{value}</ButtonEl>
     );
 };
 

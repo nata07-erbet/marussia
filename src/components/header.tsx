@@ -30,7 +30,7 @@ const Logo = styled.a`
   height: 31px;
 `;
 
-const LinkNav = styled(Link)`
+const LinkNav = styled.a`
   text-decoration: none;
   font-family: 'Play', sans-serif, 'Open Sans', sans-serif;
   font-weight: 400;
@@ -44,9 +44,10 @@ type HeaderProps = {
   isUserPage: boolean;
   username: string;
   isActiveIndex: boolean;
+  onClickAuth: () => void;
 };
 
-function Header({ isUserPage, username  }: HeaderProps) {
+function Header({ isUserPage, username, onClickAuth}: HeaderProps) {
   const location = useLocation();
 
   const classNavUser = classNames({
@@ -87,7 +88,7 @@ function Header({ isUserPage, username  }: HeaderProps) {
             <Search />
             <LinkNav
               className={classNavUser}
-              to={AppRoutes.Auth}
+              onClick={onClickAuth}
             >
               {!isUserPage ? 'Войти' : `${username}`}
             </LinkNav>

@@ -1,5 +1,6 @@
-import React, { PropsWithChildren, ReactNode } from 'react';
+import React, { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import classNames from 'classnames';
 
 const PopUpWrapper = styled.div`
   position: fixed;
@@ -25,22 +26,51 @@ const ButtonClose = styled.button`
     height: 48px;   
     background: #fff;
 `;
-
-type PopUpSampleProps  = PropsWithChildren<{}>;
-
 const ContentPopUp = styled.div`{
   display: flex;
   align-items: center;
   justify-content: center;
 }`;
 
-function PopUpSample({ children }: PopUpSampleProps) {
+type PopUpSampleProps  = PropsWithChildren<{
+  isActive: boolean;
+  onClose: () => void;
+}>;
+
+function PopUpSample({ children, onClose, isActive }: PopUpSampleProps) {
+ 
+  const classPopUpSample = classNames({
+    'pop-up-sample': true,
+    'visually-hidden': !isActive
+  });
+
+  const handleCloseEsc = (evt: KeyboardEvent) => {
+    if(evt.key === 'Escape') {
+      onClose();
+    }
+  };
+
+  const handleClosePopUp = () => {
+    onClose();
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown',handleCloseEsc);
+    return () =>{
+      document.removeEventListener('keydown',handleCloseEsc);
+    }
+  });
+
+
     return (
-        <PopUpWrapper className='pop-up-sample pop-up__wrapper'>
+        <PopUpWrapper className={classPopUpSample}>
         <ContentPopUp className='pop-up-sample__content'>
             {children}
         </ContentPopUp>
-        <ButtonClose className='pop-up-sample__button-close'>
+        <ButtonClose 
+          className='pop-up-sample__button-close'
+          onClick={handleClosePopUp}
+          >
           <svg
             width='24'
             height='24'
