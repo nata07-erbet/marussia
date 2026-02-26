@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Header } from '../components/header';
 import { AuthPopUp } from '../components/pop-up/auth-pop-up';
 import { RegisterPopUp } from '../components/pop-up/register-pop-up';
+import { SuccessPopUp } from '../components/pop-up/success-pop-up';
 
 const PageMain = styled.main`
   display: block;
@@ -137,26 +138,44 @@ const FilmsWrapper = styled.div`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
-  const [ isActive, setIsActive ] = useState(false);
-
-  const [  isShowPopUpRegister, setIsShowPopUpRegister ] = useState(false);
+  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
+  const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
+  const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
 
   const handleClosePopUpAuth = () => {
-    setIsActive(false);
+    setIsShowPopUpAuth(false);
   };
 
   const handleClosePopUpRegister = () => {
-    setIsActive(false);
+    setIsShowPopUpRegister(false);
   };
 
   const handleClickAuth = () => {
-    setIsActive(true);
+    setIsShowPopUpAuth(true);
   };
 
+  const handleClickAuthReg = () => {
+    setIsShowPopUpRegister(false)
+    setIsShowPopUpAuth(true);
+  };
 
   const handleClickRegistration = () => {
     setIsShowPopUpRegister(true);
-  }; 
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClosePopUpSuccess = () => {
+    setIsShowSuccessPopUp(false);
+  };
+
+  const handleClickEnter = () => {
+    //POST Принимает адрес почты:пароль, открывает новую пользовательскую сессию
+    alert('post auth');
+  };
+
+  const handlePostDataAccount = () => {
+    alert('post registration');
+  };
 
   return (
     <SamplePage {...props}>
@@ -258,16 +277,24 @@ function MainPage({ ...props }: MainPageProps) {
             </FilmsWrapper>
           </SectionTop>
           <AuthPopUp
-            isActive={isActive}
+            isActive={isShowPopUpAuth}
             onClose={handleClosePopUpAuth}
+            onClickEnter={handleClickEnter}
             onClickRegistration={handleClickRegistration}
           />
           <RegisterPopUp
             isActive={isShowPopUpRegister}
             onClose={handleClosePopUpRegister}
             isError={true}
+            onClickPostDataAccount={handlePostDataAccount}
+            onClickAuth={handleClickAuthReg}
           />
         </div>
+        <SuccessPopUp
+          isActive={isShowSuccessPopUp}
+          onClose={handleClosePopUpSuccess}
+          onClickEnter={handleClickEnter}
+        />
       </PageMain>
     </SamplePage>
   );

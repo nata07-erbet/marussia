@@ -53,13 +53,14 @@ const Input = styled.input`
   color: rgba(0, 0, 0, 0.4);
 `;
 type AuthPopUpProps = PopUpSampleProps & {
+  onClickEnter: () => void;
   onClickRegistration: () => void;
 };
 
-function AuthPopUp({ onClickRegistration, ...props }: AuthPopUpProps) {
+function AuthPopUp({ onClickEnter, onClickRegistration, ...props }: AuthPopUpProps) {
 
-  const handlePostData = () => {
-    alert('2');
+  const handleClickEnter = () => {
+    onClickEnter();
   };
 
   const handleClickRegistration = () => {
@@ -121,7 +122,7 @@ function AuthPopUp({ onClickRegistration, ...props }: AuthPopUpProps) {
           </Label>
           <ButtonFirst
             value={'Войти'}
-            onSubmit={handlePostData}
+            onClick={handleClickEnter}
           />
           <ButtonSecond 
             value={'Регистрация'} 

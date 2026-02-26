@@ -58,12 +58,23 @@ const Svg = styled.svg<{ $isError?: boolean }>`
 `;
 
 type AuthPopUpProps = PopUpSampleProps & {
+  onClickAuth: () => void;
+  onClickPostDataAccount: () => void;
   isError: boolean;
 };
 
-function RegisterPopUp({ isError, ...props }: AuthPopUpProps) {
-  const handlePostData = () => {
-    alert('2');
+function RegisterPopUp({
+  onClickAuth,
+  onClickPostDataAccount,
+  isError,
+  ...props
+}: AuthPopUpProps) {
+  const handlePostDataAccount = () => {
+    onClickPostDataAccount();
+  };
+
+  const handleClickAuth = () => {
+    onClickAuth();
   };
 
   return (
@@ -83,10 +94,7 @@ function RegisterPopUp({ isError, ...props }: AuthPopUpProps) {
               viewBox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'
             >
-              <path
-                d='M21 3C21.5523 3 22 3.44772 22 4V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5V4C2 3.44772 2.44772 3 3 3H21ZM8 15V17H0V15H8ZM5 10V12H0V10H5ZM19.5659 5H4.43414L12 11.8093L19.5659 5Z'
-             
-              />
+              <path d='M21 3C21.5523 3 22 3.44772 22 4V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5V4C2 3.44772 2.44772 3 3 3H21ZM8 15V17H0V15H8ZM5 10V12H0V10H5ZM19.5659 5H4.43414L12 11.8093L19.5659 5Z' />
             </Svg>
             <Input
               type='text'
@@ -106,9 +114,7 @@ function RegisterPopUp({ isError, ...props }: AuthPopUpProps) {
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
             >
-              <path
-                d='M0 21C0 16.5817 3.58172 13 8 13C12.4183 13 16 16.5817 16 21H14C14 17.6863 11.3137 15 8 15C4.68629 15 2 17.6863 2 21H0ZM8 12C4.685 12 2 9.315 2 6C2 2.685 4.685 0 8 0C11.315 0 14 2.685 14 6C14 9.315 11.315 12 8 12ZM8 10C10.21 10 12 8.21 12 6C12 3.79 10.21 2 8 2C5.79 2 4 3.79 4 6C4 8.21 5.79 10 8 10Z'
-              />
+              <path d='M0 21C0 16.5817 3.58172 13 8 13C12.4183 13 16 16.5817 16 21H14C14 17.6863 11.3137 15 8 15C4.68629 15 2 17.6863 2 21H0ZM8 12C4.685 12 2 9.315 2 6C2 2.685 4.685 0 8 0C11.315 0 14 2.685 14 6C14 9.315 11.315 12 8 12ZM8 10C10.21 10 12 8.21 12 6C12 3.79 10.21 2 8 2C5.79 2 4 3.79 4 6C4 8.21 5.79 10 8 10Z' />
             </Svg>
             <Input
               type='text'
@@ -128,9 +134,7 @@ function RegisterPopUp({ isError, ...props }: AuthPopUpProps) {
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
             >
-              <path
-                d='M0 21C0 16.5817 3.58172 13 8 13C12.4183 13 16 16.5817 16 21H14C14 17.6863 11.3137 15 8 15C4.68629 15 2 17.6863 2 21H0ZM8 12C4.685 12 2 9.315 2 6C2 2.685 4.685 0 8 0C11.315 0 14 2.685 14 6C14 9.315 11.315 12 8 12ZM8 10C10.21 10 12 8.21 12 6C12 3.79 10.21 2 8 2C5.79 2 4 3.79 4 6C4 8.21 5.79 10 8 10Z'
-              />
+              <path d='M0 21C0 16.5817 3.58172 13 8 13C12.4183 13 16 16.5817 16 21H14C14 17.6863 11.3137 15 8 15C4.68629 15 2 17.6863 2 21H0ZM8 12C4.685 12 2 9.315 2 6C2 2.685 4.685 0 8 0C11.315 0 14 2.685 14 6C14 9.315 11.315 12 8 12ZM8 10C10.21 10 12 8.21 12 6C12 3.79 10.21 2 8 2C5.79 2 4 3.79 4 6C4 8.21 5.79 10 8 10Z' />
             </Svg>
             <Input
               type='text'
@@ -150,9 +154,7 @@ function RegisterPopUp({ isError, ...props }: AuthPopUpProps) {
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
             >
-              <path
-                d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z'
-              />
+              <path d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z' />
             </Svg>
             <Input
               type='text'
@@ -172,9 +174,7 @@ function RegisterPopUp({ isError, ...props }: AuthPopUpProps) {
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
             >
-              <path
-                d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z'
-              />
+              <path d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z' />
             </Svg>
             <Input
               type='text'
@@ -187,9 +187,12 @@ function RegisterPopUp({ isError, ...props }: AuthPopUpProps) {
 
           <ButtonFirst
             value={'Создать аккаунт'}
-            onSubmit={handlePostData}
+            onClick={handlePostDataAccount}
           />
-          <ButtonSecond value={'У меня есть пароль'} />
+          <ButtonSecond
+            value={'У меня есть пароль'}
+            onClick={handleClickAuth}
+          />
         </Modal>
       </WrapperAuth>
     </PopUpSample>
