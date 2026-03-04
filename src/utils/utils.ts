@@ -1,4 +1,4 @@
-import { IMoviesByGenre } from '../types/types';
+import { IMoviesByGenre, IMovie } from '../types/types';
 
 const translate = (genre: string) => {
   switch (genre) {
@@ -53,12 +53,38 @@ const getFromJsonToObj = (dataJSON: string): IMoviesByGenre[] => {
   return moviesByGenre;
 };
 
+const getFromJsonToMovies = (dataJSON: string): IMovie[] => {
+  const movies = JSON.parse(dataJSON);
+
+  return movies;
+};
+
 const getRandomItem = (arr: string[]) => {
   return arr[Math.floor(Math.random() * arr.length)];
+};
+
+const getRandomMovie = (movies: IMovie[]) => {
+  return movies[Math.floor(Math.random() * movies.length)];
 };
 
 const getGenresUrl = (arr: IMoviesByGenre[]): string[] => {
   return arr.filter((film) => film.backdropUrl).map((film) => film.backdropUrl);
 };
 
-export { translate, getFromJsonToObj, getRandomItem, getGenresUrl };
+const runToHoursAndMin = (runtime: number) => {
+  const hours = Math.floor(runtime / 60);
+  const min = runtime % 60;
+
+   const result  = `${hours} ч ${min} мин `;
+   return result;
+};
+
+export {
+  translate,
+  getFromJsonToObj,
+  getRandomItem,
+  getGenresUrl,
+  getRandomMovie,
+  getFromJsonToMovies,
+  runToHoursAndMin
+};

@@ -33,27 +33,31 @@ const IconCount = styled.span`
   font-size: 24px;
   line-height: 133%;
   color: #6a5dc2;
-`
+`;
 type FilmProps = {
   film: IMovie;
-  count: number
+  count: number;
+  onClickCardFilm: () => void;
 };
 
-
-
-function Film({ film, count }: FilmProps) {
-  const { posterUrl } = film;
+function Film({ film, count, onClickCardFilm }: FilmProps) {
+  const handleClickCardFilm = () => {
+    onClickCardFilm();
+  };
 
   return (
-    <TopItemItem className='top-10__item card'>
-      <TopItemImg
-        className='card__img'
-        src={posterUrl}
-      />
-      <TopItemImgIcon className='card__icon'>
-        <IconCount className='card__count'>{count}</IconCount>
-      </TopItemImgIcon>
-    </TopItemItem>
+      <TopItemItem
+        className='top-10__item card'
+        onClick={handleClickCardFilm}
+      >
+        <TopItemImg
+          className='card__img'
+          src={film.posterUrl}
+        />
+        <TopItemImgIcon className='card__icon'>
+          <IconCount className='card__count'>{count}</IconCount>
+        </TopItemImgIcon>
+      </TopItemItem>
   );
 }
 

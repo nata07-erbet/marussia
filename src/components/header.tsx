@@ -60,7 +60,7 @@ function Header({ isUserPage, username, onClickAuth}: HeaderProps) {
       <HeaderComp className='page-header'>
         <div className='page-header__ wrapper wrapper'>
           <HeaderContainer className='page-header__container'>
-            <Logo className='page-header__logo'>
+            <Logo className='page-header__logo' href={AppRoutes.Main}>
               <img src='/assets/marussia-white.png' />
             </Logo>
             <nav className='page-header__nav header-navigation'>
@@ -76,7 +76,7 @@ function Header({ isUserPage, username, onClickAuth}: HeaderProps) {
                     <li className='nav-list__item'>
                       <LinkNav
                         className={classNavItem}
-                        to={nav.to}
+                        href={nav.to}
                       >
                         {nav.name}
                       </LinkNav>

@@ -6,6 +6,12 @@ import { Header } from '../components/header';
 import { AuthPopUp } from '../components/pop-up/auth-pop-up';
 import { RegisterPopUp } from '../components/pop-up/register-pop-up';
 import { SuccessPopUp } from '../components/pop-up/success-pop-up';
+import {  getFromJsonToMovies, getRandomMovie, getRandomItem, runToHoursAndMin } from '../utils/utils';
+import { IMovie } from '../types/types';
+import { moviesJSON } from '../mocks/movies';
+import { useNavigate } from 'react-router';
+import { Trailer } from '../components/trailer';
+
 
 const PageMain = styled.main`
   display: block;
@@ -59,6 +65,7 @@ const Description = styled.p`
 const Rating = styled.li`
   position: relative;
   display: flex;
+  align-items: center;
   border-radius: 16px;
   padding: 4px 12px;
   width: 70px;
@@ -79,6 +86,7 @@ const ButtonContainer = styled.div`
   align-content: center;
   align-items: center;
   gap: 16px;
+  margin-top: 60px;
 `;
 
 const Button = styled.button<{ $film?: boolean }>`
@@ -138,9 +146,26 @@ const FilmsWrapper = styled.div`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
+ const [ movie, setMovie ] = useState<IMovie | null>(null);
+ const navigate = useNavigate();
+
+  const moviesMock = getFromJsonToMovies(moviesJSON);
+  const movieRandomMock = getRandomMovie(moviesMock);
+
   const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
+
+
+  const handleRestartPage = () => {
+    // запрос случайного фильма по API
+    setMovie(movieRandomMock);
+  };
+
+  const handleClickToFilmPage = () => {
+    const href = `/film/${movieRandomMock.id}`
+    navigate(href)
+  };
 
   const handleClosePopUpAuth = () => {
     setIsShowPopUpAuth(false);
@@ -207,32 +232,36 @@ function MainPage({ ...props }: MainPageProps) {
                         />
                       </Star>
                       <RatingValue className='list__item-value'>
-                        7,5
+                        {movieRandomMock.tmdbRating}
                       </RatingValue>
                     </Rating>
 
-                    <li className='list__item'>1979</li>
-                    <li className='list__item'>детектив</li>
-                    <li className='list__item'>1 ч 7 мин</li>
+                    <li className='list__item'>{movieRandomMock.relaseYear}</li>
+                    <li className='list__item'>{getRandomItem(movieRandomMock.genres)}</li>
+                    <li className='list__item'>{runToHoursAndMin(movieRandomMock.runtime)}</li>
                   </List>
                 </div>
                 <Title className='film-random__title'>
-                  Шерлок Холмс и доктор Ватсон: Знакомство
+                  {movieRandomMock.title}
                 </Title>
                 <Description className='film-random__description'>
-                  Увлекательные приключения самого известного сыщика всех времен
+                  {movieRandomMock.plot}
                 </Description>
                 <ButtonContainer className='film-random__button button-action'>
-                  <Button className='button-action__item button-action__item--modal-trailer'>
+                  <Button 
+                    className='button-action__item button-action__item--modal-trailer'                  >
                     Трейлер
                   </Button>
                   <Button
                     $film
                     className='button-action__item button-action__item--about'
+                    onClick={handleClickToFilmPage}
                   >
                     О фильме
                   </Button>
-                  <ButtonIcon className='button-action__item button-action__item--favorites'>
+                  <ButtonIcon 
+                    className='button-action__item button-action__item--favorites'
+                    >
                     <Icon
                       width='20'
                       height='19'
@@ -246,7 +275,11 @@ function MainPage({ ...props }: MainPageProps) {
                       />
                     </Icon>
                   </ButtonIcon>
-                  <ButtonIcon className='button-action__item button-action__item--about'>
+                  <ButtonIcon 
+                    className='button-action__item button-action__item--restart'
+                    onClick={handleRestartPage}
+                    
+                    >
                     <Icon
                       width='24'
                       height='24'
@@ -265,7 +298,9 @@ function MainPage({ ...props }: MainPageProps) {
               <div className='film-random__image random-picture'>
                 <img
                   className='random-picture__img'
-                  src='/assets/image.png'
+                  src={movieRandomMock.posterUrl}
+                  width='552px'
+                  height='680px'
                 />
               </div>
             </FilmWrapper>
@@ -274,8 +309,9 @@ function MainPage({ ...props }: MainPageProps) {
             <TitleTop>Топ 10 фильмов</TitleTop>
             <FilmsWrapper className='top-10__wrapper'>
               <FilmsList />
-            </FilmsWrapper>
+            </FilmsWrapper>s
           </SectionTop>
+          <Trailer posterUrl={movieRandomMock.posterUrl} />
           <AuthPopUp
             isActive={isShowPopUpAuth}
             onClose={handleClosePopUpAuth}
