@@ -10,7 +10,7 @@ import {  getFromJsonToMovies, getRandomMovie, getRandomItem, runToHoursAndMin }
 import { IMovie } from '../types/types';
 import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
-import { Trailer } from '../components/trailer';
+import { Trailer } from '../components/trailer/trailer';
 
 
 const PageMain = styled.main`
@@ -311,8 +311,8 @@ function MainPage({ ...props }: MainPageProps) {
               <FilmsList />
             </FilmsWrapper>s
           </SectionTop>
-          <Trailer posterUrl={movieRandomMock.posterUrl} />
-          <AuthPopUp
+          <Trailer  url={movieRandomMock.trailerUrl} posterUrl={movieRandomMock.posterUrl} title={movieRandomMock.title} />
+          <AuthPopUp 
             isActive={isShowPopUpAuth}
             onClose={handleClosePopUpAuth}
             onClickEnter={handleClickEnter}
