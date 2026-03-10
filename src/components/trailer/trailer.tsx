@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TrailerLoading } from './trailer-loading';
 
@@ -85,11 +85,33 @@ type TrailerProps = {
 };
 
 function Trailer({ url, posterUrl, title }: TrailerProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const video = videoRef.current;
+
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+
 
   const isLoading = false;
 
+  const handlePlayVideo = () => {
+    video && video.play();
+
+    setIsPlaying(true);
+    setIsPaused(false);
+
+    alert('play');
+  };
+
+  const handlePauseVideo = () => {
+    video && video.pause();
+
+    setIsPlaying(false);
+    setIsPaused(true);
+
+    alert('pause');
+  };
+  
   return (
     <Wrapper>
       <Wr className='wrapper'>
@@ -98,6 +120,9 @@ function Trailer({ url, posterUrl, title }: TrailerProps) {
         ) : (
           <Preview className='preview'>
             <Video
+              ref={videoRef}
+              onPlay={handlePlayVideo}
+              onPause={handlePauseVideo}
               autoPlay
               src={url}
               poster={posterUrl}
