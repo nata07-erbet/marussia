@@ -12,10 +12,11 @@ import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
 
-const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
-const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
+// const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
+// const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
 
 const PageMain = styled.main`
+  position: relative
   display: block;
   width: 1440px;
   height: 100%;
@@ -157,6 +158,7 @@ function MainPage({ ...props }: MainPageProps) {
   const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
+  const [isShowTailer, setIsShowTailer] = useState(false);
 
 
   const handleRestartPage = () => {
@@ -204,6 +206,14 @@ function MainPage({ ...props }: MainPageProps) {
     alert('post registration');
   };
 
+  const handleOpenTrailer = () => {
+    setIsShowTailer(true);
+  };
+
+  const handleCloseTrailer = () => {
+    setIsShowTailer(false)
+  }
+
   return (
     <SamplePage {...props}>
       <Header
@@ -215,6 +225,8 @@ function MainPage({ ...props }: MainPageProps) {
       <PageMain className='page-main'>
         <h1 className='page-main__title visually-hidden'>Главная страница</h1>
         <div className='page-main__wrapper wrapper'>
+        <Trailer  isActive={isShowTailer} url={`${movieRandomMock.trailerUrl}autoplay=1&mute=1`} posterUrl={movieRandomMock.posterUrl} title={movieRandomMock.title} onClose={handleCloseTrailer}
+          />
           <section className='film-random'>
             <FilmWrapper className='film-random__wrapper'>
               <FilmContent className='film-random__content'>
@@ -251,7 +263,7 @@ function MainPage({ ...props }: MainPageProps) {
                 </Description>
                 <ButtonContainer className='film-random__button button-action'>
                   <Button 
-                    className='button-action__item button-action__item--modal-trailer'                  >
+                    className='button-action__item button-action__item--modal-trailer' onClick={handleOpenTrailer}>
                     Трейлер
                   </Button>
                   <Button
@@ -313,7 +325,6 @@ function MainPage({ ...props }: MainPageProps) {
               <FilmsList />
             </FilmsWrapper>s
           </SectionTop>
-          <Trailer  url={trailerUrl} posterUrl={movieRandomMock.posterUrl} title={movieRandomMock.title} />
           <AuthPopUp 
             isActive={isShowPopUpAuth}
             onClose={handleClosePopUpAuth}

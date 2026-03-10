@@ -1,8 +1,11 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TrailerLoading } from './trailer-loading';
+import classNames from 'classnames';
 
 const Wrapper = styled.div`
+  position: absolute;
+  z-index: 1000;
   padding: 160px 80px;
   width: 1440px;
   height: 1000px;
@@ -89,20 +92,34 @@ type TrailerProps = {
   url: string;
   posterUrl: string;
   title: string;
+  isActive: boolean;
+  onClose: () => void;
 };
 
-function Trailer({ url, posterUrl, title }: TrailerProps) {
+function Trailer({ url, posterUrl, title, isActive, onClose }: TrailerProps) {
+  const classTrailer = classNames({
+    'trailer-active': isActive,
+  'visually-hidden': !isActive
+
+  });
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
   const isLoading = false;
 
   const handleToggleVideo = () => {
-    setIsPlaying(true)
+    if(!isPlaying) {
+      setIsPlaying(true);
+      setIsPaused(false);
+    } else if (isPlaying) {
+      setIsPlaying(false);
+      setIsPaused(true);
+    }
   };
-
+  
   return (
-    <Wrapper>
+    <Wrapper className={classTrailer}>
       <Wr className='wrapper'>
         {isLoading ? (
           <TrailerLoading />
@@ -158,7 +175,7 @@ function Trailer({ url, posterUrl, title }: TrailerProps) {
             )}
           </Preview>
         )}
-        <Close>
+        <Close onClick={onClose}>
           <svg
             width='19'
             height='19'
