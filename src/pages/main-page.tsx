@@ -12,6 +12,8 @@ import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
 
+const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
+const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
 
 const PageMain = styled.main`
   display: block;
@@ -311,7 +313,7 @@ function MainPage({ ...props }: MainPageProps) {
               <FilmsList />
             </FilmsWrapper>s
           </SectionTop>
-          <Trailer  url={movieRandomMock.trailerUrl} posterUrl={movieRandomMock.posterUrl} title={movieRandomMock.title} />
+          <Trailer  url={trailerUrl} posterUrl={movieRandomMock.posterUrl} title={movieRandomMock.title} />
           <AuthPopUp 
             isActive={isShowPopUpAuth}
             onClose={handleClosePopUpAuth}

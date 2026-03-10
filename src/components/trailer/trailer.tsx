@@ -24,9 +24,16 @@ const Preview = styled.div`
   height: 540px;
 `;
 
-const Video = styled.video`
-  width: 100%;
-  height: 100%;
+const IFrame = styled.iframe`
+  width: 960px;
+  height: 540px;
+`;
+const Image = styled.img`
+  position: absolute;
+  top: -50%;
+  transform: translateY(50%);
+  width: 960px;
+  height: 540px;
   object-fit: cover;
 `;
 
@@ -85,52 +92,34 @@ type TrailerProps = {
 };
 
 function Trailer({ url, posterUrl, title }: TrailerProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const video = videoRef.current;
-
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-
 
   const isLoading = false;
 
-  const handlePlayVideo = () => {
-    video && video.play();
-
-    setIsPlaying(true);
-    setIsPaused(false);
-
-    alert('play');
+  const handleToggleVideo = () => {
+    setIsPlaying(true)
   };
 
-  const handlePauseVideo = () => {
-    video && video.pause();
-
-    setIsPlaying(false);
-    setIsPaused(true);
-
-    alert('pause');
-  };
-  
   return (
     <Wrapper>
       <Wr className='wrapper'>
         {isLoading ? (
           <TrailerLoading />
         ) : (
-          <Preview className='preview'>
-            <Video
-              ref={videoRef}
-              onPlay={handlePlayVideo}
-              onPause={handlePauseVideo}
-              autoPlay
+          <Preview
+            className='preview'
+            onClick={handleToggleVideo}
+          >
+            <IFrame
               src={url}
-              poster={posterUrl}
-              width='960px'
-              height='540px'
+              title={title}
+              allow='autoplay'
+              allowFullScreen
             />
             {!isPlaying && (
               <>
+                <Image src={posterUrl} />
                 <TitleWrapper className='title-trailer'>
                   <Title className='title'>{title}</Title>
                 </TitleWrapper>
