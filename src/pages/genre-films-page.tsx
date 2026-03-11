@@ -1,12 +1,13 @@
 import React from 'react';
 import { SamplePage, SamplePageProps } from './sample-page';
-import { GenreFilmsList } from '../components/genge-films-list';
+import { GenreFilmsList } from '../components/genre-films-list';
 import styled from 'styled-components';
 import { Header } from '../components/header';
 import { useParams } from 'react-router';
-import { title } from 'process';
 
-type GenreFilmsPageProps = SamplePageProps & {};
+type GenreFilmsPageProps = SamplePageProps & {
+  
+};
 
 const TitleOfGenre = styled.h2`
   position: relative;
@@ -48,7 +49,7 @@ function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
   
   return (
     <SamplePage {...props}>
-      <Header isUserPage={false} username={''} isActiveIndex={false} />
+      <Header isUserPage={false} username={''}/>
       <section className='genre-films'>
         <IconTitle
           width='13'
@@ -65,7 +66,7 @@ function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
         <TitleOfGenre className='genre-films__title'>
           {params.genre}
         </TitleOfGenre>
-        <GenreFilmsList />
+        <GenreFilmsList genre={params.genre} />
         <WrapperButton>
         <Button
           className='genre-films'

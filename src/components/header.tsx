@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, useLocation } from 'react-router';
+import {  useLocation } from 'react-router';
 import { AppRoutes, NavMap } from '../const/const';
 import { Search } from './search';
 import classNames from 'classnames';
-import { SearchList } from './search-list';
+
 
 const HeaderComp = styled.header`
   height: 96px;
@@ -43,7 +43,6 @@ const LinkNav = styled.a`
 type HeaderProps = {
   isUserPage: boolean;
   username: string;
-  isActiveIndex: boolean;
   onClickAuth: () => void;
 };
 
@@ -69,8 +68,8 @@ function Header({ isUserPage, username, onClickAuth}: HeaderProps) {
                   const classNavItem = classNames({
                     'nav-list__item-link': true,
                     active:
-                      location.pathname === nav.to ||
-                      location.pathname.startsWith(`${nav.to}/`)
+                      (location.pathname === nav.to || 
+                      location.pathname.startsWith(`${nav.to}/`)) 
                   });
                   return (
                     <li className='nav-list__item'>

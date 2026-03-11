@@ -23,10 +23,14 @@ const FilmsWrapper = styled.div`
 type GenresProps = SamplePageProps & {};
 
 function Genres({ ...props }: GenresProps) {
+
+  const handleClickAuth = () => {
+
+  };
   
   return (
     <SamplePage {...props}>
-      <Header isUserPage={false} username={''} isActiveIndex={false} />
+      <Header isUserPage={false} username={''} onClickAuth={handleClickAuth}/>
       <Wrapper className='top-10'>
         <Title>Жанры фильмов</Title>
         <FilmsWrapper className='top-10__wrapper'>

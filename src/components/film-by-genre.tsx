@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { IMoviesByGenre } from '../types/types';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 
 type FilmByGenreProps = {
   filmByGenre: IMoviesByGenre;
+  hrefFilmPage: string
 };
 
 const FilmByGenreEl = styled.li`
@@ -22,10 +24,8 @@ const Poster = styled.img`
 `;
 
 
-function FilmByGenre({ filmByGenre }: FilmByGenreProps) {
+function FilmByGenre({ filmByGenre, hrefFilmPage  }: FilmByGenreProps) {
   const { posterUrl, id } = filmByGenre;
-
-  const hrefFilmPage = `/film/${id}`;
 
   return (
     <FilmByGenreEl>

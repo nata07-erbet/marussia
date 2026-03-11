@@ -189,7 +189,6 @@ function FilmPage(props: FilmPageProps) {
       <Header
         isUserPage={false}
         username={''}
-        isActiveIndex={true}
         onClickAuth={handleClickAuth}
       />
       {movie && (

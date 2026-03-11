@@ -1,5 +1,5 @@
 import React from 'react';
-import { GenreFilmsList } from '../components/genge-films-list';
+import { GenreFilmsList } from '../components/genre-films-list';
 import { SamplePage, SamplePageProps } from './sample-page';
 import styled from 'styled-components';
 import { Header } from '../components/header';

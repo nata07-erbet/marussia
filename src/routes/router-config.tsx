@@ -21,7 +21,7 @@ const routerConfig = [
     element: <GenreFilmsPage />,
   },
   {
-    path: AppRoutes.Film,
+    path: 'genres/:genre/film/:filmId',
     element: <FilmPage />,
   },
   {

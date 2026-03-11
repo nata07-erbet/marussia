@@ -17,7 +17,6 @@ const FilmsListEl = styled.ul`
 
 function FilmsList() {
   const navigate = useNavigate();
-  
   const films = getFromJsonToMovies(moviesJSON);
 
   return (
@@ -28,7 +27,7 @@ function FilmsList() {
           film={film}
           count={films.indexOf(film) + 1} 
           onClickCardFilm={() => {
-            navigate(`/film/${film.id}`);
+            navigate(`/genres/${film.genres[0]&&film.genres[1]}/film/${film.id}`);
           }}       
         />
       ))}

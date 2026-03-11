@@ -167,7 +167,7 @@ function MainPage({ ...props }: MainPageProps) {
   };
 
   const handleClickToFilmPage = () => {
-    const href = `/film/${movieRandomMock.id}`
+    const href = `/genres/${movieRandomMock.genres[0]}/film/${movieRandomMock.id}`
     navigate(href)
   };
 
@@ -219,7 +219,6 @@ function MainPage({ ...props }: MainPageProps) {
       <Header
         isUserPage={false}
         username={''}
-        isActiveIndex={false}
         onClickAuth={handleClickAuth}
       />
       <PageMain className='page-main'>

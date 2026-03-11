@@ -12,12 +12,14 @@ const GenreFilmsListEl = styled.ul`
     flex-wrap: wrap;
     padding-left: 0;
 `;
-
-function GenreFilmsList() {
+type GenreFilmsListProps  = {
+  genre?: string | undefined
+}
+function GenreFilmsList({genre}: GenreFilmsListProps) {
   return (
     <GenreFilmsListEl> 
-        {filmsByGenre.map((film) =>(
-            <FilmByGenre filmByGenre={film} />
+        {filmsByGenre.map((film, genre) =>(
+            <FilmByGenre filmByGenre={film} hrefFilmPage={`film/${film.id}`}  />
         ))}
     </GenreFilmsListEl>
   );
