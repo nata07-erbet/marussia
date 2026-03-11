@@ -1,4 +1,4 @@
-import { IMoviesByGenre, IMovie } from '../types/types';
+import { IMoviesByGenre, IMovie, IUser } from '../types/types';
 
 const translate = (genre: string) => {
   switch (genre) {
@@ -59,6 +59,12 @@ const getFromJsonToMovies = (dataJSON: string): IMovie[] => {
   return movies;
 };
 
+const getFromJsonToUser = (dataJSON: string): IUser => {
+  const user = JSON.parse(dataJSON);
+
+  return user;
+};
+
 const getRandomItem = (arr: string[]) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
@@ -86,5 +92,6 @@ export {
   getGenresUrl,
   getRandomMovie,
   getFromJsonToMovies,
-  runToHoursAndMin
+  runToHoursAndMin, 
+  getFromJsonToUser
 };

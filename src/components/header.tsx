@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {  useLocation } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { AppRoutes, NavMap } from '../const/const';
 import { Search } from './search';
 import classNames from 'classnames';
