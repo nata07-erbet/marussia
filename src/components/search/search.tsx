@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SearchList } from './search-list';
 import { moviesJSON } from '../../mocks/movies';
 import { getFromJsonToMovies } from '../../utils/utils';
 
-const SearchWrapper  = styled.div`
+const SearchWrapper = styled.div`
   position: relative;
 `;
 
@@ -42,9 +42,19 @@ const InputSearch = styled.input`
 
 const films = getFromJsonToMovies(moviesJSON);
 
-//пусть поиск отображается от
+//пусть поиск отображается от 3-х символов
 
 function Search() {
+  const [str, setStr] = useState('');
+
+  const handleClickInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setStr(evt.target.value);
+  };
+
+  const sortedFilmsByInput = films.filter((film) =>
+    film.title.toLocaleLowerCase().includes(str.toLocaleLowerCase())
+  );
+
   return (
     <SearchWrapper>
       <form
@@ -62,6 +72,8 @@ function Search() {
             name='search-input-name'
             id='search-input-id'
             placeholder='Поиск'
+            value={str}
+            onChange={handleClickInput}
           />
           <ButtonSearch
             className='search__button'
@@ -83,7 +95,10 @@ function Search() {
           </ButtonSearch>
         </Label>
       </form>
-      <SearchList sortedFilms={films}/>
+      <SearchList
+        sortedFilms={sortedFilmsByInput}
+        str={str}
+      />
     </SearchWrapper>
   );
 }

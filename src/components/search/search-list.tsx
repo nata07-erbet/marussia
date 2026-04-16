@@ -3,6 +3,7 @@ import { IMovie } from '../../types/types';
 import { SearchComponent } from './search-component';
 import styled from 'styled-components';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router';
 
 const SearchContainer = styled.ul`
   position: absolute;
@@ -18,21 +19,29 @@ const SearchContainer = styled.ul`
 
 type SearchListProps = {
   sortedFilms: IMovie[];
+  str: string;
 };
 
-function SearchList({ sortedFilms }: SearchListProps) {
-  const isListActive = true;
-  
+function SearchList({ sortedFilms, str }: SearchListProps) {
+  const navigate = useNavigate();
+
+  const isListActive = str && str.length >= 3 ? true : false;
+
   const classIsVisually = classNames({
     'search-list': true,
     'list-reset': true,
     'visually-hidden': !isListActive
   });
 
+
   return (
     <SearchContainer className={classIsVisually}>
       {sortedFilms.map((film) => (
-        <SearchComponent film={film} />
+        <SearchComponent
+          film={film}
+          key={film.id}
+          onClickToFilm={(id) => navigate(`/genres/${film.genres[0]&&film.genres[1]}/film/${film.id}`)}
+        />
       ))}
     </SearchContainer>
   );

@@ -64,10 +64,16 @@ const Svg = styled.svg`
 
 type SearchComponentProps = {
   film: IMovie;
+  onClickToFilm: (id: IMovie['id']) => void;
 };
-function SearchComponent({ film }: SearchComponentProps) {
+
+function SearchComponent({ film, onClickToFilm }: SearchComponentProps) {
+  const handleClickToFilm = (id: IMovie['id']) => {
+    onClickToFilm(id);
+  };
+  
   return (
-    <Item className='search-item'>
+    <Item className='search-item' onClick={() => handleClickToFilm(film.id)}>
       <ItemWrapper className='search-item__wrapper'>
         <img
           className='search-item__img'
