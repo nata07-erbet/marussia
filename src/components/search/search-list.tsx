@@ -1,7 +1,8 @@
 import React from 'react';
-import { IMovie } from '../types/types';
+import { IMovie } from '../../types/types';
 import { SearchComponent } from './search-component';
 import styled from 'styled-components';
+import classNames from 'classnames';
 
 const SearchContainer = styled.ul`
   position: absolute;
@@ -20,10 +21,18 @@ type SearchListProps = {
 };
 
 function SearchList({ sortedFilms }: SearchListProps) {
+  const isListActive = true;
+  
+  const classIsVisually = classNames({
+    'search-list': true,
+    'list-reset': true,
+    'visually-hidden': !isListActive
+  });
+
   return (
-    <SearchContainer className='search-list list-reset visually-hidden'>
+    <SearchContainer className={classIsVisually}>
       {sortedFilms.map((film) => (
-        <SearchComponent film={film}/>
+        <SearchComponent film={film} />
       ))}
     </SearchContainer>
   );

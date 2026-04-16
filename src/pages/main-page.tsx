@@ -272,7 +272,7 @@ const isAuth = true; //берем из состояния
                         />
                       </Star>
                       <RatingValue className='list__item-value'>
-                        {movieRandomMock.tmdbRating}
+                        {Math.ceil(movieRandomMock.tmdbRating * 100) / 100}
                       </RatingValue>
                     </Rating>
 

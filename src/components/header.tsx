@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router';
 import { AppRoutes, NavMap } from '../const/const';
-import { Search } from './search';
+import { Search } from './search/search';
 import classNames from 'classnames';
 
 
