@@ -85,6 +85,23 @@ const runToHoursAndMin = (runtime: number) => {
    return result;
 };
 
+const buildNewURL = (trailerUrl: string) => {
+  //https://www.youtube.com/watch?v=VIDEO_ID `${movie.trailerUrl}autoplay=1&mute=1`
+  // https://www.youtube.com/embed/VIDEO_ID
+    const BASE_URL = 'https://www.youtube.com';
+    const EMBED = 'embed';
+    const newUrl = new URL (trailerUrl);
+    const videoId = newUrl.searchParams.get('v');
+
+    if (!videoId) return trailerUrl;
+
+    const embedURL = new URL(`${BASE_URL}/${EMBED}/${videoId}`);
+    embedURL.searchParams.set('autoplay', '1');
+    embedURL.searchParams.set('mute', '1');
+
+    return embedURL.toString();
+  };
+
 export {
   translate,
   getFromJsonToObj,
@@ -93,5 +110,6 @@ export {
   getRandomMovie,
   getFromJsonToMovies,
   runToHoursAndMin, 
-  getFromJsonToUser
+  getFromJsonToUser,
+  buildNewURL
 };

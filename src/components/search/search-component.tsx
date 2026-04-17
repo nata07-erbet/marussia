@@ -39,7 +39,7 @@ const Title = styled.div`
   color: #fff;
 `;
 
-const Rating = styled.li`
+const Rating = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -91,7 +91,7 @@ function SearchComponent({ film, onClickToFilm }: SearchComponentProps) {
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
               >
-                <g clip-path='url(#clip0_178445_1650)'>
+                <g clipPath='url(#clip0_178445_1650)'>
                   <path
                     d='M5.00041 7.60831L2.06148 9.2534L2.71786 5.94994L0.245117 3.66323L3.58972 3.26667L5.00041 0.208313L6.41108 3.26667L9.75566 3.66323L7.28295 5.94994L7.93933 9.2534L5.00041 7.60831Z'
                     fill='white'

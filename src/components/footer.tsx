@@ -11,6 +11,8 @@ const SocialList = styled.ul`
   gap: 24px;
   margin-right: 120px;
   list-style-type: none;
+  padding:0;
+  list-style: none;
 
 `;
 
@@ -34,7 +36,7 @@ function Footer() {
   return (
     <FooterEl className='page-footer'>
       <Wrapper className='page-footer__wrapper wrapper'>
-        <SocialList className='page-footer__social social-SocialItemst' list-reset>
+        <SocialList className='page-footer__social social-SocialItemst'>
           <SocialItem className='social-SocialItemst__item'>
             <svg
               width='19'

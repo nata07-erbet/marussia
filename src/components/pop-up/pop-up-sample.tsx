@@ -26,11 +26,11 @@ const ButtonClose = styled.button`
     height: 48px;   
     background: #fff;
 `;
-const ContentPopUp = styled.div`{
+const ContentPopUp = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-}`;
+`;
 
 type PopUpSampleProps  = PropsWithChildren<{
   isActive: boolean;

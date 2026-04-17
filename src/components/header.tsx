@@ -72,7 +72,7 @@ function Header({ isUserPage, username, onClickAuth}: HeaderProps) {
                       location.pathname.startsWith(`${nav.to}/`)) 
                   });
                   return (
-                    <li className='nav-list__item'>
+                    <li className='nav-list__item' key={nav.name}>
                       <LinkNav
                         className={classNavItem}
                         href={nav.to}

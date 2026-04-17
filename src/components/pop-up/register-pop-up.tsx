@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PopUpSample, PopUpSampleProps } from './pop-up-sample';
 import styled from 'styled-components';
 import { ButtonFirst } from '../button-first';
@@ -73,10 +73,38 @@ function RegisterPopUp({
     onClickPostDataAccount();
   };
 
+  const [emailInput, setEmailInput ] = useState('');
+  const [ nameInput, setNameInput ] = useState('');
+  const [ surnameInput, setSurnameInput ] = useState('');
+  const [ passwordInput, setPasswordInput ] = useState('');
+  const [ passwordInputTwice, setPasswordInputTwice] = useState('');
+
+  const handleEmailInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailInput(evt.target.value);
+  };
+
+  const handleNameInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setNameInput(evt.target.value);
+  };
+
+  const handleSurnameInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setSurnameInput(evt.target.value);
+  };
+  
+  const handlePasswordInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordInput(evt.target.value);
+  };
+
+  const handlePasswordInputTwice = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordInputTwice(evt.target.value);
+  };
+  
+
   const handleClickAuth = () => {
     onClickAuth();
   };
-
+  
+  
   return (
     <PopUpSample {...props}>
       <WrapperAuth>
@@ -100,8 +128,10 @@ function RegisterPopUp({
               type='text'
               name='email'
               id='email'
-              value=''
+              value={emailInput}
+              onChange={handleEmailInput}
               placeholder='Электронная почта'
+
             ></Input>
           </Label>
 
@@ -120,8 +150,10 @@ function RegisterPopUp({
               type='text'
               name='name'
               id='name'
-              value=''
+              value={nameInput}
+              onChange={handleNameInput}
               placeholder='Имя'
+
             ></Input>
           </Label>
 
@@ -140,7 +172,8 @@ function RegisterPopUp({
               type='text'
               name='surname'
               id='surname'
-              value=''
+              value={surnameInput}
+              onChange={handleSurnameInput}
               placeholder='Фамилия'
             ></Input>
           </Label>
@@ -160,7 +193,8 @@ function RegisterPopUp({
               type='text'
               name='password'
               id='password'
-              value=''
+              value={passwordInput}
+              onChange={handlePasswordInput}
               placeholder='Пароль'
             ></Input>
           </Label>
@@ -180,7 +214,8 @@ function RegisterPopUp({
               type='text'
               name='enter-password'
               id='enter-password'
-              value=''
+              value={passwordInputTwice}
+              onChange={handlePasswordInputTwice}
               placeholder='Подтвердите пароль'
             ></Input>
           </Label>

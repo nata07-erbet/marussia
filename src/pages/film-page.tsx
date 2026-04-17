@@ -8,7 +8,8 @@ import { moviesJSON } from '../mocks/movies';
 import {
   getRandomItem,
   runToHoursAndMin,
-  getFromJsonToMovies
+  getFromJsonToMovies,
+  buildNewURL
 } from '../utils/utils';
 import { Trailer } from '../components/trailer/trailer';
 
@@ -196,7 +197,7 @@ function FilmPage(props: FilmPageProps) {
           <section className='film'>
             <Trailer
               isActive={isShowTailer}
-              url={`${movie.trailerUrl}autoplay=1&mute=1`}
+              url={buildNewURL(movie.trailerUrl)}
               posterUrl={movie.posterUrl}
               title={movie.title}
               onClose={handleCloseTrailer}
