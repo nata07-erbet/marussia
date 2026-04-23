@@ -18,12 +18,12 @@ color: #fff;
 
 type ButtonProps = {
     value: string;
-    onClick: () => void;
+    onClick?: () => void;
 };
 
 function ButtonFirst ({ value, onClick }: ButtonProps) {
     const handleClick = () => {
-        onClick();
+        onClick?.();
     }
     return(
         <ButtonEl type ='submit' onClick={handleClick}>{value}</ButtonEl>

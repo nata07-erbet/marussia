@@ -25,7 +25,6 @@ import { userJSON } from '../mocks/user';
 const PageMain = styled.main`
   position: relative
   display: block;
-  width: 1440px;
   height: 100%;
 `;
 
@@ -168,7 +167,7 @@ const isAuth = true; //берем из состояния
   const movieRandomMock = getRandomMovie(moviesMock);
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
+  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(true);
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
   const [isShowTailer, setIsShowTailer] = useState(false);
@@ -209,9 +208,11 @@ const isAuth = true; //берем из состояния
     setIsShowSuccessPopUp(false);
   };
 
+
+
   const handleClickEnter = () => {
-    //POST Принимает адрес почты:пароль, открывает новую пользовательскую сессию
-    alert('post auth');
+
+   handleSubmitDataInput();
   };
 
   const handlePostDataAccount = () => {
@@ -363,7 +364,6 @@ const isAuth = true; //берем из состояния
           <AuthPopUp
             isActive={isShowPopUpAuth}
             onClose={handleClosePopUpAuth}
-            onClickEnter={handleClickEnter}
             onClickRegistration={handleClickRegistration}
           />
           <RegisterPopUp

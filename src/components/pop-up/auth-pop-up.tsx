@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { PopUpSample, PopUpSampleProps } from './pop-up-sample';
 import styled from 'styled-components';
 import { ButtonFirst } from '../button-first';
 import { ButtonSecond } from '../button-second';
-
+import { useForm } from 'react-hook-form';
+//пароль минимум 8 символов хотя бы 1 буква хотя бы 1 цифра
 
 const Modal = styled.div`
   display: flex;
@@ -52,31 +54,50 @@ const Input = styled.input`
   line-height: 133%;
   color: rgba(0, 0, 0, 0.4);
 `;
+
+const ButtonEl = styled.button`
+background-color: #67a5eb;
+border: none;
+border-radius: 28px;
+margin-top: 24px;
+padding: 16px 48px;
+width: 340px;
+height: 56px;
+font-family: 'Play', sans-serif;
+font-weight: 700;
+font-size: 18px;
+line-height: 133%;
+color: #fff;
+`;
+
+const PError = styled.span`
+  font-size: 10px;
+  color: red;
+`;
+
 type AuthPopUpProps = PopUpSampleProps & {
-  onClickEnter: () => void;
   onClickRegistration: () => void;
 };
+type FormInputs = {
+  email: string,
+  password: string
+};
 
-function AuthPopUp({ onClickEnter, onClickRegistration, ...props }: AuthPopUpProps) {
-  const [ emailInput, setEmailInput ] = useState('');
-  const [ passwordInput, setPasswordInput ] = useState('');
-
-  const handleClickEnter = () => {
-    onClickEnter();
-  };
+function AuthPopUp({ onClickRegistration, ...props }: AuthPopUpProps) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors }
+  } = useForm<FormInputs>();
 
   const handleClickRegistration = () => {
     onClickRegistration();
   };
 
-
-
-  const handleChangeEmail = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailInput(evt.target.value);
-  };
-
-  const handleChangePassword = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailInput(evt.target.value);
+  const onSubmit = async(data: FormInputs) => {
+   await axios.post('https://cinemaguide.skillbox.cc/auth/login', data);
   };
 
   return (
@@ -88,60 +109,68 @@ function AuthPopUp({ onClickEnter, onClickRegistration, ...props }: AuthPopUpPro
             width='156px'
             height='35px'
           ></ImgPopUp>
-          <Label>
-            <svg
-              width='24'
-              height='24'
-              viewBox='0 0 24 24'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                d='M21 3C21.5523 3 22 3.44772 22 4V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5V4C2 3.44772 2.44772 3 3 3H21ZM8 15V17H0V15H8ZM5 10V12H0V10H5ZM19.5659 5H4.43414L12 11.8093L19.5659 5Z'
-                fill='black'
-                fillOpacity='0.4'
-              />
-            </svg>
-            <Input
-              type='text'
-              name='email'
-              id='email'
-              value={emailInput}
-              placeholder='Электронная почта'
-              onChange={handleChangeEmail}
-            ></Input>
-          </Label>
-          <Label>
-            <svg
-              width='24'
-              height='24'
-              viewBox='0 0 24 24'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z'
-                fill='black'
-                fillOpacity='0.4'
-              />
-            </svg>
-            <Input
-              type='text'
-              name='password'
-              id='password'
-              value={passwordInput}
-              placeholder='Пароль'
-              onChange={handleChangePassword}
-            ></Input>
-          </Label>
-          <ButtonFirst
-            value={'Войти'}
-            onClick={handleClickEnter}
-          />
-          <ButtonSecond 
-            value={'Регистрация'} 
-            onClick={handleClickRegistration}
-          />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Label>
+              <svg
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M21 3C21.5523 3 22 3.44772 22 4V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5V4C2 3.44772 2.44772 3 3 3H21ZM8 15V17H0V15H8ZM5 10V12H0V10H5ZM19.5659 5H4.43414L12 11.8093L19.5659 5Z'
+                  fill='black'
+                  fillOpacity='0.4'
+                />
+              </svg>
+              <Input
+                {...register('email', {
+                  required: {
+                    value: true,
+                    message: 'Введите email'
+                  },
+                  pattern: {
+                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+                    message: 'Адрес электронной почты должен содержать @'
+                  }
+                })}
+                id='email'
+                type='email'
+                placeholder='Электронная почта'
+              ></Input>
+            </Label>
+            {errors.email && (<PError>{errors.email.message}</PError>)}
+            <Label>
+              <svg
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z'
+                  fill='black'
+                  fillOpacity='0.4'
+                />
+              </svg>
+              <Input
+                {...register('password', {
+                  required: true,
+                })}
+                type='password'
+                id='password'
+                placeholder='Пароль'
+              ></Input>
+            </Label>
+            {errors.password && (<PError >{errors.password.message}</PError>)}
+            <ButtonEl type ='submit'>Войти</ButtonEl>
+            <ButtonSecond
+              value={'Регистрация'}
+              onClick={handleClickRegistration}
+            />
+          </form>
         </Modal>
       </WrapperAuth>
     </PopUpSample>

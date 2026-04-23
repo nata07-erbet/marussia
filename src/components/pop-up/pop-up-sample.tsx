@@ -4,12 +4,10 @@ import classNames from 'classnames';
 
 const PopUpWrapper = styled.div`
   position: fixed;
+  left: 40px;
   top: 0;
-  left: 17%;
-  width: 100%;
   height: 100%;
   width: 1440px;
-  height: 997px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,6 +36,17 @@ type PopUpSampleProps  = PropsWithChildren<{
 }>;
 
 function PopUpSample({ children, onClose, isActive }: PopUpSampleProps) {
+  useEffect(() => {
+    if(isActive) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    };
+
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  });
  
   const classPopUpSample = classNames({
     'pop-up-sample': true,
