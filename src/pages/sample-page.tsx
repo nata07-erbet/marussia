@@ -1,6 +1,4 @@
 import React, { ReactNode } from 'react';
-import { Header } from '../components/header';
-import { Footer } from '../components/footer';
 import styled from 'styled-components';
 
 type SamplePageProps = {
@@ -15,12 +13,9 @@ const Wrapper = styled.div`
 
 function SamplePage ({ children }: SamplePageProps ) {
   return (
-    <>
       <Wrapper>
         {children}
       </Wrapper>
-      <Footer />
-    </>
   );
 }
 

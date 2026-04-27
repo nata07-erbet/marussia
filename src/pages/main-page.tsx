@@ -155,10 +155,7 @@ const FilmsWrapper = styled.div`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
-  // /profile - получение данных о текущемм пользователе
   const user = getFromJsonToUser(userJSON);
-
-const isAuth = true; //берем из состояния
 
   const [movie, setMovie] = useState<IMovie | null>(null);
   const navigate = useNavigate();
@@ -167,10 +164,12 @@ const isAuth = true; //берем из состояния
   const movieRandomMock = getRandomMovie(moviesMock);
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(true);
+  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
   const [isShowTailer, setIsShowTailer] = useState(false);
+
+  const [isAuth, setIsAuth] = useState(false);
 
   const handleRestartPage = () => {
     // запрос случайного фильма по API
@@ -208,11 +207,12 @@ const isAuth = true; //берем из состояния
     setIsShowSuccessPopUp(false);
   };
 
-
+  const handleAuthSubmit = () => {
+    setIsShowPopUpAuth(false);
+    setIsAuth(true);
+  };
 
   const handleClickEnter = () => {
-
-   handleSubmitDataInput();
   };
 
   const handlePostDataAccount = () => {
@@ -228,7 +228,7 @@ const isAuth = true; //берем из состояния
   };
 
   const handleAddToFavorites = () => {
-    if(isAuth){
+    if (isAuth) {
       if (!isFavorite) {
         setIsFavorite(true);
       } else setIsFavorite(false);
@@ -359,11 +359,14 @@ const isAuth = true; //берем из состояния
             <FilmsWrapper className='top-10__wrapper'>
               <FilmsList />
             </FilmsWrapper>
-            s
           </SectionTop>
-          <AuthPopUp
+        </div>
+        
+      </PageMain>
+      <AuthPopUp
             isActive={isShowPopUpAuth}
             onClose={handleClosePopUpAuth}
+            onSubmit={handleAuthSubmit}
             onClickRegistration={handleClickRegistration}
           />
           <RegisterPopUp
@@ -373,13 +376,11 @@ const isAuth = true; //берем из состояния
             onClickPostDataAccount={handlePostDataAccount}
             onClickAuth={handleClickAuthReg}
           />
-        </div>
-        <SuccessPopUp
+      <SuccessPopUp
           isActive={isShowSuccessPopUp}
           onClose={handleClosePopUpSuccess}
           onClickEnter={handleClickEnter}
         />
-      </PageMain>
     </SamplePage>
   );
 }

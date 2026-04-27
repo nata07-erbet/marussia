@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { StatusCodes } from 'http-status-codes';
 import { PopUpSample, PopUpSampleProps } from './pop-up-sample';
 import styled from 'styled-components';
 import { ButtonFirst } from '../button-first';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
-//пароль минимум 8 символов хотя бы 1 буква хотя бы 1 цифра
+
 
 const Modal = styled.div`
   display: flex;
@@ -77,13 +78,15 @@ const PError = styled.span`
 
 type AuthPopUpProps = PopUpSampleProps & {
   onClickRegistration: () => void;
+  onSubmit: () => void;
 };
+
 type FormInputs = {
   email: string,
   password: string
 };
 
-function AuthPopUp({ onClickRegistration, ...props }: AuthPopUpProps) {
+function AuthPopUp({ onClickRegistration, onSubmit, ...props }: AuthPopUpProps) {
   const {
     register,
     handleSubmit,
@@ -96,9 +99,13 @@ function AuthPopUp({ onClickRegistration, ...props }: AuthPopUpProps) {
     onClickRegistration();
   };
 
-  const onSubmit = async(data: FormInputs) => {
-   await axios.post('https://cinemaguide.skillbox.cc/auth/login', data);
+  const onSubmitData = async(data: FormInputs) => {
+   const result = await axios.post('https://cinemaguide.skillbox.cc/auth/login', data);
+    if(result.status === StatusCodes.OK) {
+      onSubmit();
+    }
   };
+
 
   return (
     <PopUpSample {...props}>
@@ -109,7 +116,7 @@ function AuthPopUp({ onClickRegistration, ...props }: AuthPopUpProps) {
             width='156px'
             height='35px'
           ></ImgPopUp>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmitData)}>
             <Label>
               <svg
                 width='24'

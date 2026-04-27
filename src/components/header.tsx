@@ -41,7 +41,7 @@ const LinkNav = styled.a`
 
 
 type HeaderProps = {
-  isUserPage: boolean;
+  isUserPage: boolean | undefined;
   username: string;
   onClickAuth: () => void;
 };

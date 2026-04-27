@@ -1,4 +1,9 @@
-import React, { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
+import React, {
+  PropsWithChildren,
+  ReactNode,
+  useEffect,
+  useState
+} from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
@@ -13,48 +18,55 @@ const PopUpWrapper = styled.div`
   justify-content: center;
   margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 271px 438px
+  padding: 271px 438px;
 `;
-const ButtonClose = styled.button`
-    position: absolute;
-    top:270px;
-    left: 66%;
-    border-radius: 24px;
-    width: 48px;
-    height: 48px;   
-    background: #fff;
-`;
+
+const PopUpSampleEl = styled.div`
+
+`
+;
+
 const ContentPopUp = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+const ButtonClose = styled.button`
+  position: absolute;
+  top: 0%;
+  left: 105%;
+  border-radius: 24px;
+  width: 48px;
+  height: 48px;
+  background: #fff;
+`;
 
-type PopUpSampleProps  = PropsWithChildren<{
+type PopUpSampleProps = PropsWithChildren<{
   isActive: boolean;
   onClose: () => void;
 }>;
 
-function PopUpSample({ children, onClose, isActive }: PopUpSampleProps) {
+function PopUpSample({ children, onClose, isActive=true }: PopUpSampleProps) {
   useEffect(() => {
-    if(isActive) {
-      document.body.style.overflow = 'hidden'
+    if (isActive) {
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto'
-    };
+      document.body.style.overflow = 'auto';
+    }
 
     return () => {
-      document.body.style.overflow = 'auto'
-    }
+      document.body.style.overflow = 'auto';
+    };
   });
- 
+
   const classPopUpSample = classNames({
     'pop-up-sample': true,
     'visually-hidden': !isActive
   });
 
   const handleCloseEsc = (evt: KeyboardEvent) => {
-    if(evt.key === 'Escape') {
+    if (evt.key === 'Escape') {
       onClose();
     }
   };
@@ -64,22 +76,21 @@ function PopUpSample({ children, onClose, isActive }: PopUpSampleProps) {
   };
 
   useEffect(() => {
-    document.addEventListener('keydown',handleCloseEsc);
-    return () =>{
-      document.removeEventListener('keydown',handleCloseEsc);
-    }
+    document.addEventListener('keydown', handleCloseEsc);
+    return () => {
+      document.removeEventListener('keydown', handleCloseEsc);
+    };
   });
 
-
-    return (
-        <PopUpWrapper className={classPopUpSample}>
+  return (
+    <PopUpWrapper className={classPopUpSample}>
+      <PopUpSampleEl>
         <ContentPopUp className='pop-up-sample__content'>
-            {children}
-        </ContentPopUp>
-        <ButtonClose 
+          {children}
+          <ButtonClose
           className='pop-up-sample__button-close'
           onClick={handleClosePopUp}
-          >
+        >
           <svg
             width='24'
             height='24'
@@ -93,9 +104,10 @@ function PopUpSample({ children, onClose, isActive }: PopUpSampleProps) {
             />
           </svg>
         </ButtonClose>
-      </PopUpWrapper>
-    );
- 
+        </ContentPopUp>
+      </PopUpSampleEl>
+    </PopUpWrapper>
+  );
 }
 
-export  {type PopUpSampleProps,  PopUpSample };
+export { type PopUpSampleProps, PopUpSample };
