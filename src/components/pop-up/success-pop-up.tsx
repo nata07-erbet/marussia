@@ -50,7 +50,7 @@ type AuthPopUpProps = PopUpSampleProps & {
 
 function SuccessPopUp({ onClickEnter, ...props }: AuthPopUpProps) {
 
-  const handlePostData = () => {
+  const handleClickEnter = () => {
     onClickEnter();
   };
 
@@ -67,7 +67,7 @@ function SuccessPopUp({ onClickEnter, ...props }: AuthPopUpProps) {
           <Description>Используйте вашу электронную почту для входа</Description>
           <ButtonFirst
             value={'Войти'}
-            onSubmit={handlePostData}
+            onClick={handleClickEnter}
           />
         </Modal>
       </WrapperAuth>

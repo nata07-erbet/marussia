@@ -1,5 +1,5 @@
 const VALUE_FOR_ACTION = 10;
-const BASE_URL = 'https://cinemaguide.skillbox.cc/';
+const BASE_URL = 'https://cinemaguide.skillbox.cc';
 
 const AppRoutes = {
   Main: '/',

@@ -18,6 +18,7 @@ import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
 import { userJSON } from '../mocks/user';
+import { truncate } from 'fs';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -210,9 +211,13 @@ function MainPage({ ...props }: MainPageProps) {
   const handleAuthSubmit = () => {
     setIsShowPopUpAuth(false);
     setIsAuth(true);
+    alert('data sended')
   };
 
   const handleClickEnter = () => {
+    setIsShowSuccessPopUp(false);
+    setIsShowPopUpAuth(true);
+    
   };
 
   const handlePostDataAccount = () => {
@@ -236,6 +241,12 @@ function MainPage({ ...props }: MainPageProps) {
       handleClickAuth();
     }
   };
+
+  const handleRegisterSubmit = () => {
+    setIsShowPopUpRegister(false);
+    setIsShowSuccessPopUp(true);
+  };
+
 
   return (
     <SamplePage {...props}>
@@ -375,6 +386,7 @@ function MainPage({ ...props }: MainPageProps) {
             isError={true}
             onClickPostDataAccount={handlePostDataAccount}
             onClickAuth={handleClickAuthReg}
+            onSubmit={handleRegisterSubmit}
           />
       <SuccessPopUp
           isActive={isShowSuccessPopUp}
