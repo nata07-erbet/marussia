@@ -5,6 +5,7 @@ import { PopUpSample, PopUpSampleProps } from './pop-up-sample';
 import styled from 'styled-components';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
+import { BASE_URL, ReqRoutes } from '../../const/const';
 
 
 const Modal = styled.div<{ $isError?: boolean }>`
@@ -100,8 +101,15 @@ function AuthPopUp({ onClickRegistration, onSubmit, ...props }: AuthPopUpProps) 
     onClickRegistration();
   };
 
+ 
+
   const onSubmitData = async(data: FormInputs) => {
-   const result = await axios.post('https://cinemaguide.skillbox.cc/auth/login', data);
+   const result = await axios.post(
+    `${BASE_URL}${ReqRoutes.AUTH_LOGIN}`,
+     data, 
+     {
+      withCredentials: true
+     });
     if(result.status === StatusCodes.OK) {
       onSubmit();
     }

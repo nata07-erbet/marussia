@@ -4,6 +4,7 @@ import { SamplePage } from './sample-page';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import { Header } from '../components/header';
+import { Footer } from '../components/footer';
 import { moviesJSON } from '../mocks/movies';
 import {
   getRandomItem,
@@ -184,13 +185,10 @@ function FilmPage(props: FilmPageProps) {
     setIsShowTailer(true);
   };
 
-
   return (
     <SamplePage {...props}>
       <Header
-        isUserPage={false}
-        username={''}
-        onClickAuth={handleClickAuth}
+        isAuth={false}
       />
       {movie && (
         <>
@@ -238,7 +236,10 @@ function FilmPage(props: FilmPageProps) {
                   {movie.plot}
                 </Description>
                 <ButtonContainer className='film-random__button button-action'>
-                  <Button className='button-action__item button-action__item--modal-trailer' onClick={handleOpenTrailer}>
+                  <Button
+                    className='button-action__item button-action__item--modal-trailer'
+                    onClick={handleOpenTrailer}
+                  >
                     Трейлер
                   </Button>
                   <ButtonFavorites className='button-action__item button-action__item--favorites'>
@@ -291,6 +292,7 @@ function FilmPage(props: FilmPageProps) {
           </section>
         </>
       )}
+      <Footer />
     </SamplePage>
   );
 }

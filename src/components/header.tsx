@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 import { AppRoutes, NavMap } from '../const/const';
 import { Search } from './search/search';
 import classNames from 'classnames';
+import axios, { AxiosError } from 'axios';
+import { BASE_URL, ReqRoutes} from '../const/const';
+import { IProfile } from '../types/types';
 
 
 const HeaderComp = styled.header`
@@ -41,18 +45,56 @@ const LinkNav = styled.a`
 
 
 type HeaderProps = {
-  isUserPage: boolean | undefined;
-  username: string;
+  isAuth: boolean | undefined;
   onClickAuth: () => void;
 };
 
-function Header({ isUserPage, username, onClickAuth}: HeaderProps) {
+function Header({ isAuth, onClickAuth}: HeaderProps) {
+  const [ user, setUser ] = useState<IProfile| null>(null);
   const location = useLocation();
-
   const classNavUser = classNames({
     'nav-list__item-link': true,
-    active: isUserPage
+    active: isAuth
   });
+
+  useEffect( () => {
+    const loadData = async () => {
+      const data = await getProfile();
+
+      if(data) {
+        setUser(data);
+      };
+    }
+
+    loadData();
+  }, []);
+
+  const getProfile = async () => {
+    try {
+      const result = await axios.get(
+        `${BASE_URL}${ReqRoutes.PROFILE}`,
+        {
+          withCredentials: true,
+        }
+      );
+  
+      return result.data;
+  
+    } catch (error) {
+      const axiosError = error as AxiosError;
+  
+      if (axiosError.response?.status === 401) {
+        console.log('Please, log in');
+        return; 
+      }
+  
+      throw error;
+    }
+  };
+
+  const isAuthProfile =  user?.name !== undefined; 
+
+console.log(isAuthProfile);
 
   return (
     <>
@@ -89,7 +131,7 @@ function Header({ isUserPage, username, onClickAuth}: HeaderProps) {
               className={classNavUser}
               onClick={onClickAuth}
             >
-              {!isUserPage ? 'Войти' : `${username}`}
+              {!isAuthProfile ? 'Войти' : `${user?.name}`}
             </LinkNav>
           </HeaderContainer>
         </div>

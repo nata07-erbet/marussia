@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
+import React from 'react';
 
 
 const Modal = styled.div`
@@ -113,7 +114,12 @@ function RegisterPopUp({
 
   const onSubmitData = async(data:IFormData) => {
     try{
-      const result = await axios.post(`${BASE_URL}${ReqRoutes.USER}`, data);
+      const result = await axios.post(
+        `${BASE_URL}${ReqRoutes.USER}`,
+         data, 
+         {
+          withCredentials: true
+         });
 
       if(result.status === 200) {
         onSubmit();

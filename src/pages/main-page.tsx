@@ -6,6 +6,7 @@ import { Header } from '../components/header';
 import { AuthPopUp } from '../components/pop-up/auth-pop-up';
 import { RegisterPopUp } from '../components/pop-up/register-pop-up';
 import { SuccessPopUp } from '../components/pop-up/success-pop-up';
+import { Footer } from '../components/footer'
 import {
   getFromJsonToMovies,
   getRandomMovie,
@@ -13,12 +14,14 @@ import {
   runToHoursAndMin,
   getFromJsonToUser
 } from '../utils/utils';
-import { IMovie } from '../types/types';
+import { IMovie , IFavorite } from '../types/types';
 import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
 import { userJSON } from '../mocks/user';
-import { truncate } from 'fs';
+import { BASE_URL, ReqRoutes } from '../const/const';
+import axios, { AxiosError} from 'axios';
+import { error } from 'console';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -155,6 +158,7 @@ const FilmsWrapper = styled.div`
 
 type MainPageProps = SamplePageProps & {};
 
+
 function MainPage({ ...props }: MainPageProps) {
   const user = getFromJsonToUser(userJSON);
 
@@ -194,6 +198,38 @@ function MainPage({ ...props }: MainPageProps) {
     !isAuth && setIsShowPopUpAuth(true);
   };
 
+  const handlePostFavorites = async(data: IFavorite) => {
+    try {
+      const result = await axios.post(
+        `${BASE_URL}${ReqRoutes.FAVORITES}`,
+         data, {
+          withCredentials: true
+         });
+      if(result.status === 200) {
+        setIsFavorite(true);
+      }
+    } catch (error)
+     {
+      const axiosError = error as AxiosError;
+      if(axiosError.response?.status === 400 || axiosError.response?.status === 401) {
+        setIsShowPopUpAuth(true);
+      };
+      throw error;
+    } 
+  };
+
+  const handleDropFavorite = async(data: IFavorite) => {
+    try{
+      const result = await axios.get(`${BASE_URL}${ReqRoutes.FAVORITES}/{data}`);
+      if(result.status = 200) {
+        alert('фильм удален')
+      }
+    } catch(error) {
+        console.log('Ошибка');
+    }
+  
+  };
+
   const handleClickAuthReg = () => {
     setIsShowPopUpRegister(false);
     setIsShowPopUpAuth(true);
@@ -211,7 +247,6 @@ function MainPage({ ...props }: MainPageProps) {
   const handleAuthSubmit = () => {
     setIsShowPopUpAuth(false);
     setIsAuth(true);
-    alert('data sended')
   };
 
   const handleClickEnter = () => {
@@ -232,11 +267,14 @@ function MainPage({ ...props }: MainPageProps) {
     setIsShowTailer(false);
   };
 
-  const handleAddToFavorites = () => {
+  const handleAddToFavorites = (data: IFavorite) => {
     if (isAuth) {
-      if (!isFavorite) {
-        setIsFavorite(true);
-      } else setIsFavorite(false);
+      if(!isFavorite) {
+        handlePostFavorites(data);
+      } else {
+        handleDropFavorite(data);
+      }
+     
     } else {
       handleClickAuth();
     }
@@ -251,8 +289,7 @@ function MainPage({ ...props }: MainPageProps) {
   return (
     <SamplePage {...props}>
       <Header
-        isUserPage={isAuth}
-        username={user.name}
+        isAuth={isAuth}
         onClickAuth={handleClickAuth}
       />
       <PageMain className='page-main'>
@@ -319,7 +356,7 @@ function MainPage({ ...props }: MainPageProps) {
                   </Button>
                   <ButtonIcon
                     className='button-action__item button-action__item--favorites'
-                    onClick={handleAddToFavorites}
+                    onClick={() =>handleAddToFavorites(movieRandomMock.id.toString())}
                   >
                     <Icon
                       width='20'
@@ -393,6 +430,7 @@ function MainPage({ ...props }: MainPageProps) {
           onClose={handleClosePopUpSuccess}
           onClickEnter={handleClickEnter}
         />
+    <Footer />    
     </SamplePage>
   );
 }

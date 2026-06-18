@@ -3,6 +3,7 @@ import { GenreFilmsList } from '../components/genre-films-list';
 import { SamplePage, SamplePageProps } from './sample-page';
 import styled from 'styled-components';
 import { Header } from '../components/header';
+import { Footer } from '../components/footer'
 import { Account } from '../components/account';
 
 type UserPageProps = SamplePageProps & {};
@@ -70,7 +71,7 @@ function UserPage({ ...props }: UserPageProps) {
 
   return (
     <SamplePage {...props}>
-      <Header isUserPage={isUserPage} username={user.name} isActiveIndex={false} />
+      <Header isAuth={false} />
       <section className='genre-films'>
         <TitleOfGenre className='genre-films__title'>Мой аккаунт</TitleOfGenre>
         <WrapperTabs>
@@ -116,6 +117,7 @@ function UserPage({ ...props }: UserPageProps) {
           </Button>
         </WrapperButton>
       </section>
+      <Footer />
     </SamplePage>
   );
 }
