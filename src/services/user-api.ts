@@ -12,6 +12,7 @@ const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
+    
     login: builder.mutation<IAuthResult, IAuthInfo>({
       query: (credentials) => ({
         url: ReqRoutes.AUTH_LOGIN,
@@ -19,9 +20,11 @@ const userApi = createApi({
         body: credentials,
       }),
     }),
+
     logout: builder.query<IAuthResult, void>({
       query: () => ReqRoutes.AUTH_LOGOUT,
     }),
+
     createUser: builder.mutation<IAuthResult, IRegisterData>({
       query: (credentials) => ({
         url: ReqRoutes.USER,

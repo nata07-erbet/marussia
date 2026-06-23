@@ -21,7 +21,9 @@ import { Trailer } from '../components/trailer/trailer';
 import { userJSON } from '../mocks/user';
 import { BASE_URL, ReqRoutes } from '../const/const';
 import axios, { AxiosError} from 'axios';
-import { error } from 'console';
+
+import { useGetLoginQuery } from '../services/auth-api';
+
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -160,6 +162,10 @@ type MainPageProps = SamplePageProps & {};
 
 
 function MainPage({ ...props }: MainPageProps) {
+  const { data, error, isLoading } = useGetLoginQuery();
+
+  console.log(data);
+  
   const user = getFromJsonToUser(userJSON);
 
   const [movie, setMovie] = useState<IMovie | null>(null);
@@ -436,3 +442,4 @@ function MainPage({ ...props }: MainPageProps) {
 }
 
 export { MainPage };
+
