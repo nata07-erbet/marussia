@@ -1,21 +1,27 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL, ReqRoutes} from '../const/const';
-import { IAuthResult } from '../types/types';
-
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BASE_URL, ReqRoutes } from '../const/const';
+import { IAuthResult, IAuthInfo } from '../types/types';
 
 const authApi = createApi({
-    reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl:BASE_URL
+  reducerPath: 'authApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: BASE_URL
+  }),
+  endpoints: (builder) => ({
+    getLogout: builder.query<IAuthResult, void>({
+      query: () => ReqRoutes.AUTH_LOGOUT
     }),
-    endpoints: (builder) => ({
-        getLogin: builder.query<IAuthResult, void>({
-            query: () => ReqRoutes.AUTH_LOGOUT
-        })
+
+    postLogin: builder.mutation<IAuthResult, IAuthInfo>({
+      query: (credentials) => ({
+        url: ReqRoutes.AUTH_LOGIN,
+        method: 'POST',
+        body: credentials
+      })
     })
-    
+  })
 });
 
-export const { useGetLoginQuery } = authApi;
+export const { useGetLogoutQuery, usePostLoginMutation } = authApi;
 
 export { authApi };

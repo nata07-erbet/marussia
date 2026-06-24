@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
 import { BASE_URL, ReqRoutes } from '../../const/const';
+import { usePostLoginMutation } from '../../services/auth-api';
 
 
 const Modal = styled.div<{ $isError?: boolean }>`
@@ -91,6 +92,16 @@ type FormInputs = {
 };
 
 function AuthPopUp({ onClickRegistration, onSubmit, ...props }: AuthPopUpProps) {
+
+  const [ postLogin, {
+    data: loginData,
+    error: loginError,
+    isLoading: loginIsLoading,
+    isSuccess: loginIsSuccess
+  }] = usePostLoginMutation();
+
+  console.log(loginIsSuccess);
+
   const {
     register,
     handleSubmit,
@@ -102,17 +113,13 @@ function AuthPopUp({ onClickRegistration, onSubmit, ...props }: AuthPopUpProps) 
   };
 
  
-
   const onSubmitData = async(data: FormInputs) => {
-   const result = await axios.post(
-    `${BASE_URL}${ReqRoutes.AUTH_LOGIN}`,
-     data, 
-     {
-      withCredentials: true
-     });
-    if(result.status === StatusCodes.OK) {
-      onSubmit();
-    }
+   try{
+    await postLogin(data);
+    onSubmit();
+   } catch(error){
+    console.log(error);
+   }
   };
 
 

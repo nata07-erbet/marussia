@@ -6,7 +6,7 @@ import { Header } from '../components/header';
 import { AuthPopUp } from '../components/pop-up/auth-pop-up';
 import { RegisterPopUp } from '../components/pop-up/register-pop-up';
 import { SuccessPopUp } from '../components/pop-up/success-pop-up';
-import { Footer } from '../components/footer'
+import { Footer } from '../components/footer';
 import {
   getFromJsonToMovies,
   getRandomMovie,
@@ -14,16 +14,15 @@ import {
   runToHoursAndMin,
   getFromJsonToUser
 } from '../utils/utils';
-import { IMovie , IFavorite } from '../types/types';
+import { IMovie, IFavorite } from '../types/types';
 import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
 import { userJSON } from '../mocks/user';
 import { BASE_URL, ReqRoutes } from '../const/const';
-import axios, { AxiosError} from 'axios';
+import axios, { AxiosError } from 'axios';
 
-import { useGetLoginQuery } from '../services/auth-api';
-
+import { useGetLogoutQuery, usePostLoginMutation } from '../services/auth-api';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -160,12 +159,17 @@ const FilmsWrapper = styled.div`
 
 type MainPageProps = SamplePageProps & {};
 
-
 function MainPage({ ...props }: MainPageProps) {
-  const { data, error, isLoading } = useGetLoginQuery();
 
-  console.log(data);
-  
+  const {
+    data: logoutData,
+    error: logoutError,
+    isLoading: logoutIsLoading,
+    isSuccess: logoutIsSuccess
+  } = useGetLogoutQuery();
+
+
+
   const user = getFromJsonToUser(userJSON);
 
   const [movie, setMovie] = useState<IMovie | null>(null);
@@ -204,36 +208,41 @@ function MainPage({ ...props }: MainPageProps) {
     !isAuth && setIsShowPopUpAuth(true);
   };
 
-  const handlePostFavorites = async(data: IFavorite) => {
+  const handlePostFavorites = async (data: IFavorite) => {
     try {
       const result = await axios.post(
         `${BASE_URL}${ReqRoutes.FAVORITES}`,
-         data, {
+        data,
+        {
           withCredentials: true
-         });
-      if(result.status === 200) {
+        }
+      );
+      if (result.status === 200) {
         setIsFavorite(true);
       }
-    } catch (error)
-     {
+    } catch (error) {
       const axiosError = error as AxiosError;
-      if(axiosError.response?.status === 400 || axiosError.response?.status === 401) {
+      if (
+        axiosError.response?.status === 400 ||
+        axiosError.response?.status === 401
+      ) {
         setIsShowPopUpAuth(true);
-      };
+      }
       throw error;
-    } 
+    }
   };
 
-  const handleDropFavorite = async(data: IFavorite) => {
-    try{
-      const result = await axios.get(`${BASE_URL}${ReqRoutes.FAVORITES}/{data}`);
-      if(result.status = 200) {
-        alert('фильм удален')
+  const handleDropFavorite = async (data: IFavorite) => {
+    try {
+      const result = await axios.get(
+        `${BASE_URL}${ReqRoutes.FAVORITES}/{data}`
+      );
+      if ((result.status = 200)) {
+        alert('фильм удален');
       }
-    } catch(error) {
-        console.log('Ошибка');
+    } catch (error) {
+      console.log('Ошибка');
     }
-  
   };
 
   const handleClickAuthReg = () => {
@@ -258,7 +267,6 @@ function MainPage({ ...props }: MainPageProps) {
   const handleClickEnter = () => {
     setIsShowSuccessPopUp(false);
     setIsShowPopUpAuth(true);
-    
   };
 
   const handlePostDataAccount = () => {
@@ -275,12 +283,11 @@ function MainPage({ ...props }: MainPageProps) {
 
   const handleAddToFavorites = (data: IFavorite) => {
     if (isAuth) {
-      if(!isFavorite) {
+      if (!isFavorite) {
         handlePostFavorites(data);
       } else {
         handleDropFavorite(data);
       }
-     
     } else {
       handleClickAuth();
     }
@@ -290,7 +297,6 @@ function MainPage({ ...props }: MainPageProps) {
     setIsShowPopUpRegister(false);
     setIsShowSuccessPopUp(true);
   };
-
 
   return (
     <SamplePage {...props}>
@@ -362,7 +368,9 @@ function MainPage({ ...props }: MainPageProps) {
                   </Button>
                   <ButtonIcon
                     className='button-action__item button-action__item--favorites'
-                    onClick={() =>handleAddToFavorites(movieRandomMock.id.toString())}
+                    onClick={() =>
+                      handleAddToFavorites(movieRandomMock.id.toString())
+                    }
                   >
                     <Icon
                       width='20'
@@ -415,31 +423,29 @@ function MainPage({ ...props }: MainPageProps) {
             </FilmsWrapper>
           </SectionTop>
         </div>
-        
       </PageMain>
       <AuthPopUp
-            isActive={isShowPopUpAuth}
-            onClose={handleClosePopUpAuth}
-            onSubmit={handleAuthSubmit}
-            onClickRegistration={handleClickRegistration}
-          />
-          <RegisterPopUp
-            isActive={isShowPopUpRegister}
-            onClose={handleClosePopUpRegister}
-            isError={true}
-            onClickPostDataAccount={handlePostDataAccount}
-            onClickAuth={handleClickAuthReg}
-            onSubmit={handleRegisterSubmit}
-          />
+        isActive={isShowPopUpAuth}
+        onClose={handleClosePopUpAuth}
+        onSubmit={handleAuthSubmit}
+        onClickRegistration={handleClickRegistration}
+      />
+      <RegisterPopUp
+        isActive={isShowPopUpRegister}
+        onClose={handleClosePopUpRegister}
+        isError={true}
+        onClickPostDataAccount={handlePostDataAccount}
+        onClickAuth={handleClickAuthReg}
+        onSubmit={handleRegisterSubmit}
+      />
       <SuccessPopUp
-          isActive={isShowSuccessPopUp}
-          onClose={handleClosePopUpSuccess}
-          onClickEnter={handleClickEnter}
-        />
-    <Footer />    
+        isActive={isShowSuccessPopUp}
+        onClose={handleClosePopUpSuccess}
+        onClickEnter={handleClickEnter}
+      />
+      <Footer />
     </SamplePage>
   );
 }
 
 export { MainPage };
-
