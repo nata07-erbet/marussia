@@ -3,8 +3,8 @@ import { BASE_URL, ReqRoutes} from '../../const/const';
 import styled from 'styled-components';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
-import axios, { AxiosError } from 'axios';
 import React from 'react';
+import { IRegisterData } from '../../types/types';
 
 
 const Modal = styled.div`
@@ -81,6 +81,7 @@ type AuthPopUpProps = PopUpSampleProps & {
   onClickAuth: () => void;
   onClickPostDataAccount: () => void;
   onSubmit: () => void;
+  postData: (data: IRegisterData) => void
   isError: boolean;
 };
 
@@ -96,6 +97,7 @@ function RegisterPopUp({
   onClickAuth,
   onClickPostDataAccount,
   onSubmit,
+  postData,
   ...props
 }: AuthPopUpProps) {
   const handlePostDataAccount = () => {
@@ -114,24 +116,10 @@ function RegisterPopUp({
 
   const onSubmitData = async(data:IFormData) => {
     try{
-      const result = await axios.post(
-        `${BASE_URL}${ReqRoutes.USER}`,
-         data, 
-         {
-          withCredentials: true
-         });
-
-      if(result.status === 200) {
+        postData(data);
         onSubmit();
-      }
-    } catch(error) {
-      const axiosError = error as AxiosError;
-      
-      if(axiosError.response?.status === 409 ) {
-        alert('Такой пользователь уже существует');
-      } if (axiosError.response?.status === 400) {
-        alert('Пройдите регистрацию еще раз');
-      }
+      } catch(error) {
+      console.log(errors)
     }
   };
 

@@ -21,8 +21,10 @@ import { Trailer } from '../components/trailer/trailer';
 import { userJSON } from '../mocks/user';
 import { BASE_URL, ReqRoutes } from '../const/const';
 import axios, { AxiosError } from 'axios';
-
-import { useGetLogoutQuery, usePostLoginMutation } from '../services/auth-api';
+import {
+  usePostLoginMutation,
+  usePostRegistrationDataMutation
+} from '../services/auth-api';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -160,16 +162,6 @@ const FilmsWrapper = styled.div`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
-
-  const {
-    data: logoutData,
-    error: logoutError,
-    isLoading: logoutIsLoading,
-    isSuccess: logoutIsSuccess
-  } = useGetLogoutQuery();
-
-
-
   const user = getFromJsonToUser(userJSON);
 
   const [movie, setMovie] = useState<IMovie | null>(null);
@@ -183,8 +175,22 @@ function MainPage({ ...props }: MainPageProps) {
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
   const [isShowTailer, setIsShowTailer] = useState(false);
-
   const [isAuth, setIsAuth] = useState(false);
+
+  const [
+    postLogin,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading,
+      isSuccess: loginIsSuccess
+    }
+  ] = usePostLoginMutation();
+
+  const [
+    postData,
+    { data: dataRegistration, isSuccess: dataRegistrationSuccess }
+  ] = usePostRegistrationDataMutation();
 
   const handleRestartPage = () => {
     // запрос случайного фильма по API
@@ -301,7 +307,7 @@ function MainPage({ ...props }: MainPageProps) {
   return (
     <SamplePage {...props}>
       <Header
-        isAuth={isAuth}
+        isAuth={loginIsSuccess}
         onClickAuth={handleClickAuth}
       />
       <PageMain className='page-main'>
@@ -429,6 +435,7 @@ function MainPage({ ...props }: MainPageProps) {
         onClose={handleClosePopUpAuth}
         onSubmit={handleAuthSubmit}
         onClickRegistration={handleClickRegistration}
+        postLogin={postLogin}
       />
       <RegisterPopUp
         isActive={isShowPopUpRegister}
@@ -437,6 +444,7 @@ function MainPage({ ...props }: MainPageProps) {
         onClickPostDataAccount={handlePostDataAccount}
         onClickAuth={handleClickAuthReg}
         onSubmit={handleRegisterSubmit}
+        postData={postData}
       />
       <SuccessPopUp
         isActive={isShowSuccessPopUp}

@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router';
+import {  useLocation } from 'react-router';
 import { AppRoutes, NavMap } from '../const/const';
 import { Search } from './search/search';
 import classNames from 'classnames';
-import axios, { AxiosError } from 'axios';
-import { BASE_URL, ReqRoutes} from '../const/const';
-import { IProfile } from '../types/types';
+import { useGetProfileQuery } from '../services/auth-api';
 
 
 const HeaderComp = styled.header`
@@ -50,51 +47,13 @@ type HeaderProps = {
 };
 
 function Header({ isAuth, onClickAuth}: HeaderProps) {
-  const [ user, setUser ] = useState<IProfile| null>(null);
   const location = useLocation();
   const classNavUser = classNames({
     'nav-list__item-link': true,
     active: isAuth
   });
 
-  useEffect( () => {
-    const loadData = async () => {
-      const data = await getProfile();
-
-      if(data) {
-        setUser(data);
-      };
-    }
-
-    loadData();
-  }, []);
-
-  const getProfile = async () => {
-    try {
-      const result = await axios.get(
-        `${BASE_URL}${ReqRoutes.PROFILE}`,
-        {
-          withCredentials: true,
-        }
-      );
-  
-      return result.data;
-  
-    } catch (error) {
-      const axiosError = error as AxiosError;
-  
-      if (axiosError.response?.status === 401) {
-        console.log('Please, log in');
-        return; 
-      }
-  
-      throw error;
-    }
-  };
-
-  const isAuthProfile =  user?.name !== undefined; 
-
-console.log(isAuthProfile);
+    const { data: dataProfile } = useGetProfileQuery();
 
   return (
     <>
@@ -131,7 +90,7 @@ console.log(isAuthProfile);
               className={classNavUser}
               onClick={onClickAuth}
             >
-              {!isAuthProfile ? 'Войти' : `${user?.name}`}
+              {!isAuth ? 'Войти' : `${dataProfile?.name}`}
             </LinkNav>
           </HeaderContainer>
         </div>

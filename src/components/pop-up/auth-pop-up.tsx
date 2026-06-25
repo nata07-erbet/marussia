@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { StatusCodes } from 'http-status-codes';
 import { PopUpSample, PopUpSampleProps } from './pop-up-sample';
 import styled from 'styled-components';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
-import { BASE_URL, ReqRoutes } from '../../const/const';
-import { usePostLoginMutation } from '../../services/auth-api';
+
 
 
 const Modal = styled.div<{ $isError?: boolean }>`
@@ -84,6 +81,7 @@ const PError = styled.span`
 type AuthPopUpProps = PopUpSampleProps & {
   onClickRegistration: () => void;
   onSubmit: () => void;
+  postLogin: (data: FormInputs) =>  void
 };
 
 type FormInputs = {
@@ -91,17 +89,7 @@ type FormInputs = {
   password: string
 };
 
-function AuthPopUp({ onClickRegistration, onSubmit, ...props }: AuthPopUpProps) {
-
-  const [ postLogin, {
-    data: loginData,
-    error: loginError,
-    isLoading: loginIsLoading,
-    isSuccess: loginIsSuccess
-  }] = usePostLoginMutation();
-
-  console.log(loginIsSuccess);
-
+function AuthPopUp({ onClickRegistration, onSubmit, postLogin, ...props }: AuthPopUpProps) {
   const {
     register,
     handleSubmit,
@@ -115,7 +103,7 @@ function AuthPopUp({ onClickRegistration, onSubmit, ...props }: AuthPopUpProps) 
  
   const onSubmitData = async(data: FormInputs) => {
    try{
-    await postLogin(data);
+    postLogin(data);
     onSubmit();
    } catch(error){
     console.log(error);
