@@ -76,8 +76,8 @@ const TextButton = styled.span`
 `;
 
 type AccountProps = {
-  userName: string;
-  userMail: string;
+  userName: string | undefined;
+  userMail: string | undefined;
 };
 
 function Account({ userName, userMail }: AccountProps) {

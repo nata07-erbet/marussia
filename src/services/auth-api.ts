@@ -25,7 +25,7 @@ const authApi = createApi({
       query: () => ReqRoutes.PROFILE,
     }),
 
-    postRegistrationData: builder.mutation<IRegisterData, void>({
+    postRegistrationData: builder.mutation<IAuthResult, IRegisterData>({
       query: (data) => ({
         url: ReqRoutes.USER,
         method: 'POST',

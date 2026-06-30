@@ -1,10 +1,12 @@
 import React from 'react';
+import { useGetProfileQuery } from '../services/auth-api';
 import { GenreFilmsList } from '../components/genre-films-list';
 import { SamplePage, SamplePageProps } from './sample-page';
 import styled from 'styled-components';
 import { Header } from '../components/header';
-import { Footer } from '../components/footer'
+import { Footer } from '../components/footer';
 import { Account } from '../components/account';
+import { useGetFavoritesQuery } from '../services/favorites-api';
 
 type UserPageProps = SamplePageProps & {};
 
@@ -18,13 +20,13 @@ const TitleOfGenre = styled.h2`
 
 const WrapperTabs = styled.div`
   display: flex;
-  gap: 64px
+  gap: 64px;
 `;
 
 const IconWrapper = styled.div`
   display: flex;
-  align-items: center; 
-  gap: 8px;  
+  align-items: center;
+  gap: 8px;
 `;
 
 const WrapperButton = styled.div`
@@ -56,22 +58,23 @@ const TextButton = styled.span`
   color: #fff;
 `;
 
-const user = {
-    "favorites": [
-      "98",
-      "98"
-    ],
-    "surname": "James",
-    "name": "John",
-    "email": "john@email.com"
-};
-
 function UserPage({ ...props }: UserPageProps) {
-    const isUserPage = true;
+  const { data: userData } = useGetProfileQuery();
+
+  const { data: favoritesFilms, isSuccess: isLoadFavoritesFilms } =
+    useGetFavoritesQuery();
+
+  const handleClickAuth = () => {
+    alert('handleClickAuth');
+  };
+  console.log(favoritesFilms);
 
   return (
     <SamplePage {...props}>
-      <Header isAuth={false} />
+      <Header
+        isAuth={true}
+        onClickAuth={handleClickAuth}
+      />
       <section className='genre-films'>
         <TitleOfGenre className='genre-films__title'>Мой аккаунт</TitleOfGenre>
         <WrapperTabs>
@@ -106,8 +109,11 @@ function UserPage({ ...props }: UserPageProps) {
             <span>Настройка аккаунта</span>
           </IconWrapper>
         </WrapperTabs>
-        <GenreFilmsList />
-        <Account userName={user.name} userMail={user.email} />
+        {isLoadFavoritesFilms && <GenreFilmsList films={favoritesFilms} />}
+        <Account
+          userName={userData && userData.name}
+          userMail={userData && userData.email}
+        />
         <WrapperButton>
           <Button
             className='genre-films'

@@ -12,14 +12,12 @@ import {
   getRandomMovie,
   getRandomItem,
   runToHoursAndMin,
-  getFromJsonToUser
 } from '../utils/utils';
-import { IMovie, IFavorite } from '../types/types';
+import { IMovie, IFavorite, IRegisterData } from '../types/types';
 import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
-import { userJSON } from '../mocks/user';
-import { BASE_URL, ReqRoutes } from '../const/const';
+import { AppRoutes, BASE_URL, ReqRoutes } from '../const/const';
 import axios, { AxiosError } from 'axios';
 import {
   usePostLoginMutation,
@@ -162,7 +160,6 @@ const FilmsWrapper = styled.div`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
-  const user = getFromJsonToUser(userJSON);
 
   const [movie, setMovie] = useState<IMovie | null>(null);
   const navigate = useNavigate();
@@ -175,7 +172,6 @@ function MainPage({ ...props }: MainPageProps) {
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
   const [isShowTailer, setIsShowTailer] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
 
   const [
     postLogin,
@@ -189,7 +185,7 @@ function MainPage({ ...props }: MainPageProps) {
 
   const [
     postData,
-    { data: dataRegistration, isSuccess: dataRegistrationSuccess }
+    { isSuccess: dataRegistrationSuccess }
   ] = usePostRegistrationDataMutation();
 
   const handleRestartPage = () => {
@@ -211,7 +207,11 @@ function MainPage({ ...props }: MainPageProps) {
   };
 
   const handleClickAuth = () => {
-    !isAuth && setIsShowPopUpAuth(true);
+    if(loginIsSuccess) {
+      navigate(AppRoutes.Auth);
+    } else {
+      setIsShowPopUpAuth(true);
+    }
   };
 
   const handlePostFavorites = async (data: IFavorite) => {
@@ -267,7 +267,6 @@ function MainPage({ ...props }: MainPageProps) {
 
   const handleAuthSubmit = () => {
     setIsShowPopUpAuth(false);
-    setIsAuth(true);
   };
 
   const handleClickEnter = () => {
@@ -275,9 +274,6 @@ function MainPage({ ...props }: MainPageProps) {
     setIsShowPopUpAuth(true);
   };
 
-  const handlePostDataAccount = () => {
-    alert('post registration');
-  };
 
   const handleOpenTrailer = () => {
     setIsShowTailer(true);
@@ -288,7 +284,7 @@ function MainPage({ ...props }: MainPageProps) {
   };
 
   const handleAddToFavorites = (data: IFavorite) => {
-    if (isAuth) {
+    if (loginIsSuccess) {
       if (!isFavorite) {
         handlePostFavorites(data);
       } else {
@@ -300,8 +296,12 @@ function MainPage({ ...props }: MainPageProps) {
   };
 
   const handleRegisterSubmit = () => {
-    setIsShowPopUpRegister(false);
-    setIsShowSuccessPopUp(true);
+    if (dataRegistrationSuccess) {
+      setIsShowPopUpRegister(false);
+      setIsShowSuccessPopUp(true);
+    } else {
+      return;
+    }
   };
 
   return (
@@ -440,11 +440,9 @@ function MainPage({ ...props }: MainPageProps) {
       <RegisterPopUp
         isActive={isShowPopUpRegister}
         onClose={handleClosePopUpRegister}
-        isError={true}
-        onClickPostDataAccount={handlePostDataAccount}
         onClickAuth={handleClickAuthReg}
         onSubmit={handleRegisterSubmit}
-        postData={postData}
+        postData={(data) => postData(data)}
       />
       <SuccessPopUp
         isActive={isShowSuccessPopUp}

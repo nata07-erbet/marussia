@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IMoviesByGenre } from '../types/types';
+import { IMovie } from '../types/types';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 
 type FilmByGenreProps = {
-  filmByGenre: IMoviesByGenre;
+  filmByGenre: IMovie;
   hrefFilmPage: string
 };
 

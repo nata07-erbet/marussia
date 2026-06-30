@@ -43,13 +43,19 @@ const TextButton = styled.span`
   color: #fff;
 `;
 
+
 function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
   const params = useParams();
+
+  const handleClickAuth = () => {
+    alert('');
+  };
 
   return (
     <SamplePage {...props}>
       <Header
         isAuth={false}
+        onClickAuth={handleClickAuth}
       />
       <section className='genre-films'>
         <IconTitle
@@ -67,7 +73,7 @@ function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
         <TitleOfGenre className='genre-films__title'>
           {params.genre}
         </TitleOfGenre>
-        <GenreFilmsList genre={params.genre} />
+        <GenreFilmsList films={films} />
         <WrapperButton>
           <Button
             className='genre-films'

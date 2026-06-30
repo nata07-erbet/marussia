@@ -1,10 +1,7 @@
 import React from 'react';
-import { filmsByGenreJSON } from '../mocks/filmsByGenre';
-import { getFromJsonToObj } from '../utils/utils';
 import { FilmByGenre } from './film-by-genre';
 import styled from 'styled-components';
-
-const filmsByGenre = getFromJsonToObj(filmsByGenreJSON);
+import { IMovie } from '../types/types';
 
 const GenreFilmsListEl = styled.ul`
     display:flex;
@@ -13,12 +10,12 @@ const GenreFilmsListEl = styled.ul`
     padding-left: 0;
 `;
 type GenreFilmsListProps  = {
-  genre?: string | undefined
+  films: IMovie[] | undefined;
 }
-function GenreFilmsList({genre}: GenreFilmsListProps) {
+function GenreFilmsList({films}: GenreFilmsListProps) {
   return (
     <GenreFilmsListEl> 
-        {filmsByGenre.map((film, genre) =>(
+        {films && films.map((film) =>(
             <FilmByGenre filmByGenre={film} hrefFilmPage={`film/${film.id}`}  />
         ))}
     </GenreFilmsListEl>

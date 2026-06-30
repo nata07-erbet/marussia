@@ -1,11 +1,11 @@
 import { PopUpSample, PopUpSampleProps } from './pop-up-sample';
-import { BASE_URL, ReqRoutes} from '../../const/const';
+import { BASE_URL, ReqRoutes } from '../../const/const';
 import styled from 'styled-components';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
 import React from 'react';
 import { IRegisterData } from '../../types/types';
-
+import type { TypedMutationTrigger } from '@reduxjs/toolkit/query/react';
 
 const Modal = styled.div`
   display: flex;
@@ -75,14 +75,12 @@ const Button = styled.button`
   font-size: 18px;
   line-height: 133%;
   color: #fff;
-`
+`;
 
 type AuthPopUpProps = PopUpSampleProps & {
   onClickAuth: () => void;
-  onClickPostDataAccount: () => void;
   onSubmit: () => void;
-  postData: (data: IRegisterData) => void
-  isError: boolean;
+  postData: (data: IRegisterData) => void;
 };
 
 type IFormData = {
@@ -95,14 +93,10 @@ type IFormData = {
 
 function RegisterPopUp({
   onClickAuth,
-  onClickPostDataAccount,
   onSubmit,
   postData,
   ...props
 }: AuthPopUpProps) {
-  const handlePostDataAccount = () => {
-    onClickPostDataAccount();
-  };
 
   const {
     register,
@@ -114,12 +108,12 @@ function RegisterPopUp({
     onClickAuth();
   };
 
-  const onSubmitData = async(data:IFormData) => {
-    try{
-        postData(data);
-        onSubmit();
-      } catch(error) {
-      console.log(errors)
+  const onSubmitData = async (data: IFormData) => {
+    try {
+      postData(data);
+      onSubmit();
+    } catch (error) {
+      console.log(errors);
     }
   };
 
@@ -139,7 +133,7 @@ function RegisterPopUp({
   });
 
   const surnameInput = register('surname', {
-    required: true,
+    required: true
   });
 
   const passwordInput = register('password', {
@@ -147,7 +141,7 @@ function RegisterPopUp({
   });
 
   const passwordInputTwice = register('passwordInputTwice', {
-    required: true,
+    required: true
   });
 
   const isError = false;
@@ -210,7 +204,7 @@ function RegisterPopUp({
                 <path d='M0 21C0 16.5817 3.58172 13 8 13C12.4183 13 16 16.5817 16 21H14C14 17.6863 11.3137 15 8 15C4.68629 15 2 17.6863 2 21H0ZM8 12C4.685 12 2 9.315 2 6C2 2.685 4.685 0 8 0C11.315 0 14 2.685 14 6C14 9.315 11.315 12 8 12ZM8 10C10.21 10 12 8.21 12 6C12 3.79 10.21 2 8 2C5.79 2 4 3.79 4 6C4 8.21 5.79 10 8 10Z' />
               </Svg>
               <Input
-              {...surnameInput}
+                {...surnameInput}
                 type='text'
                 id='surname'
                 placeholder='Фамилия'
@@ -229,7 +223,7 @@ function RegisterPopUp({
                 <path d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z' />
               </Svg>
               <Input
-              {...passwordInput}
+                {...passwordInput}
                 type='text'
                 id='password'
                 placeholder='Пароль'
@@ -248,17 +242,17 @@ function RegisterPopUp({
                 <path d='M12.917 13C12.441 15.8377 9.973 18 7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C9.973 6 12.441 8.16229 12.917 11H23V13H21V17H19V13H17V17H15V13H12.917ZM7 16C9.20914 16 11 14.2091 11 12C11 9.79086 9.20914 8 7 8C4.79086 8 3 9.79086 3 12C3 14.2091 4.79086 16 7 16Z' />
               </Svg>
               <Input
-              {...passwordInputTwice}
+                {...passwordInputTwice}
                 type='text'
                 id='enter-password'
                 placeholder='Подтвердите пароль'
               ></Input>
             </Label>
-            <Button type ='submit'>Создать аккаунт</Button>
+            <Button type='submit'>Создать аккаунт</Button>
           </Form>
-           
+
           <ButtonSecond
-            value={'У меня есть пароль'}        
+            value={'У меня есть пароль'}
             onClick={handleClickAuth}
           />
         </Modal>
