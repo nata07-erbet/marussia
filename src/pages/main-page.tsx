@@ -24,6 +24,8 @@ import {
   usePostRegistrationDataMutation
 } from '../services/auth-api';
 
+import { usePostFavoritesMutation } from '../services/favorites-api';
+
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
 
@@ -183,10 +185,17 @@ function MainPage({ ...props }: MainPageProps) {
     }
   ] = usePostLoginMutation();
 
+  // const id = '2';
+
   const [
     postData,
     { isSuccess: dataRegistrationSuccess }
   ] = usePostRegistrationDataMutation();
+
+  const [postFavorites, { 
+    data: favoritesId, 
+    isSuccess: favoritesIdIsSuccess 
+  } ] = usePostFavoritesMutation();
 
   const handleRestartPage = () => {
     // запрос случайного фильма по API
@@ -286,9 +295,11 @@ function MainPage({ ...props }: MainPageProps) {
   const handleAddToFavorites = (data: IFavorite) => {
     if (loginIsSuccess) {
       if (!isFavorite) {
-        handlePostFavorites(data);
+        postFavorites('2');
+        setIsFavorite(true);
       } else {
-        handleDropFavorite(data);
+        setIsFavorite(false)
+        // handleDropFavorite(data);
       }
     } else {
       handleClickAuth();

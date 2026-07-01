@@ -1,12 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL, ReqRoutes } from "../const/const";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BASE_URL, ReqRoutes } from '../const/const';
 import {
   IAuthResult,
   IRegisterData,
   IAuthInfo,
   IProfile,
   IMovie,
-} from "../types/types";
+  IUser
+} from '../types/types';
+import { url } from 'inspector';
+import { METHODS } from 'http';
 
 const favoritesApi = createApi({
   reducerPath: 'favoritesApi',
@@ -17,9 +20,17 @@ const favoritesApi = createApi({
   endpoints: (builder) => ({
     getFavorites: builder.query<IMovie[], void>({
       query: () => ReqRoutes.FAVORITES
-    })
-  })
+    }),
+    postFavorites: builder.mutation<IUser, string>({
+      query: (credentials) => ({
+        url: ReqRoutes.FAVORITES,
+        method: "POST",
+        body: credentials,
+      })
+    }),
+    dropFavorites: 
+  }),
 });
 
-export const { useGetFavoritesQuery } = favoritesApi;
+export const { useGetFavoritesQuery, usePostFavoritesMutation} = favoritesApi;
 export { favoritesApi };
