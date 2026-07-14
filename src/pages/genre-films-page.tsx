@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SamplePage, SamplePageProps } from './sample-page';
 import { GenreFilmsList } from '../components/genre-films-list';
 import styled from 'styled-components';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { AppRoutes } from '../const/const';
+import { AuthPopUp } from '../components/pop-up/auth-pop-up';
+import { RegisterPopUp } from '../components/pop-up/register-pop-up';
+import { SuccessPopUp } from '../components/pop-up/success-pop-up';
+import {
+  usePostLoginMutation,
+  usePostRegistrationDataMutation
+} from '../services/auth-api';
+import { useFetchMoviesByGenreQuery } from '../services/movie-api';
 
 type GenreFilmsPageProps = SamplePageProps & {};
 
@@ -46,10 +55,79 @@ const TextButton = styled.span`
 
 function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
   const params = useParams();
+  const { genre } = params;
+
+  const navigate = useNavigate();
+
+ const { data, isSuccess } = useFetchMoviesByGenreQuery(genre);
+
+  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
+  const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
+  const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
+
+  const [
+    postLogin,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading,
+      isSuccess: loginIsSuccess
+    }
+  ] = usePostLoginMutation();
+
+  const [
+    postData,
+    { isSuccess: dataRegistrationSuccess }
+  ] = usePostRegistrationDataMutation();
+  
+  const handleRegisterSubmit = () => {
+    if (dataRegistrationSuccess) {
+      setIsShowPopUpRegister(false);
+      setIsShowSuccessPopUp(true);
+    } else {
+      return;
+    }
+  };
+
+  const handleClosePopUpAuth = () => {
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClosePopUpRegister = () => {
+    setIsShowPopUpRegister(false);
+  };
 
   const handleClickAuth = () => {
-    alert('');
+    if(loginIsSuccess) {
+      navigate(AppRoutes.Auth);
+    } else {
+      setIsShowPopUpAuth(true);
+    }
   };
+
+  const handleClickAuthReg = () => {
+    setIsShowPopUpRegister(false);
+    setIsShowPopUpAuth(true);
+  };
+
+  const handleClickRegistration = () => {
+    setIsShowPopUpRegister(true);
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClosePopUpSuccess = () => {
+    setIsShowSuccessPopUp(false);
+  };
+
+  const handleAuthSubmit = () => {
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClickEnter = () => {
+    setIsShowSuccessPopUp(false);
+    setIsShowPopUpAuth(true);
+  };
+
 
   return (
     <SamplePage {...props}>
@@ -71,9 +149,9 @@ function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
           />
         </IconTitle>
         <TitleOfGenre className='genre-films__title'>
-          {params.genre}
+          {genre}
         </TitleOfGenre>
-        <GenreFilmsList films={films} />
+        <GenreFilmsList films={data} />
         <WrapperButton>
           <Button
             className='genre-films'
@@ -83,6 +161,25 @@ function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
           </Button>
         </WrapperButton>
       </section>
+      <AuthPopUp
+        isActive={isShowPopUpAuth}
+        onClose={handleClosePopUpAuth}
+        onSubmit={handleAuthSubmit}
+        onClickRegistration={handleClickRegistration}
+        postLogin={postLogin}
+      />
+      <RegisterPopUp
+        isActive={isShowPopUpRegister}
+        onClose={handleClosePopUpRegister}
+        onClickAuth={handleClickAuthReg}
+        onSubmit={handleRegisterSubmit}
+        postData={(data) => postData(data)}
+      />
+      <SuccessPopUp
+        isActive={isShowSuccessPopUp}
+        onClose={handleClosePopUpSuccess}
+        onClickEnter={handleClickEnter}
+      />
       <Footer />
     </SamplePage>
   );

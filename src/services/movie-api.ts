@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
+
   IMovie,
 } from "../types/types";
 import { BASE_URL, ReqRoutes } from "../const/const";
@@ -20,6 +21,14 @@ const movieApi = createApi({
     fetchMoviesGenre: builder.query<string[], void>({
       query: () => ReqRoutes.GENRES,
     }),
+    fetchMoviesByGenre: builder.query<IMovie[], string>({
+      query: (genre: string) => ({
+        url: ReqRoutes.MOVIE,
+        params: {
+          genre
+        }
+      })
+    }),
     fetchMoviesRandom: builder.query<IMovie[], void>({
       query: () => ReqRoutes.RANDOM,
     }),
@@ -30,6 +39,7 @@ export const {
   useFetchMoviesTopQuery,
   useFetchMovieByIdQuery,
   useFetchMoviesGenreQuery,
+  useFetchMoviesByGenreQuery,
   useFetchMoviesRandomQuery,
 } = movieApi;
 

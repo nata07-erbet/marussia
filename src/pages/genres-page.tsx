@@ -79,7 +79,6 @@ function Genres({ ...props }: GenresProps) {
     }
   };
 
-
   const handleClickAuthReg = () => {
     setIsShowPopUpRegister(false);
     setIsShowPopUpAuth(true);

@@ -18,7 +18,8 @@ const ReqRoutes = {
   DELETE: '/favorites/{movieId}',
   MOVIE: '/movie',
   TOP_10: '/movie/top10',
-  GENRES: '/movie/genres',
+  GENRES: '/movie/genres', 
+  BY_GENRE: '/movie?genre=',
   RANDOM: '/movie/random'
 } as const;
 

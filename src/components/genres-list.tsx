@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Genre } from './genre';
 import { useFetchMoviesGenreQuery } from '../services/movie-api';
 
+
 const GenresListEl = styled.ul`
   display: flex;
   flex-wrap: wrap;
@@ -21,7 +22,7 @@ function GenresList() {
     <GenresListEl className='genres-list list-reset'>
       {isSuccess && genres.map((genre) => (
         <Genre
-          genreImgUrl={`/assets/${genre}.png`}
+          genreImgUrl={`./assets/${genre}.png`}
           genreTitle={genre}
           genre={genre}
         />
