@@ -1,14 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Genre } from './genre';
-import { genres, AppRoutes } from '../const/const';
-import { translate } from '../utils/utils';
-
-import { filmsByGenreJSON } from '../mocks/filmsByGenre';
-import { getFromJsonToObj, getGenresUrl, getRandomItem } from '../utils/utils';
-
-const filmsByGenre = getFromJsonToObj(filmsByGenreJSON);
-const genreImagesUrl = getGenresUrl(filmsByGenre);
+import { useFetchMoviesGenreQuery } from '../services/movie-api';
 
 const GenresListEl = styled.ul`
   display: flex;
@@ -21,12 +14,15 @@ const GenresListEl = styled.ul`
 `;
 
 function GenresList() {
+  const { data: genres, isSuccess } = useFetchMoviesGenreQuery();
+
+
   return (
     <GenresListEl className='genres-list list-reset'>
-      {genres.map((genre) => (
+      {isSuccess && genres.map((genre) => (
         <Genre
-          genreImgUrl={getRandomItem(genreImagesUrl)}
-          genreTitle={translate(genre)}
+          genreImgUrl={`/assets/${genre}.png`}
+          genreTitle={genre}
           genre={genre}
         />
       ))}

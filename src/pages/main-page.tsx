@@ -13,12 +13,11 @@ import {
   getRandomItem,
   runToHoursAndMin,
 } from '../utils/utils';
-import { IMovie, IFavorite, IRegisterData } from '../types/types';
+import { IMovie, IFavorite } from '../types/types';
 import { moviesJSON } from '../mocks/movies';
 import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
-import { AppRoutes, BASE_URL, ReqRoutes } from '../const/const';
-import axios, { AxiosError } from 'axios';
+import { AppRoutes } from '../const/const';
 import {
   usePostLoginMutation,
   usePostRegistrationDataMutation
@@ -223,42 +222,6 @@ function MainPage({ ...props }: MainPageProps) {
     }
   };
 
-  const handlePostFavorites = async (data: IFavorite) => {
-    try {
-      const result = await axios.post(
-        `${BASE_URL}${ReqRoutes.FAVORITES}`,
-        data,
-        {
-          withCredentials: true
-        }
-      );
-      if (result.status === 200) {
-        setIsFavorite(true);
-      }
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      if (
-        axiosError.response?.status === 400 ||
-        axiosError.response?.status === 401
-      ) {
-        setIsShowPopUpAuth(true);
-      }
-      throw error;
-    }
-  };
-
-  const handleDropFavorite = async (data: IFavorite) => {
-    try {
-      const result = await axios.get(
-        `${BASE_URL}${ReqRoutes.FAVORITES}/{data}`
-      );
-      if ((result.status = 200)) {
-        alert('фильм удален');
-      }
-    } catch (error) {
-      console.log('Ошибка');
-    }
-  };
 
   const handleClickAuthReg = () => {
     setIsShowPopUpRegister(false);

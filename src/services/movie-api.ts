@@ -1,9 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-  IAuthResult,
-  IRegisterData,
-  IAuthInfo,
-  IProfile,
   IMovie,
 } from "../types/types";
 import { BASE_URL, ReqRoutes } from "../const/const";
@@ -21,7 +17,7 @@ const movieApi = createApi({
     fetchMovieById: builder.query<IMovie, number>({
       query: (movieId) => `{ReqRoutes.MOVIE}/${movieId}`,
     }),
-    fetchMoviesGenre: builder.query<IMovie[], void>({
+    fetchMoviesGenre: builder.query<string[], void>({
       query: () => ReqRoutes.GENRES,
     }),
     fetchMoviesRandom: builder.query<IMovie[], void>({
