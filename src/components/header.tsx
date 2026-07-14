@@ -53,7 +53,7 @@ function Header({ isAuth, onClickAuth}: HeaderProps) {
     active: isAuth
   });
 
-    const { data: dataProfile } = useGetProfileQuery();
+    const { data: dataProfile, isSuccess } = useGetProfileQuery();
 
   return (
     <>

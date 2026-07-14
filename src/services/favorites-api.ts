@@ -28,9 +28,15 @@ const favoritesApi = createApi({
         body: credentials,
       })
     }),
-    dropFavorites: 
+    dropFavorites: builder.mutation<IUser, IMovie['id']>({
+      query: (movieId) => ({
+        url: ReqRoutes.DELETE,
+        method: "POST",
+        body: movieId,
+      })
+    })
   }),
 });
 
-export const { useGetFavoritesQuery, usePostFavoritesMutation} = favoritesApi;
+export const { useGetFavoritesQuery, usePostFavoritesMutation, useDropFavoritesMutation} = favoritesApi;
 export { favoritesApi };

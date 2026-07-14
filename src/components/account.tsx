@@ -78,9 +78,16 @@ const TextButton = styled.span`
 type AccountProps = {
   userName: string | undefined;
   userMail: string | undefined;
+  onHandleExitUser: () => void;
 };
 
-function Account({ userName, userMail }: AccountProps) {
+function Account({ userName, userMail, onHandleExitUser }: AccountProps) {
+
+  const handleExitUser = () => {
+    onHandleExitUser();
+  };
+
+
   return (
     <>
       <WrapperAccount className='wrapper-account'>
@@ -123,6 +130,7 @@ function Account({ userName, userMail }: AccountProps) {
       <Button
         className='genre-films'
         type='button'
+        onClick={handleExitUser}
       >
         <TextButton>Выйти из аккаунта</TextButton>
       </Button>

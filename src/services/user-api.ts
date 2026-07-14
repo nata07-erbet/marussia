@@ -13,7 +13,7 @@ const userApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
     
-    login: builder.mutation<IAuthResult, IAuthInfo>({
+    postLogin: builder.mutation<IAuthResult, IAuthInfo>({
       query: (credentials) => ({
         url: ReqRoutes.AUTH_LOGIN,
         method: "POST",
@@ -21,24 +21,23 @@ const userApi = createApi({
       }),
     }),
 
-    logout: builder.query<IAuthResult, void>({
+    getLogout: builder.query<IAuthResult, void>({
       query: () => ReqRoutes.AUTH_LOGOUT,
     }),
 
-    createUser: builder.mutation<IAuthResult, IRegisterData>({
+    createProfile: builder.mutation<IAuthResult, IRegisterData>({
       query: (credentials) => ({
         url: ReqRoutes.USER,
         method: "POST",
         body: credentials,
       }),
     }),
-    fetchProfile: builder.query<IProfile, void>({
+    getProfile: builder.query<IProfile, void>({
       query: () => ReqRoutes.PROFILE,
     }),
-    fetchRandomMovie: builder.query<IMovie, void>({
-      query: () => "https://cinemaguide.skillbox.cc/movie/random", // ответ получен
-    }),
+
   }),
 });
 
 export { userApi };
+export const { usePostLoginMutation, useGetLogoutQuery, useCreateProfileMutation, useGetProfileQuery } = userApi;

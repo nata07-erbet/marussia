@@ -1,12 +1,16 @@
-import React from 'react';
-import { useGetProfileQuery } from '../services/auth-api';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import classNames from 'classnames';
+import { useNavigate } from 'react-router';
+import { useGetProfileQuery, useGetLogoutQuery } from '../services/auth-api';
+import { useGetFavoritesQuery } from '../services/favorites-api';
 import { GenreFilmsList } from '../components/genre-films-list';
 import { SamplePage, SamplePageProps } from './sample-page';
-import styled from 'styled-components';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 import { Account } from '../components/account';
-import { useGetFavoritesQuery } from '../services/favorites-api';
+import { AppRoutes } from '../const/const';
+import { ITab } from '../types/types';
 
 type UserPageProps = SamplePageProps & {};
 
@@ -43,6 +47,15 @@ const IconUser = styled.svg`{
   position: absolute
 }`;
 
+const Tab = styled.button`
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 133%;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+`;
+
 const Button = styled.button`
   border-radius: 28px;
   border: 0;
@@ -59,26 +72,51 @@ const TextButton = styled.span`
 `;
 
 function UserPage({ ...props }: UserPageProps) {
+  const [activeTab, setActiveTab] = useState<ITab>('favorites');
+
+  const [isLogin, setIsLogin] = useState(true);
+
   const { data: userData } = useGetProfileQuery();
 
   const { data: favoritesFilms, isSuccess: isLoadFavoritesFilms } =
     useGetFavoritesQuery();
 
-  const handleClickAuth = () => {
-    alert('handleClickAuth');
+  const { isSuccess } = useGetLogoutQuery();
+
+  const navigate = useNavigate();
+
+  const tabFavoriteClass = classNames({
+    'tab-favorite': true,
+    active: activeTab
+  });
+
+  const handleClickTab = () => {
+    setActiveTab((prev) => prev === 'favorites' ? 'account' : 'favorites')
   };
-  console.log(favoritesFilms);
+
+  const handleClickAuth = () => {};
+
+  const handleExitUser = () => {
+    if (isSuccess) {
+      setIsLogin(false);
+      navigate(AppRoutes.Main);
+    }
+  };
 
   return (
     <SamplePage {...props}>
       <Header
-        isAuth={true}
+        isAuth={isLogin}
         onClickAuth={handleClickAuth}
       />
       <section className='genre-films'>
         <TitleOfGenre className='genre-films__title'>Мой аккаунт</TitleOfGenre>
         <WrapperTabs>
-          <IconWrapper className='tab-favorite'>
+          <IconWrapper
+            className={classNames('tab-favorite', {
+              active: activeTab === 'favorites'
+            })}
+          >
             <IconFavorite
               width='24'
               height='24'
@@ -91,7 +129,7 @@ function UserPage({ ...props }: UserPageProps) {
                 fill='white'
               />
             </IconFavorite>
-            <span>Избранные фильмы</span>
+            <Tab onClick={handleClickTab}>Избранные фильмы</Tab>
           </IconWrapper>
           <IconWrapper className='tab-user'>
             <IconUser
@@ -106,14 +144,29 @@ function UserPage({ ...props }: UserPageProps) {
                 fill='white'
               />
             </IconUser>
-            <span>Настройка аккаунта</span>
+            <Tab  onClick={(tab) => handleClickTab}>Настройка аккаунта</Tab>
           </IconWrapper>
         </WrapperTabs>
-        {isLoadFavoritesFilms && <GenreFilmsList films={favoritesFilms} />}
-        <Account
-          userName={userData && userData.name}
-          userMail={userData && userData.email}
-        />
+        <div
+          className={classNames('favorites', {
+            'visually-hidden': activeTab === 'account'
+          })}
+        >
+          {isLoadFavoritesFilms && <GenreFilmsList films={favoritesFilms} />}
+        </div>
+
+        <div
+          className={classNames('account', {
+            'visually-hidden': activeTab === 'favorites'
+          })}
+        >
+          <Account
+            userName={userData && userData.name}
+            userMail={userData && userData.email}
+            onHandleExitUser={handleExitUser}
+          />
+        </div>
+
         <WrapperButton>
           <Button
             className='genre-films'

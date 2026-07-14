@@ -101,6 +101,8 @@ type IFavoritesBody = {
   id: string;
 };
 
+type ITab = 'favorites' | 'account';
+
 export type {
   IFavorite,
   IUser,
@@ -112,5 +114,6 @@ export type {
   IFavoritesBody,
   IAuthResult,
   IProfile,
-  IMoviesByGenre
+  IMoviesByGenre,
+  ITab
 };

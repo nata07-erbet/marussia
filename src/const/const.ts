@@ -15,6 +15,7 @@ const ReqRoutes = {
   USER: '/user',
   PROFILE: '/profile',
   FAVORITES: '/favorites',
+  DELETE: '/favorites/{movieId}',
   MOVIE: '/movie',
   TOP_10: '/movie/top10',
   GENRES: '/movie/genres',
