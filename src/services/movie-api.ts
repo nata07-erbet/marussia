@@ -29,7 +29,7 @@ const movieApi = createApi({
         }
       })
     }),
-    fetchMoviesRandom: builder.query<IMovie[], void>({
+    fetchMoviesRandom: builder.query<IMovie, void>({
       query: () => ReqRoutes.RANDOM,
     }),
   }),

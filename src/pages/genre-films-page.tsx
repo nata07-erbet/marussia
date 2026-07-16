@@ -15,6 +15,7 @@ import {
 } from '../services/auth-api';
 import { useFetchMoviesByGenreQuery } from '../services/movie-api';
 
+
 type GenreFilmsPageProps = SamplePageProps & {};
 
 const TitleOfGenre = styled.h2`
