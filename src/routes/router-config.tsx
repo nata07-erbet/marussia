@@ -1,5 +1,4 @@
 import React from "react";
-import { createBrowserRouter } from "react-router";
 import { AppRoutes } from "../const/const";
 import { MainPage } from "../pages/main-page";
 import { Genres } from "../pages/genres-page";

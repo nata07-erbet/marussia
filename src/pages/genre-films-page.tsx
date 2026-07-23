@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { skipToken } from '@reduxjs/toolkit/query';
 import { SamplePage, SamplePageProps } from './sample-page';
 import { GenreFilmsList } from '../components/genre-films-list';
 import styled from 'styled-components';
@@ -60,7 +61,7 @@ function GenreFilmsPage({ ...props }: GenreFilmsPageProps) {
 
   const navigate = useNavigate();
 
- const { data, isSuccess } = useFetchMoviesByGenreQuery(genre);
+ const { data, isSuccess } = useFetchMoviesByGenreQuery(genre ?? skipToken );
 
   const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);

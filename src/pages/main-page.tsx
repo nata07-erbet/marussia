@@ -175,7 +175,6 @@ function MainPage({ ...props }: MainPageProps) {
     }
   ] = usePostLoginMutation();
 
-  // const id = '2';
 
   const [postData, { isSuccess: dataRegistrationSuccess }] =
     usePostRegistrationDataMutation();
@@ -204,10 +203,7 @@ function MainPage({ ...props }: MainPageProps) {
     }
   };
 
-  const handleClosePopUpAuth = () => {
-    setIsShowPopUpAuth(false);
-  };
-
+  
   const handleClosePopUpRegister = () => {
     setIsShowPopUpRegister(false);
   };
@@ -272,7 +268,10 @@ function MainPage({ ...props }: MainPageProps) {
     } else {
       return;
     }
+  };const handleClosePopUpAuth = () => {
+    setIsShowPopUpAuth(false);
   };
+
 
   return (
     <SamplePage {...props}>

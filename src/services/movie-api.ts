@@ -16,7 +16,7 @@ const movieApi = createApi({
       query: () => ReqRoutes.TOP_10,
     }),
     fetchMovieById: builder.query<IMovie, number>({
-      query: (movieId) => `{ReqRoutes.MOVIE}/${movieId}`,
+      query: (movieId) => `${ReqRoutes.MOVIE}/${movieId}`,
     }),
     fetchMoviesGenre: builder.query<string[], void>({
       query: () => ReqRoutes.GENRES,

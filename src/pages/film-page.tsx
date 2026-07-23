@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { PropsWithChildren } from 'react';
 import { SamplePage } from './sample-page';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
-import { moviesJSON } from '../mocks/movies';
-import {
-  getRandomItem,
-  runToHoursAndMin,
-  getFromJsonToMovies,
-  buildNewURL
-} from '../utils/utils';
+import { getRandomItem, runToHoursAndMin, buildNewURL } from '../utils/utils';
 import { Trailer } from '../components/trailer/trailer';
+import { usePostLoginMutation, usePostRegistrationDataMutation } from '../services/auth-api';
+import { useFetchMovieByIdQuery } from '../services/movie-api';
+import { AppRoutes } from '../const/const';
+import { AuthPopUp } from '../components/pop-up/auth-pop-up';
+import { RegisterPopUp } from '../components/pop-up/register-pop-up';
+import { SuccessPopUp } from '../components/pop-up/success-pop-up';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 type FilmPageProps = PropsWithChildren<{}>;
 
@@ -159,36 +161,92 @@ const Label = styled.div`
 const Value = styled.div``;
 
 function FilmPage(props: FilmPageProps) {
+  const navigate = useNavigate();
+
+  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
+  const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
+  const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
   const [isShowTailer, setIsShowTailer] = useState(false);
-  const moviesMock = getFromJsonToMovies(moviesJSON);
+
   const { filmId } = useParams();
+  console.log(filmId);
 
-  const getMovie = () => {
-    // запрос к рандомному фильму
-    const moviesMockById = moviesMock.filter((movie) => movie.id);
-    const movieMock = moviesMockById.find(
-      (movie) => movie.id === Number(filmId)
-    );
-    return movieMock;
+  const movieId = parseInt(filmId!, 10);
+
+  const [
+    postLogin,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading,
+      isSuccess: loginIsSuccess
+    }
+  ] = usePostLoginMutation();
+
+  const [postData, { isSuccess: dataRegistrationSuccess }] =
+  usePostRegistrationDataMutation();
+
+  const { data: movie, isSuccess: movieSuccess} = useFetchMovieByIdQuery(movieId ?? skipToken);
+
+  const handleClosePopUpRegister = () => {
+    setIsShowPopUpRegister(false);
   };
-
-  const movie = getMovie();
 
   const handleClickAuth = () => {
-    //??
+    if (loginIsSuccess) {
+      navigate(AppRoutes.Auth);
+    } else {
+      setIsShowPopUpAuth(true);
+    }
   };
-  const handleCloseTrailer = () => {
-    setIsShowTailer(false);
+
+  const handleClickAuthReg = () => {
+    setIsShowPopUpRegister(false);
+    setIsShowPopUpAuth(true);
+  };
+
+  const handleClickRegistration = () => {
+    setIsShowPopUpRegister(true);
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClosePopUpSuccess = () => {
+    setIsShowSuccessPopUp(false);
+  };
+
+  const handleAuthSubmit = () => {
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClickEnter = () => {
+    setIsShowSuccessPopUp(false);
+    setIsShowPopUpAuth(true);
   };
 
   const handleOpenTrailer = () => {
     setIsShowTailer(true);
   };
 
+  const handleCloseTrailer = () => {
+    setIsShowTailer(false);
+  };
+
+  const handleRegisterSubmit = () => {
+    if (dataRegistrationSuccess) {
+      setIsShowPopUpRegister(false);
+      setIsShowSuccessPopUp(true);
+    } else {
+      return;
+    }
+  };const handleClosePopUpAuth = () => {
+    setIsShowPopUpAuth(false);
+  };
+
   return (
     <SamplePage {...props}>
       <Header
-        isAuth={false}
+        isAuth={loginIsSuccess}
+        onClickAuth={handleClickAuth}
       />
       {movie && (
         <>
@@ -292,6 +350,25 @@ function FilmPage(props: FilmPageProps) {
           </section>
         </>
       )}
+        <AuthPopUp
+        isActive={isShowPopUpAuth}
+        onClose={handleClosePopUpAuth}
+        onSubmit={handleAuthSubmit}
+        onClickRegistration={handleClickRegistration}
+        postLogin={postLogin}
+      />
+      <RegisterPopUp
+        isActive={isShowPopUpRegister}
+        onClose={handleClosePopUpRegister}
+        onClickAuth={handleClickAuthReg}
+        onSubmit={handleRegisterSubmit}
+        postData={(data) => postData(data)}
+      />
+      <SuccessPopUp
+        isActive={isShowSuccessPopUp}
+        onClose={handleClosePopUpSuccess}
+        onClickEnter={handleClickEnter}
+      />
       <Footer />
     </SamplePage>
   );

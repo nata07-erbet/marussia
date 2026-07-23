@@ -131,7 +131,9 @@ function UserPage({ ...props }: UserPageProps) {
             </IconFavorite>
             <Tab onClick={handleClickTab}>Избранные фильмы</Tab>
           </IconWrapper>
-          <IconWrapper className='tab-user'>
+          <IconWrapper className={classNames('tab-user', {
+              active: activeTab === 'account'
+            })}>
             <IconUser
               width='24'
               height='24'
@@ -144,12 +146,12 @@ function UserPage({ ...props }: UserPageProps) {
                 fill='white'
               />
             </IconUser>
-            <Tab  onClick={(tab) => handleClickTab}>Настройка аккаунта</Tab>
+            <Tab  onClick={handleClickTab}>Настройка аккаунта</Tab>
           </IconWrapper>
         </WrapperTabs>
         <div
           className={classNames('favorites', {
-            'visually-hidden': activeTab === 'account'
+            'visually-hidden': activeTab  === 'account'
           })}
         >
           {isLoadFavoritesFilms && <GenreFilmsList films={favoritesFilms} />}
