@@ -169,7 +169,7 @@ function FilmPage(props: FilmPageProps) {
   const [isShowTailer, setIsShowTailer] = useState(false);
 
   const { filmId } = useParams();
-  console.log(filmId);
+
 
   const movieId = parseInt(filmId!, 10);
 

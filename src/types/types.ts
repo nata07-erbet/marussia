@@ -43,8 +43,8 @@ type IMovie = {
   title: string;
   originalTitle: string;
   language: string;
-  relaseYear?: number;     // версия с опечаткой
-  releaseYear?: number;    // нормальная версия
+  relaseYear?: number;     
+  releaseYear?: number; 
   releaseDate: string;
   genres: string[];
   plot: string;

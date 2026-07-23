@@ -8,8 +8,6 @@ import {
   IMovie,
   IUser
 } from '../types/types';
-import { url } from 'inspector';
-import { METHODS } from 'http';
 
 const favoritesApi = createApi({
   reducerPath: 'favoritesApi',
