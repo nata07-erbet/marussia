@@ -6,7 +6,9 @@ const AppRoutes = {
   Genres: '/genres',
   Genre: '/genre',
   Film: '/film/:filmId',
-  Auth: '/auth'
+  Auth: '/auth',
+  User: '/user'
+
 } as const;
 
 const ReqRoutes = {

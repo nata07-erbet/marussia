@@ -1,0 +1,5 @@
+function PrivateRouter () {
+
+};
+
+export { PrivateRouter }

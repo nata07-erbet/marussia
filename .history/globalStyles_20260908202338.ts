@@ -1,0 +1,64 @@
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyles = createGlobalStyle`
+    html {
+        box-sizing: border-box;
+    }
+    
+    *,
+    *::before,
+    *::after{
+        box-sizing: inherit;
+    }
+    
+    body
+    {
+        margin: 0;
+        min-height: 100vh;
+    
+        background:
+        linear-gradient(180deg, #000 0%, rgba(39, 36, 36, 0.7) 100%),
+        linear-gradient(180deg, rgba(39, 135, 245, 0.2) 0%, rgba(163, 147, 245, 0.2) 100%);
+    
+        font-family: "Play", sans-serif;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 133%;
+        color: rgba(255, 255, 255, 0.7);
+        }
+    
+        .wrapper {
+        max-width: 1440px;
+        margin: 0 auto;
+        width: 100%;
+        }
+        .list-reset {
+        margin:0;
+        padding:0;
+        list-style: none;
+        }
+    
+        .button-reset {
+        padding:0;
+        border: 0;
+        }
+    
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        clip: rect(0 0 0 0);
+        overflow: hidden;
+    }
+    
+    .active {
+        border-bottom: 1.50px solid #dc5dfc;
+    }
+    
+    .error {
+        border: 1px solid #ff7575;
+    }
+    `;

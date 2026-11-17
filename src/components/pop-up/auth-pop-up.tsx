@@ -80,8 +80,8 @@ const PError = styled.span`
 
 type AuthPopUpProps = PopUpSampleProps & {
   onClickRegistration: () => void;
-  onSubmit: () => void;
-  postLogin: (data: FormInputs) =>  void
+    postLogin: (data: FormInputs) =>  void;
+    onSubmit: () => void;
 };
 
 type FormInputs = {

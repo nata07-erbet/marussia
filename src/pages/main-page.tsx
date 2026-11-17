@@ -175,7 +175,6 @@ function MainPage({ ...props }: MainPageProps) {
     }
   ] = usePostLoginMutation();
 
-
   const [postData, { isSuccess: dataRegistrationSuccess }] =
     usePostRegistrationDataMutation();
 
@@ -203,7 +202,6 @@ function MainPage({ ...props }: MainPageProps) {
     }
   };
 
-  
   const handleClosePopUpRegister = () => {
     setIsShowPopUpRegister(false);
   };
@@ -268,10 +266,10 @@ function MainPage({ ...props }: MainPageProps) {
     } else {
       return;
     }
-  };const handleClosePopUpAuth = () => {
+  };
+  const handleClosePopUpAuth = () => {
     setIsShowPopUpAuth(false);
   };
-
 
   return (
     <SamplePage {...props}>
@@ -403,6 +401,7 @@ function MainPage({ ...props }: MainPageProps) {
                 </div>
               </FilmWrapper>
             </section>
+            
             <SectionTop className='top-10'>
               <TitleTop>Топ 10 фильмов</TitleTop>
               <FilmsWrapper className='top-10__wrapper'>
