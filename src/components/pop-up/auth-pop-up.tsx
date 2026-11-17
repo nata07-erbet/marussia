@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { ButtonSecond } from '../button-second';
 import { useForm } from 'react-hook-form';
 
-
-
 const Modal = styled.div<{ $isError?: boolean }>`
   display: flex;
   flex-direction: column;
@@ -33,7 +31,8 @@ const ImgPopUp = styled.img`
 const Label = styled.label<{ $isError?: boolean }>`
   display: flex;
   gap: 12px;
-  border: ${(props) => (props.$isError ? '1px solid #ff7575' : '1px solid rgba(0, 0, 0, 0.4)')};
+  border: ${(props) =>
+    props.$isError ? '1px solid #ff7575' : '1px solid rgba(0, 0, 0, 0.4)'};
   border-radius: 8px;
   padding: 16px;
   width: 340px;
@@ -55,22 +54,22 @@ const Input = styled.input`
 `;
 
 const Svg = styled.svg<{ $isError: boolean }>`
-  fill: ${(props) => (props.$isError ? '#ff7575' : 'rgba(0, 0, 0, 0.4)')}
+  fill: ${(props) => (props.$isError ? '#ff7575' : 'rgba(0, 0, 0, 0.4)')};
 `;
 
 const ButtonEl = styled.button`
-background-color: #67a5eb;
-border: none;
-border-radius: 28px;
-margin-top: 24px;
-padding: 16px 48px;
-width: 340px;
-height: 56px;
-font-family: 'Play', sans-serif;
-font-weight: 700;
-font-size: 18px;
-line-height: 133%;
-color: #fff;
+  background-color: #67a5eb;
+  border: none;
+  border-radius: 28px;
+  margin-top: 24px;
+  padding: 16px 48px;
+  width: 340px;
+  height: 56px;
+  font-family: 'Play', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 133%;
+  color: #fff;
 `;
 
 const PError = styled.span`
@@ -80,16 +79,21 @@ const PError = styled.span`
 
 type AuthPopUpProps = PopUpSampleProps & {
   onClickRegistration: () => void;
-    postLogin: (data: FormInputs) =>  void;
-    onSubmit: () => void;
+  postLogin: (data: FormInputs) => void;
+  onSubmit: () => void;
 };
 
 type FormInputs = {
-  email: string,
-  password: string
+  email: string;
+  password: string;
 };
 
-function AuthPopUp({ onClickRegistration, onSubmit, postLogin, ...props }: AuthPopUpProps) {
+function AuthPopUp({
+  onClickRegistration,
+  onSubmit,
+  postLogin,
+  ...props
+}: AuthPopUpProps) {
   const {
     register,
     handleSubmit,
@@ -100,16 +104,14 @@ function AuthPopUp({ onClickRegistration, onSubmit, postLogin, ...props }: AuthP
     onClickRegistration();
   };
 
- 
-  const onSubmitData = async(data: FormInputs) => {
-   try{
-    postLogin(data);
-    onSubmit();
-   } catch(error){
-    console.log(error);
-   }
+  const onSubmitData = async (data: FormInputs) => {
+    try {
+      postLogin(data);
+      onSubmit();
+    } catch (error) {
+      console.log(error);
+    }
   };
-
 
   return (
     <PopUpSample {...props}>
@@ -122,7 +124,7 @@ function AuthPopUp({ onClickRegistration, onSubmit, postLogin, ...props }: AuthP
           ></ImgPopUp>
           <form onSubmit={handleSubmit(onSubmitData)}>
             <Label $isError={!!errors.email}>
-              <Svg 
+              <Svg
                 $isError={!!errors.email}
                 width='24'
                 height='24'
@@ -150,7 +152,7 @@ function AuthPopUp({ onClickRegistration, onSubmit, postLogin, ...props }: AuthP
                 placeholder='Электронная почта'
               ></Input>
             </Label>
-            {errors.email && (<PError>{errors.email.message}</PError>)}
+            {errors.email && <PError>{errors.email.message}</PError>}
             <Label $isError={!!errors.password}>
               <Svg
                 $isError={!!errors.password}
@@ -180,8 +182,8 @@ function AuthPopUp({ onClickRegistration, onSubmit, postLogin, ...props }: AuthP
                 placeholder='Пароль'
               ></Input>
             </Label>
-            {errors.password && (<PError >{errors.password.message}</PError>)}
-            <ButtonEl type ='submit'>Войти</ButtonEl>
+            {errors.password && <PError>{errors.password.message}</PError>}
+            <ButtonEl type='submit'>Войти</ButtonEl>
             <ButtonSecond
               value={'Регистрация'}
               onClick={handleClickRegistration}

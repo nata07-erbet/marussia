@@ -1,9 +1,5 @@
-import React, {
-  PropsWithChildren,
-  ReactNode,
-  useEffect,
-  useState
-} from 'react';
+import { PropsWithChildren, useEffect, ReactNode, useState } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
@@ -21,11 +17,7 @@ const PopUpWrapper = styled.div`
   padding: 271px 438px;
 `;
 
-const PopUpSampleEl = styled.div`
-
-`
-;
-
+const PopUpSampleEl = styled.div``;
 const ContentPopUp = styled.div`
   position: relative;
   display: flex;
@@ -41,13 +33,19 @@ const ButtonClose = styled.button`
   height: 48px;
   background: #fff;
 `;
+const Portal = ({ children }: { children: ReactNode }) =>
+  createPortal(children, document.body);
 
 type PopUpSampleProps = PropsWithChildren<{
   isActive: boolean;
   onClose: () => void;
 }>;
 
-function PopUpSample({ children, onClose, isActive=true }: PopUpSampleProps) {
+function PopUpSample({ children, onClose, isActive = true }: PopUpSampleProps) {
+  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
+  const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
+  const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
+  
   useEffect(() => {
     if (isActive) {
       document.body.style.overflow = 'hidden';
@@ -83,31 +81,34 @@ function PopUpSample({ children, onClose, isActive=true }: PopUpSampleProps) {
   });
 
   return (
-    <PopUpWrapper className={classPopUpSample}>
-      <PopUpSampleEl>
-        <ContentPopUp className='pop-up-sample__content'>
-          {children}
-          <ButtonClose
-          className='pop-up-sample__button-close'
-          onClick={handleClosePopUp}
-        >
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              d='M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z'
-              fill='black'
-            />
-          </svg>
-        </ButtonClose>
-        </ContentPopUp>
-      </PopUpSampleEl>
-    </PopUpWrapper>
+    <Portal>
+      <PopUpWrapper className={classPopUpSample}>
+        <PopUpSampleEl>
+          <ContentPopUp className='pop-up-sample__content'>
+            {children}
+            <ButtonClose
+              className='pop-up-sample__button-close'
+              onClick={handleClosePopUp}
+            >
+              <svg
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z'
+                  fill='black'
+                />
+              </svg>
+            </ButtonClose>
+          </ContentPopUp>
+        </PopUpSampleEl>
+      </PopUpWrapper>
+    </Portal>
   );
 }
+
 
 export { type PopUpSampleProps, PopUpSample };

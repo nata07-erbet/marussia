@@ -4,21 +4,14 @@ import { SamplePage, SamplePageProps } from './sample-page';
 import { FilmsList } from '../components/films-list';
 import styled from 'styled-components';
 import { Header } from '../components/header';
-import { AuthPopUp } from '../components/pop-up/auth-pop-up';
-import { RegisterPopUp } from '../components/pop-up/register-pop-up';
-import { SuccessPopUp } from '../components/pop-up/success-pop-up';
 import { Footer } from '../components/footer';
 import { getRandomItem, runToHoursAndMin } from '../utils/utils';
 import { IMovie, IFavorite } from '../types/types';
-import { useNavigate } from 'react-router';
 import { Trailer } from '../components/trailer/trailer';
-import { AppRoutes } from '../const/const';
-import {
-  usePostLoginMutation,
-  usePostRegistrationDataMutation
-} from '../services/auth-api';
-import { usePostFavoritesMutation } from '../services/favorites-api';
 import { useFetchMoviesRandomQuery } from '../services/movie-api';
+import { useNavigate } from 'react-router-dom';
+import { usePostFavoritesMutation } from '../services/favorites-api';
+import { truncateSync } from 'fs';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -156,32 +149,14 @@ const FilmsWrapper = styled.div`
 type MainPageProps = SamplePageProps & {};
 
 function MainPage({ ...props }: MainPageProps) {
-  const [movie, setMovie] = useState<IMovie | null>(null);
+  const loginIsSuccess = true;
+  const handleClickAuth = () => {};
+
   const navigate = useNavigate();
 
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
-  const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
-  const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
+  const [movie, setMovie] = useState<IMovie | null>(null);
   const [isShowTailer, setIsShowTailer] = useState(false);
-
-  const [
-    postLogin,
-    {
-      data: loginData,
-      error: loginError,
-      isLoading: loginIsLoading,
-      isSuccess: loginIsSuccess
-    }
-  ] = usePostLoginMutation();
-
-  const [postData, { isSuccess: dataRegistrationSuccess }] =
-    usePostRegistrationDataMutation();
-
-  const [
-    postFavorites,
-    { data: favoritesId, isSuccess: favoritesIdIsSuccess }
-  ] = usePostFavoritesMutation();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const {
     data: dataMoviesRandomQuery,
@@ -191,9 +166,10 @@ function MainPage({ ...props }: MainPageProps) {
     refetch
   } = useFetchMoviesRandomQuery();
 
-  const handleRestartPage = () => {
-    refetch();
-  };
+  const [
+    postFavorites,
+    { data: favoritesId, isSuccess: favoritesIdIsSuccess }
+  ] = usePostFavoritesMutation();
 
   const handleClickToFilmPage = () => {
     if (isSuccess) {
@@ -201,40 +177,8 @@ function MainPage({ ...props }: MainPageProps) {
       navigate(href);
     }
   };
-
-  const handleClosePopUpRegister = () => {
-    setIsShowPopUpRegister(false);
-  };
-
-  const handleClickAuth = () => {
-    if (loginIsSuccess) {
-      navigate(AppRoutes.Auth);
-    } else {
-      setIsShowPopUpAuth(true);
-    }
-  };
-
-  const handleClickAuthReg = () => {
-    setIsShowPopUpRegister(false);
-    setIsShowPopUpAuth(true);
-  };
-
-  const handleClickRegistration = () => {
-    setIsShowPopUpRegister(true);
-    setIsShowPopUpAuth(false);
-  };
-
-  const handleClosePopUpSuccess = () => {
-    setIsShowSuccessPopUp(false);
-  };
-
-  const handleAuthSubmit = () => {
-    setIsShowPopUpAuth(false);
-  };
-
-  const handleClickEnter = () => {
-    setIsShowSuccessPopUp(false);
-    setIsShowPopUpAuth(true);
+  const handleRestartPage = () => {
+    refetch();
   };
 
   const handleOpenTrailer = () => {
@@ -259,24 +203,9 @@ function MainPage({ ...props }: MainPageProps) {
     }
   };
 
-  const handleRegisterSubmit = () => {
-    if (dataRegistrationSuccess) {
-      setIsShowPopUpRegister(false);
-      setIsShowSuccessPopUp(true);
-    } else {
-      return;
-    }
-  };
-  const handleClosePopUpAuth = () => {
-    setIsShowPopUpAuth(false);
-  };
-
   return (
     <SamplePage {...props}>
-      <Header
-        isAuth={loginIsSuccess}
-        onClickAuth={handleClickAuth}
-      />
+      <Header />
       {status === QueryStatus.pending && <div>Loading</div>}
       {status === QueryStatus.rejected && (
         <div>
@@ -401,7 +330,7 @@ function MainPage({ ...props }: MainPageProps) {
                 </div>
               </FilmWrapper>
             </section>
-            
+
             <SectionTop className='top-10'>
               <TitleTop>Топ 10 фильмов</TitleTop>
               <FilmsWrapper className='top-10__wrapper'>
@@ -411,26 +340,6 @@ function MainPage({ ...props }: MainPageProps) {
           </div>
         </PageMain>
       )}
-
-      <AuthPopUp
-        isActive={isShowPopUpAuth}
-        onClose={handleClosePopUpAuth}
-        onSubmit={handleAuthSubmit}
-        onClickRegistration={handleClickRegistration}
-        postLogin={postLogin}
-      />
-      <RegisterPopUp
-        isActive={isShowPopUpRegister}
-        onClose={handleClosePopUpRegister}
-        onClickAuth={handleClickAuthReg}
-        onSubmit={handleRegisterSubmit}
-        postData={(data) => postData(data)}
-      />
-      <SuccessPopUp
-        isActive={isShowSuccessPopUp}
-        onClose={handleClosePopUpSuccess}
-        onClickEnter={handleClickEnter}
-      />
       <Footer />
     </SamplePage>
   );

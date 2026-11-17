@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import {  useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { AppRoutes, NavMap } from '../const/const';
 import { Search } from './search/search';
 import classNames from 'classnames';
 import { useGetProfileQuery } from '../services/auth-api';
+import {
+  usePostLoginMutation,
+  usePostRegistrationDataMutation
+} from '../services/auth-api';
+import { AuthPopUp } from '../components/pop-up/auth-pop-up';
+import { RegisterPopUp } from '../components/pop-up/register-pop-up';
+import { SuccessPopUp } from '../components/pop-up/success-pop-up';
+import { IFavorite } from '../types/types';
 
 
 const HeaderComp = styled.header`
@@ -40,27 +48,102 @@ const LinkNav = styled.a`
   color: #fff;
 `;
 
-
 type HeaderProps = {
-  isAuth: boolean | undefined;
-  onClickAuth: () => void;
+ 
 };
 
-function Header({ isAuth, onClickAuth}: HeaderProps) {
+
+function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  const isAuth = true;
   const classNavUser = classNames({
     'nav-list__item-link': true,
     active: isAuth
   });
 
-    const { data: dataProfile, isSuccess } = useGetProfileQuery();
+  const { data: dataProfile, isSuccess: getProfileSuccess } = useGetProfileQuery();
 
+  const [postData, { isSuccess: dataRegistrationSuccess }] =
+    usePostRegistrationDataMutation();
+
+  
+  const [
+    postLogin,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading,
+      isSuccess: loginIsSuccess
+    }
+  ] = usePostLoginMutation();
+
+  const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
+  const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
+  const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
+
+  
+ 
+
+  const handleClosePopUpRegister = () => {
+    setIsShowPopUpRegister(false);
+  };
+
+  const handleClickAuth = () => {
+    if (loginIsSuccess) {
+      navigate(AppRoutes.Auth);
+    } else {
+      setIsShowPopUpAuth(true);
+    }
+  };
+
+  const handleClickAuthReg = () => {
+    setIsShowPopUpRegister(false);
+    setIsShowPopUpAuth(true);
+  };
+
+  const handleClickRegistration = () => {
+    setIsShowPopUpRegister(true);
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClosePopUpSuccess = () => {
+    setIsShowSuccessPopUp(false);
+  };
+
+  const handleAuthSubmit = () => {
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleClickEnter = () => {
+    setIsShowSuccessPopUp(false);
+    setIsShowPopUpAuth(true);
+  };
+
+  const handleClosePopUpAuth = () => {
+    setIsShowPopUpAuth(false);
+  };
+
+  const handleRegisterSubmit = () => {
+    if (dataRegistrationSuccess) {
+      setIsShowPopUpRegister(false);
+      setIsShowSuccessPopUp(true);
+    } else {
+      return;
+    }
+  };
+ 
+ 
   return (
     <>
       <HeaderComp className='page-header'>
         <div className='page-header__ wrapper wrapper'>
           <HeaderContainer className='page-header__container'>
-            <Logo className='page-header__logo' href={AppRoutes.Main}>
+            <Logo
+              className='page-header__logo'
+              href={AppRoutes.Main}
+            >
               <img src='/assets/marussia-white.png' />
             </Logo>
             <nav className='page-header__nav header-navigation'>
@@ -69,11 +152,14 @@ function Header({ isAuth, onClickAuth}: HeaderProps) {
                   const classNavItem = classNames({
                     'nav-list__item-link': true,
                     active:
-                      (location.pathname === nav.to || 
-                      location.pathname.startsWith(`${nav.to}/`)) 
+                      location.pathname === nav.to ||
+                      location.pathname.startsWith(`${nav.to}/`)
                   });
                   return (
-                    <li className='nav-list__item' key={nav.name}>
+                    <li
+                      className='nav-list__item'
+                      key={nav.name}
+                    >
                       <LinkNav
                         className={classNavItem}
                         href={nav.to}
@@ -88,13 +174,31 @@ function Header({ isAuth, onClickAuth}: HeaderProps) {
             <Search />
             <LinkNav
               className={classNavUser}
-              onClick={onClickAuth}
             >
               {!isAuth ? 'Войти' : `${dataProfile?.name}`}
             </LinkNav>
           </HeaderContainer>
         </div>
       </HeaderComp>
+      <AuthPopUp
+        isActive={isShowPopUpAuth}
+        onClose={handleClosePopUpAuth}
+        onSubmit={handleAuthSubmit}
+        onClickRegistration={handleClickRegistration}
+        postLogin={postLogin}
+      />
+      <RegisterPopUp
+        isActive={isShowPopUpRegister}
+        onClose={handleClosePopUpRegister}
+        onClickAuth={handleClickAuthReg}
+        onSubmit={handleRegisterSubmit}
+        postData={(data) => postData(data)}
+      />
+      <SuccessPopUp
+        isActive={isShowSuccessPopUp}
+        onClose={handleClosePopUpSuccess}
+        onClickEnter={handleClickEnter}
+      />
     </>
   );
 }
