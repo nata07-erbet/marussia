@@ -48,20 +48,10 @@ const LinkNav = styled.a`
   color: #fff;
 `;
 
-type HeaderProps = {
- 
-};
-
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-  
-  const isAuth = true;
-  const classNavUser = classNames({
-    'nav-list__item-link': true,
-    active: isAuth
-  });
 
   const { data: dataProfile, isSuccess: getProfileSuccess } = useGetProfileQuery();
 
@@ -83,8 +73,6 @@ function Header() {
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
 
-  
- 
 
   const handleClosePopUpRegister = () => {
     setIsShowPopUpRegister(false);
@@ -92,7 +80,7 @@ function Header() {
 
   const handleClickAuth = () => {
     if (loginIsSuccess) {
-      navigate(AppRoutes.Auth);
+      navigate(AppRoutes.User);
     } else {
       setIsShowPopUpAuth(true);
     }
@@ -134,7 +122,11 @@ function Header() {
     }
   };
  
- 
+  const classNavUser = classNames({
+    'nav-list__item-link': true,
+    active: getProfileSuccess
+  });
+
   return (
     <>
       <HeaderComp className='page-header'>
@@ -174,8 +166,9 @@ function Header() {
             <Search />
             <LinkNav
               className={classNavUser}
+              onClick={handleClickAuth}
             >
-              {!isAuth ? 'Войти' : `${dataProfile?.name}`}
+              {!getProfileSuccess ? 'Войти' : `${dataProfile?.name}`}
             </LinkNav>
           </HeaderContainer>
         </div>

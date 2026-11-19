@@ -1,0 +1,17 @@
+import { ReactNode } from 'react';
+import { Loader } from '../pages/loader';
+import { useGetProfileQuery } from '../services/user-api';
+
+function PrivateRouter({ children }: { children?: ReactNode }) {
+  // const { data, error, isLoading } = useGetProfileQuery();
+  const isLoading = true;
+
+  return (
+    <>
+      if (is)
+      {children}
+    </>
+  );
+}
+
+export { PrivateRouter };

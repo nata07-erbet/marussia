@@ -1,5 +1,0 @@
-function PrivateRouter () {
-
-};
-
-export { PrivateRouter };
