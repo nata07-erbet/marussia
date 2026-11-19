@@ -52,9 +52,6 @@ const LinkNav = styled.a`
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const { data: dataProfile, isSuccess: getProfileSuccess } = useGetProfileQuery();
-
   const [postData, { isSuccess: dataRegistrationSuccess }] =
     usePostRegistrationDataMutation();
 
@@ -124,7 +121,7 @@ function Header() {
  
   const classNavUser = classNames({
     'nav-list__item-link': true,
-    active: getProfileSuccess
+    active: true, // изменить потом
   });
 
   return (
@@ -168,7 +165,7 @@ function Header() {
               className={classNavUser}
               onClick={handleClickAuth}
             >
-              {!getProfileSuccess ? 'Войти' : `${dataProfile?.name}`}
+               'Войти`
             </LinkNav>
           </HeaderContainer>
         </div>
