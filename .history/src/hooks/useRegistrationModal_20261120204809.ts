@@ -1,0 +1,51 @@
+import { useState } from 'react';
+import { usePostRegistrationDataMutation } from '../services/auth-api';
+
+interface IUseRegistrationModal {
+    onClickAuthReg: () => void;
+    onSubmitSuccess: () => void;
+};
+
+function useRegistrationModal({ onClickAuthReg, onSubmitSuccess }: IUseRegistrationModal) {
+  const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
+
+  const handleClosePopUpRegister = () => {
+    setIsShowPopUpRegister(false);
+  };
+
+  const handleClickAuthPass = () => {
+    setIsShowPopUpRegister(false);
+    onClickAuthReg();
+  };
+
+  const handleRegisterSubmit = () => {
+    if (dataRegistrationSuccess) {
+      setIsShowPopUpRegister(false);
+      onSubmitSuccess();
+    } else {
+      return;
+    }
+  };
+
+  const [postData, { isSuccess: dataRegistrationSuccess }] =
+    usePostRegistrationDataMutation();
+
+  const handleClickEnter = () => {
+    alert(2);
+    // setIsShowSuccessPopUp(false);
+    // // setIsShowPopUpAuth(true);
+  };
+
+  //   const handleClosePopUpSuccess = () => {
+  //     setIsShowSuccessPopUp(false);
+  //   };
+
+  return {
+    handleClosePopUpRegister,
+    postData,
+    handleClickAuthPass,
+    handleRegisterSubmit,
+  };
+}
+
+export { useRegistrationModal };

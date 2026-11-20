@@ -45,13 +45,13 @@ const Description = styled.p`
 `;
 
 type AuthPopUpProps = PopUpSampleProps & {
-    onClickEnter: () => void;
+  onClickEnterSuccess: () => void;
 };
 
-function SuccessPopUp({ onClickEnter, ...props }: AuthPopUpProps) {
+function SuccessPopUp({ onClickEnterSuccess, ...props }: AuthPopUpProps) {
 
-  const handleClickEnter = () => {
-    onClickEnter();
+  const handleClickEnterSuccess = () => {
+    onClickEnterSuccess();
   };
 
   return (
@@ -67,7 +67,7 @@ function SuccessPopUp({ onClickEnter, ...props }: AuthPopUpProps) {
           <Description>Используйте вашу электронную почту для входа</Description>
           <ButtonFirst
             value={'Войти'}
-            onClick={handleClickEnter}
+            onClick={handleClickEnterSuccess}
           />
         </Modal>
       </WrapperAuth>

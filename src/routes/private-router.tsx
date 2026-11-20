@@ -6,6 +6,7 @@ import { AppRoutes } from '../const/const';
 
 function PrivateRouter({ children }: { children?: ReactNode }) {
   const { data, error, isLoading } = useGetProfileQuery();
+  
   const [ isAuthenticated, setIsAuthenticated ] = useState< boolean | undefined >();
 
   const navigate = useNavigate();

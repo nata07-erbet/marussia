@@ -78,7 +78,7 @@ const Button = styled.button`
 `;
 
 type AuthPopUpProps = PopUpSampleProps & {
-  onClickAuth: () => void;
+  onClickAuthPass: () => void;
   onSubmit: () => void;
   postData: (data: IRegisterData) => void;
 };
@@ -92,7 +92,7 @@ type IFormData = {
 };
 
 function RegisterPopUp({
-  onClickAuth,
+  onClickAuthPass,
   onSubmit,
   postData,
   ...props
@@ -104,8 +104,8 @@ function RegisterPopUp({
     formState: { errors }
   } = useForm<IFormData>();
 
-  const handleClickAuth = () => {
-    onClickAuth();
+  const handleClickAuthPass = () => {
+    onClickAuthPass();
   };
 
   const onSubmitData = async (data: IFormData) => {
@@ -253,7 +253,7 @@ function RegisterPopUp({
 
           <ButtonSecond
             value={'У меня есть пароль'}
-            onClick={handleClickAuth}
+            onClick={handleClickAuthPass}
           />
         </Modal>
       </WrapperAuth>

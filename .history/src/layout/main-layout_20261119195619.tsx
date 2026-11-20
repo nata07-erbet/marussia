@@ -1,0 +1,7 @@
+function MainOutlet () {
+    return {
+
+    };
+}
+
+export { }

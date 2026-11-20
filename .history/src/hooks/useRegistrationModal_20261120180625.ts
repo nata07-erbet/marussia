@@ -1,0 +1,8 @@
+function useRegistrationModal () {
+    
+}
+
+
+
+
+export { useRegistrationModal }

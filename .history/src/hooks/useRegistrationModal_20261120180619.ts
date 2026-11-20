@@ -1,0 +1,6 @@
+function useRegistrationModal () {
+
+
+};
+
+export { useRegistrationModal }

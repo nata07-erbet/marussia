@@ -12,8 +12,10 @@ import {
 import { AuthPopUp } from '../components/pop-up/auth-pop-up';
 import { RegisterPopUp } from '../components/pop-up/register-pop-up';
 import { SuccessPopUp } from '../components/pop-up/success-pop-up';
-import { IFavorite } from '../types/types';
-
+import { IProfile } from '../types/types';
+import { useAuthModal } from '../hooks/useAuthModal';
+import { useRegistrationModal } from '../hooks/useRegistrationModal';
+import { useSuccessModal } from '../hooks/useSuccessModal';
 
 const HeaderComp = styled.header`
   height: 96px;
@@ -48,80 +50,59 @@ const LinkNav = styled.a`
   color: #fff;
 `;
 
+type HeaderProps = {
+  profileData: IProfile | undefined;
+};
 
-function Header() {
+function Header({ profileData }: HeaderProps) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [postData, { isSuccess: dataRegistrationSuccess }] =
-    usePostRegistrationDataMutation();
-
-  
-  const [
-    postLogin,
-    {
-      data: loginData,
-      error: loginError,
-      isLoading: loginIsLoading,
-      isSuccess: loginIsSuccess
-    }
-  ] = usePostLoginMutation();
 
   const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
-
-
-  const handleClosePopUpRegister = () => {
-    setIsShowPopUpRegister(false);
-  };
-
-  const handleClickAuth = () => {
-    if (loginIsSuccess) {
-      navigate(AppRoutes.User);
-    } else {
-      setIsShowPopUpAuth(true);
-    }
-  };
-
-  const handleClickAuthReg = () => {
-    setIsShowPopUpRegister(false);
-    setIsShowPopUpAuth(true);
-  };
-
-  const handleClickRegistration = () => {
-    setIsShowPopUpRegister(true);
-    setIsShowPopUpAuth(false);
-  };
-
-  const handleClosePopUpSuccess = () => {
-    setIsShowSuccessPopUp(false);
-  };
-
-  const handleAuthSubmit = () => {
-    setIsShowPopUpAuth(false);
-  };
-
-  const handleClickEnter = () => {
-    setIsShowSuccessPopUp(false);
-    setIsShowPopUpAuth(true);
-  };
-
-  const handleClosePopUpAuth = () => {
-    setIsShowPopUpAuth(false);
-  };
-
-  const handleRegisterSubmit = () => {
-    if (dataRegistrationSuccess) {
-      setIsShowPopUpRegister(false);
-      setIsShowSuccessPopUp(true);
-    } else {
-      return;
-    }
-  };
- 
   const classNavUser = classNames({
     'nav-list__item-link': true,
-    active: true, // изменить потом
+    active: profileData
+  });
+
+  const {
+    postLogin,
+    handleClickAuth,
+    handleClosePopUpAuth,
+    handleAuthSubmit,
+    handleClickRegistration
+  } = useAuthModal({
+    onClickRegistration: () => {
+      setIsShowPopUpRegister(true);
+    },
+    onClickAuthSign: () => {
+      setIsShowPopUpAuth(true);
+    },
+    onClose: () => {
+      setIsShowPopUpAuth(false)
+    }
+  });
+
+  const {
+    handleClosePopUpRegister,
+    postData,
+    handleClickAuthPass,
+    handleRegisterSubmit
+  } = useRegistrationModal({
+    onClickAuthReg: () => {
+      setIsShowPopUpRegister(false);
+    },
+    onSubmitSuccess: () => {
+      setIsShowPopUpRegister(false);
+      setIsShowSuccessPopUp(true);
+    }
+  });
+
+  const { handleClickEnterSuccess, handleClosePopUpSuccess } = useSuccessModal({
+    onSignUp: () => {
+      setIsShowSuccessPopUp(false)
+      setIsShowPopUpAuth(true);
+    }
   });
 
   return (
@@ -165,7 +146,7 @@ function Header() {
               className={classNavUser}
               onClick={handleClickAuth}
             >
-               'Войти`
+              {profileData ? `${profileData}` : 'Войти'}
             </LinkNav>
           </HeaderContainer>
         </div>
@@ -180,14 +161,14 @@ function Header() {
       <RegisterPopUp
         isActive={isShowPopUpRegister}
         onClose={handleClosePopUpRegister}
-        onClickAuth={handleClickAuthReg}
+        onClickAuthPass={handleClickAuthPass}
         onSubmit={handleRegisterSubmit}
         postData={(data) => postData(data)}
       />
       <SuccessPopUp
         isActive={isShowSuccessPopUp}
         onClose={handleClosePopUpSuccess}
-        onClickEnter={handleClickEnter}
+        onClickEnterSuccess={handleClickEnterSuccess}
       />
     </>
   );
