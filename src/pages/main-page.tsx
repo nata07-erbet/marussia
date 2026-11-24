@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
-import { QueryStatus } from '@reduxjs/toolkit/query';
-import { SamplePage, SamplePageProps } from './sample-page';
-import { FilmsList } from '../components/films-list';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { Header } from '../components/header';
-import { Footer } from '../components/footer';
+import { MainOutlet } from '../layout/main-layout';
+import { QueryStatus } from '@reduxjs/toolkit/query';
+import { FilmsList } from '../components/films-list';
 import { getRandomItem, runToHoursAndMin } from '../utils/utils';
-import { IMovie, IFavorite } from '../types/types';
+import { IFavorite } from '../types/types';
 import { Trailer } from '../components/trailer/trailer';
 import { useFetchMoviesRandomQuery } from '../services/movie-api';
 import { useNavigate } from 'react-router-dom';
 import { usePostFavoritesMutation } from '../services/favorites-api';
-import { truncateSync } from 'fs';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -145,16 +142,11 @@ const TitleTop = styled.h2`
 const FilmsWrapper = styled.div`
   margin-top: 64px;
 `;
-
-type MainPageProps = SamplePageProps & {};
-
-function MainPage({ ...props }: MainPageProps) {
-  const loginIsSuccess = true;
+function MainPage() {
   const handleClickAuth = () => {};
 
   const navigate = useNavigate();
 
-  const [movie, setMovie] = useState<IMovie | null>(null);
   const [isShowTailer, setIsShowTailer] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -189,6 +181,8 @@ function MainPage({ ...props }: MainPageProps) {
     setIsShowTailer(false);
   };
 
+  const loginIsSuccess = true;
+
   const handleAddToFavorites = (data: IFavorite) => {
     if (loginIsSuccess) {
       if (!isFavorite) {
@@ -204,8 +198,7 @@ function MainPage({ ...props }: MainPageProps) {
   };
 
   return (
-    <SamplePage {...props}>
-      <Header />
+    <>
       {status === QueryStatus.pending && <div>Loading</div>}
       {status === QueryStatus.rejected && (
         <div>
@@ -340,8 +333,7 @@ function MainPage({ ...props }: MainPageProps) {
           </div>
         </PageMain>
       )}
-      <Footer />
-    </SamplePage>
+    </>
   );
 }
 

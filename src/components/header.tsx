@@ -52,6 +52,7 @@ const LinkNav = styled.a`
 
 type HeaderProps = {
   profileData: IProfile | undefined;
+  
 };
 
 function Header({ profileData }: HeaderProps) {
@@ -60,6 +61,7 @@ function Header({ profileData }: HeaderProps) {
   const [isShowPopUpAuth, setIsShowPopUpAuth] = useState(false);
   const [isShowPopUpRegister, setIsShowPopUpRegister] = useState(false);
   const [isShowSuccessPopUp, setIsShowSuccessPopUp] = useState(false);
+  
   const classNavUser = classNames({
     'nav-list__item-link': true,
     active: profileData
