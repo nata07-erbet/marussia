@@ -1,14 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
-import { MainOutlet } from '../layout/main-layout';
 import { QueryStatus } from '@reduxjs/toolkit/query';
 import { FilmsList } from '../components/films-list';
 import { getRandomItem, runToHoursAndMin } from '../utils/utils';
-import { IFavorite } from '../types/types';
 import { Trailer } from '../components/trailer/trailer';
 import { useFetchMoviesRandomQuery } from '../services/movie-api';
-import { useNavigate } from 'react-router-dom';
-import { usePostFavoritesMutation } from '../services/favorites-api';
+import { useFavoriteToggle } from '../hooks/useFavoriteToggle';
+import { IProfile } from '../types/types';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -143,11 +142,7 @@ const FilmsWrapper = styled.div`
   margin-top: 64px;
 `;
 function MainPage() {
-  const handleClickAuth = () => {};
-
   const navigate = useNavigate();
-
-  const [isShowTailer, setIsShowTailer] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const {
@@ -158,10 +153,18 @@ function MainPage() {
     refetch
   } = useFetchMoviesRandomQuery();
 
-  const [
-    postFavorites,
-    { data: favoritesId, isSuccess: favoritesIdIsSuccess }
-  ] = usePostFavoritesMutation();
+
+  const movieId = dataMoviesRandomQuery && dataMoviesRandomQuery.id;
+  console.log(movieId);
+
+  const { data } = useOutletContext<{ data: IProfile }>();
+
+  const { handleAddToFavorites } = useFavoriteToggle({
+    isAuthenticated: true, //!!data
+    
+    onClickFavorite: () => setIsFavorite(true),
+    onClickAuth: () => console.log('Show pop-up-auth'),
+  });
 
   const handleClickToFilmPage = () => {
     if (isSuccess) {
@@ -173,28 +176,14 @@ function MainPage() {
     refetch();
   };
 
+  const [isShowTailer, setIsShowTailer] = useState(false);
+
   const handleOpenTrailer = () => {
     setIsShowTailer(true);
   };
 
   const handleCloseTrailer = () => {
     setIsShowTailer(false);
-  };
-
-  const loginIsSuccess = true;
-
-  const handleAddToFavorites = (data: IFavorite) => {
-    if (loginIsSuccess) {
-      if (!isFavorite) {
-        postFavorites('2');
-        setIsFavorite(true);
-      } else {
-        setIsFavorite(false);
-        // handleDropFavorite(data);
-      }
-    } else {
-      handleClickAuth();
-    }
   };
 
   return (
@@ -273,11 +262,9 @@ function MainPage() {
                     </Button>
                     <ButtonIcon
                       className='button-action__item button-action__item--favorites'
-                      onClick={() =>
-                        handleAddToFavorites(
-                          dataMoviesRandomQuery.id.toString()
-                        )
-                      }
+                      onClick={() => {
+                        if(!movieId) return;
+                        handleAddToFavorites(movieId)}}
                     >
                       <Icon
                         width='20'

@@ -13,7 +13,7 @@ interface IUseAuthModal {
   onClose: () => void
 }
 const useAuthModal = ({ onClickRegistration, onClickAuthSign, onClose }: IUseAuthModal) => {
-  const navigate = useNavigate();
+
 
   const { data: profileData, isLoading, error } = useGetProfileQuery();
 
@@ -38,10 +38,12 @@ const useAuthModal = ({ onClickRegistration, onClickAuthSign, onClose }: IUseAut
   };
 
   const handleAuthSubmit = () => {
+    onClose();
     setIsShowPopUpAuth(false);
   };
 
   const handleClickRegistration = () => {
+    onClose();
     setIsShowPopUpAuth(false);
     onClickRegistration();
   };

@@ -5,12 +5,12 @@ import { Footer } from "../components/footer";
 import { useGetProfileQuery } from '../services/user-api';
 
 function MainOutlet () {
-   const { data: profileData, isSuccess } = useGetProfileQuery();
+   const { data } = useGetProfileQuery();
 
     return (
         <SamplePage>
-            <Header profileData={profileData}/>
-            <Outlet context={{ isSuccess: isSuccess }}/>
+            <Header profileData={data}/>
+            <Outlet context={{ data }}/>
             <Footer />
         </SamplePage>
     );
