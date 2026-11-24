@@ -8,6 +8,7 @@ import { Trailer } from '../components/trailer/trailer';
 import { useFetchMoviesRandomQuery } from '../services/movie-api';
 import { useFavoriteToggle } from '../hooks/useFavoriteToggle';
 import { IProfile } from '../types/types';
+import { useTrailerShow } from '../hooks/useTrailerShow';
 
 // const YouTubeUrl = 'https://www.youtube.com/embed/jepwfBJVNIA?si=emhhf6gR2oqT52eI';
 // const trailerUrl = `${YouTubeUrl}?autoplay=1&mute=1`
@@ -144,6 +145,18 @@ const FilmsWrapper = styled.div`
 function MainPage() {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isShowTailer, setIsShowTailer] = useState(false);
+
+  const { data } = useOutletContext<{ data: IProfile }>();
+
+  const { handleAddToFavorites } = useFavoriteToggle({
+    isAuthenticated: true, //!!data
+
+    onClickFavorite: () => setIsFavorite(true),
+    onClickAuth: () => console.log('Show pop-up-auth')
+  });
+
+  const { handleOpenTrailer, handleCloseTrailer } = useTrailerShow();
 
   const {
     data: dataMoviesRandomQuery,
@@ -153,18 +166,8 @@ function MainPage() {
     refetch
   } = useFetchMoviesRandomQuery();
 
-
   const movieId = dataMoviesRandomQuery && dataMoviesRandomQuery.id;
   console.log(movieId);
-
-  const { data } = useOutletContext<{ data: IProfile }>();
-
-  const { handleAddToFavorites } = useFavoriteToggle({
-    isAuthenticated: true, //!!data
-    
-    onClickFavorite: () => setIsFavorite(true),
-    onClickAuth: () => console.log('Show pop-up-auth'),
-  });
 
   const handleClickToFilmPage = () => {
     if (isSuccess) {
@@ -172,18 +175,9 @@ function MainPage() {
       navigate(href);
     }
   };
+
   const handleRestartPage = () => {
     refetch();
-  };
-
-  const [isShowTailer, setIsShowTailer] = useState(false);
-
-  const handleOpenTrailer = () => {
-    setIsShowTailer(true);
-  };
-
-  const handleCloseTrailer = () => {
-    setIsShowTailer(false);
   };
 
   return (
@@ -263,8 +257,9 @@ function MainPage() {
                     <ButtonIcon
                       className='button-action__item button-action__item--favorites'
                       onClick={() => {
-                        if(!movieId) return;
-                        handleAddToFavorites(movieId)}}
+                        if (!movieId) return;
+                        handleAddToFavorites(movieId);
+                      }}
                     >
                       <Icon
                         width='20'
