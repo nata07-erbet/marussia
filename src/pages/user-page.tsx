@@ -104,11 +104,7 @@ function UserPage({ ...props }: UserPageProps) {
   };
 
   return (
-    <SamplePage {...props}>
-      <Header
-        isAuth={isLogin}
-        onClickAuth={handleClickAuth}
-      />
+    <>
       <section className='genre-films'>
         <TitleOfGenre className='genre-films__title'>Мой аккаунт</TitleOfGenre>
         <WrapperTabs>
@@ -179,7 +175,7 @@ function UserPage({ ...props }: UserPageProps) {
         </WrapperButton>
       </section>
       <Footer />
-    </SamplePage>
+    </>
   );
 }
 
