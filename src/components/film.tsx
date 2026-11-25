@@ -45,6 +45,7 @@ function Film({ film, count, onClickCardFilm }: FilmProps) {
     onClickCardFilm();
   };
 
+  
   return (
       <TopItemItem
         className='top-10__item card'

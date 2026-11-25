@@ -1,15 +1,17 @@
-import { useState } from "react";
+interface IUseTrailerShow {
+    onShowTailer: () => void,
+    onCloseTailer: () => void,
+}
 
-function useTrailerShow() {
-  const [isShowTailer, setIsShowTailer] = useState(false);
-
+function useTrailerShow({ onShowTailer,  onCloseTailer }: IUseTrailerShow) {
   const handleOpenTrailer = () => {
-    setIsShowTailer(true);
+    onShowTailer();
   };
 
   const handleCloseTrailer = () => {
-    setIsShowTailer(false);
+    onCloseTailer();
   };
+
   return {
     handleOpenTrailer,
     handleCloseTrailer,

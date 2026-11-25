@@ -4,14 +4,16 @@ import { usePostFavoritesMutation } from '../services/favorites-api';
 
 interface IUseFavoriteToggle {
   isAuthenticated: boolean,
-  onClickFavorite: () => void;
+  onClickFavoriteAdd: () => void;
+  onClickFavoriteRemove: () =>void;
   onClickAuth: () => void,
 }
 
 function useFavoriteToggle({
   isAuthenticated,
   onClickAuth,
-  onClickFavorite,
+  onClickFavoriteAdd,
+  onClickFavoriteRemove
 }: IUseFavoriteToggle) {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -25,10 +27,12 @@ function useFavoriteToggle({
 
     if (isAuthenticated) {
       if (!isFavorite) {
-        onClickFavorite();
+        onClickFavoriteAdd();
         postFavorites(filmId.toString());
         setIsFavorite(true);
       } else {
+        onClickFavoriteRemove();
+      
         setIsFavorite(false);
         // handleDropFavorite(data);
       }
